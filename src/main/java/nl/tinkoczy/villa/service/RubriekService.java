@@ -3,22 +3,31 @@ package nl.tinkoczy.villa.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.tinkoczy.villa.domain.RubriekEntity;
 import nl.tinkoczy.villa.model.Rubriek;
 
 public class RubriekService implements IRubriekService {
+
+	final static Logger logger = LoggerFactory.getLogger(RubriekService.class);
 
 	public RubriekService() {
 	}
 
 	@Override
 	public void saveOrUpdateRubriek(final Rubriek rubriek) {
-		DataBroker.saveOrUpdate(convert(rubriek));
+		RubriekEntity rubriekEntity = convert(rubriek);
+		logger.debug("saveOrUpdateRubriek: " + rubriekEntity.toString());
+		DataBroker.saveOrUpdate(rubriekEntity);
 	}
 
 	@Override
 	public void deleteRubriek(final Rubriek rubriek) {
-		DataBroker.delete(convert(rubriek));
+		RubriekEntity rubriekEntity = convert(rubriek);
+		logger.debug("deleteRubriek: " + rubriekEntity.toString());
+		DataBroker.delete(rubriekEntity);
 	}
 
 	@Override

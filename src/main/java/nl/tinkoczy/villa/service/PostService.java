@@ -3,22 +3,31 @@ package nl.tinkoczy.villa.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.tinkoczy.villa.domain.PostEntity;
 import nl.tinkoczy.villa.model.Post;
 
 public class PostService implements IPostService {
+
+	final static Logger logger = LoggerFactory.getLogger(PostService.class);
 
 	public PostService() {
 	}
 
 	@Override
 	public void saveOrUpdatePost(final Post post) {
-		DataBroker.saveOrUpdate(convert(post));
+		PostEntity postEntity = convert(post);
+		logger.debug("saveOrUpdatePost: " + postEntity.toString());
+		DataBroker.saveOrUpdate(postEntity);
 	}
 
 	@Override
 	public void deletePost(final Post post) {
-		DataBroker.delete(convert(post));
+		PostEntity postEntity = convert(post);
+		logger.debug("deletePost: " + postEntity.toString());
+		DataBroker.delete(postEntity);
 	}
 
 	@Override
