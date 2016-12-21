@@ -1,0 +1,179 @@
+package nl.tinkoczy.villa.view;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import nl.tinkoczy.villa.VillaApp;
+import nl.tinkoczy.villa.model.Post;
+import nl.tinkoczy.villa.service.IPostService;
+import nl.tinkoczy.villa.service.PostService;
+
+public class PostOverviewController {
+
+	final static Logger logger = LoggerFactory.getLogger(PostOverviewController.class);
+
+	@FXML
+	private TableView<Post> postTable;
+	@FXML
+	private TableColumn<Post, Integer> postNummerColumn;
+	@FXML
+	private TableColumn<Post, String> postOmschrijvingColumn;
+
+	@FXML
+	private Label postNummerLabel;
+	@FXML
+	private Label postOmschrijvingLabel;
+	@FXML
+	private Label postPassivaRekeningLabel;
+	@FXML
+	private Label postStandaardBedragLabel;
+	@FXML
+	private Label postStandaardBoekingOmschrijvingLabel;
+
+	private IPostService service;
+
+	private ObservableList<Post> oListPost = FXCollections.observableArrayList();
+
+	// Reference to the main application.
+	private VillaApp villaApp;
+
+	public PostOverviewController() {
+
+	}
+
+	@FXML
+	private void initialize() {
+		logger.debug("Initialize PostOverviewController");
+		service = new PostService();
+		// Initialize the person table with the two columns.
+		postNummerColumn.setCellValueFactory(cellData -> cellData.getValue().postNummerProperty());
+		postOmschrijvingColumn.setCellValueFactory(cellData -> cellData.getValue().postOmschrijvingProperty());
+
+		// Clear rubiek details.
+		showPostDetail(null);
+
+		// Listen for selection changes and show the person details when
+		// changed.
+		postTable.getSelectionModel().selectedItemProperty()
+				.addListener((observable, oldValue, newValue) -> showPostDetail(newValue));
+
+		logger.debug("Initialized PostOverviewController");
+	}
+
+	/**
+	 * Fills all text fields to show details about the post. If the specified
+	 * post is null, all text fields are cleared.
+	 *
+	 * @param post
+	 *            the post or null
+	 */
+	private void showPostDetail(final Post post) {
+		if (post != null) {
+			// Fill the labels with info from the rubriek object.
+			postNummerLabel.setText(Integer.toString(post.getPostNummer()));
+			postOmschrijvingLabel.setText(post.getPostOmschrijving());
+			postPassivaRekeningLabel.setText(Integer.toString(post.getPostPassivaRekening()));
+			postStandaardBedragLabel.setText(post.getPostStandaardBedrag().toString());
+			postStandaardBoekingOmschrijvingLabel.setText(post.getPostStandaardBoekingOmschrijving());
+		} else {
+			// Post is null, remove all the text.
+			postNummerLabel.setText("");
+			postOmschrijvingLabel.setText("");
+			postPassivaRekeningLabel.setText("");
+			postStandaardBedragLabel.setText("");
+			postStandaardBoekingOmschrijvingLabel.setText("");
+		}
+	}
+
+	/**
+	 * Is called by the main application to give a reference back to itself.
+	 *
+	 * @param mainApp
+	 */
+	public void setVillaApp(final VillaApp villaApp) {
+		this.villaApp = villaApp;
+
+		// Add observable list data to the table
+		oListPost = FXCollections.observableArrayList(service.getAllPosten());
+		postTable.setItems(oListPost);
+		// postTable.setItems(villaApp.getPostData());
+	}
+
+	/**
+	 * Called when the user clicks on the delete button.
+	 */
+	@FXML
+	private void handleDeletePost() {
+		Post selectedPost = postTable.getSelectionModel().getSelectedItem();
+		if (selectedPost != null) {
+			postTable.getItems().remove(selectedPost);
+			service.deletePost(selectedPost);
+			refreshTable();
+		} else {
+			// Nothing selected.
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(villaApp.getPrimaryStage());
+			alert.setTitle("Geen selectie");
+			alert.setHeaderText("Geen Post geselecteerd");
+			alert.setContentText("Selecteer een post in the tabel a.u.b.");
+
+			alert.showAndWait();
+		}
+	}
+
+	/**
+	 * Called when the user clicks the new button. Opens a dialog to edit
+	 * details for a new post.
+	 */
+	@FXML
+	private void handleNewPost() {
+		Post tempPost = new Post();
+		boolean okClicked = villaApp.showPostEditDialog(tempPost);
+		if (okClicked) {
+			service.saveOrUpdatePost(tempPost);
+			showPostDetail(tempPost);
+			refreshTable();
+		}
+	}
+
+	/**
+	 * Called when the user clicks the edit button. Opens a dialog to edit
+	 * details for the selected post.
+	 */
+	@FXML
+	private void handleEditPost() {
+		Post selectedPost = postTable.getSelectionModel().getSelectedItem();
+		if (selectedPost != null) {
+			boolean okClicked = villaApp.showPostEditDialog(selectedPost);
+			if (okClicked) {
+				service.saveOrUpdatePost(selectedPost);
+				showPostDetail(selectedPost);
+				refreshTable();
+			}
+
+		} else {
+			// Nothing selected.
+			Alert alert = new Alert(AlertType.WARNING);
+			alert.initOwner(villaApp.getPrimaryStage());
+			alert.setTitle("Geen selectie");
+			alert.setHeaderText("Geen Post geselecteerd");
+			alert.setContentText("Selecteer een post in the tabel a.u.b.");
+
+			alert.showAndWait();
+		}
+	}
+
+	private void refreshTable() {
+		oListPost = FXCollections.observableArrayList(service.getAllPosten());
+		postTable.getItems().clear();
+		postTable.setItems(oListPost);
+	}
+}
