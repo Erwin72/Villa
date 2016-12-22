@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="140.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tinkoczy.villa.view.SelecteerWerkDatumDialogController">
+   <children>
+      <ButtonBar layoutX="186.0" layoutY="186.0" prefHeight="40.0" prefWidth="190.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <buttons>
+          <Button mnemonicParsing="false" onAction="#handleOk" text="OK" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Annuleer" />
+        </buttons>
+      </ButtonBar>
+      <DatePicker fx:id="werkDatumPicker" layoutX="41.0" layoutY="31.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="41.0" AnchorPane.rightAnchor="41.0" AnchorPane.topAnchor="31.0" />
+   </children>
+</AnchorPane>

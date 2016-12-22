@@ -25,12 +25,14 @@ import nl.tinkoczy.villa.service.IPostService;
 import nl.tinkoczy.villa.service.IRubriekService;
 import nl.tinkoczy.villa.service.PostService;
 import nl.tinkoczy.villa.service.RubriekService;
+import nl.tinkoczy.villa.util.WerkDatumUtil;
 import nl.tinkoczy.villa.view.LeftMenuController;
 import nl.tinkoczy.villa.view.PostEditDialogController;
 import nl.tinkoczy.villa.view.PostOverviewController;
 import nl.tinkoczy.villa.view.RootLayoutController;
 import nl.tinkoczy.villa.view.RubriekEditDialogController;
 import nl.tinkoczy.villa.view.RubriekOverviewController;
+import nl.tinkoczy.villa.view.SelecteerWerkDatumDialogController;
 
 public class VillaApp extends Application {
 
@@ -131,6 +133,7 @@ public class VillaApp extends Application {
 
 			// Show the scene containing the root layout.
 			Scene scene = new Scene(rootLayout);
+			// scene.getStylesheets().add("/DarkTheme.css");
 			primaryStage.setScene(scene);
 
 			// Give the controller access to the main app.
@@ -291,6 +294,41 @@ public class VillaApp extends Application {
 
 	public ObservableList<Post> getPostData() {
 		return postData;
+	}
+
+	/**
+	 * Opens a dialog to edit the current werkdatum.
+	 *
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showSelecteerWerkDatumDialog() {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/SelecteerWerkDatumDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Werkdatum");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the post into the controller.
+			SelecteerWerkDatumDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setWerkDatum(WerkDatumUtil.getVillaWerkDatum());
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 }
