@@ -331,4 +331,13 @@ public class VillaApp extends Application {
 		}
 	}
 
+	/**
+	 * Opens a dialog to show data about the appartementen.
+	 *
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showGegevensAppartementenDialog() {
+		return false;
+	}
+
 }
