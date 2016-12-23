@@ -150,7 +150,7 @@ public class RootLayoutController {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-archive-8-32.png"));
 		Button button = new Button("", new ImageView(image));
 		button.setId("invoer_beheer_rubrieken_posten");
-		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_BOEKSTUKKEN)));
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_RUBRIEKEN)));
 		button.setOnAction(event -> villaApp.showRubriekAndPostTab());
 		return button;
 	}
