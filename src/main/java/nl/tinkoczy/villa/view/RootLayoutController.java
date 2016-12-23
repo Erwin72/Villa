@@ -6,9 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import nl.tinkoczy.villa.VillaApp;
+import nl.tinkoczy.villa.config.ConfigFacade;
+import nl.tinkoczy.villa.config.UserText;
 import nl.tinkoczy.villa.util.WerkDatumUtil;
 
 public class RootLayoutController {
@@ -91,80 +94,90 @@ public class RootLayoutController {
 
 	private Button createInstellenWerkDatumButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-calendar-5-32.png"));
-		Button werkDatumButton = new Button("", new ImageView(image));
-		werkDatumButton.setId("selecteer_werkdatum");
-		werkDatumButton.setOnAction(event -> villaApp.showSelecteerWerkDatumDialog());
-		return werkDatumButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("selecteer_werkdatum");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_INSTELLEN_WERKDATUM)));
+		button.setOnAction(event -> villaApp.showSelecteerWerkDatumDialog());
+		return button;
 	}
 
 	private Node createGegevensAppartementenButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-user-9-32.png"));
-		Button gegevensAppartementenButton = new Button("", new ImageView(image));
-		gegevensAppartementenButton.setId("gegevens_appartementen");
-		gegevensAppartementenButton.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
-		return gegevensAppartementenButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("gegevens_appartementen");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_APPARTEMENTEN)));
+		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		return button;
 	}
 
 	private Node createSelecteerAppartementenButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-user-22-32.png"));
-		Button selecteerAppartementenButton = new Button("", new ImageView(image));
-		selecteerAppartementenButton.setId("selecteer_appartementen");
-		selecteerAppartementenButton.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
-		return selecteerAppartementenButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("selecteer_appartementen");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_SELECTEER_APPARTEMENTEN)));
+		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		return button;
 	}
 
 	private Node createInvoerEnBeheerBoekstukkenEnBoekingenButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-book-18-32.png"));
-		Button invoerEnBeheerBoekstukkenEnBoekingenButton = new Button("", new ImageView(image));
-		invoerEnBeheerBoekstukkenEnBoekingenButton.setId("invoer_beheer_boekstukken_boekingen");
-		invoerEnBeheerBoekstukkenEnBoekingenButton.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
-		return invoerEnBeheerBoekstukkenEnBoekingenButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("invoer_beheer_boekstukken_boekingen");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_BOEKSTUKKEN)));
+		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		return button;
 	}
 
 	private Node createInvoerEnBeheerFakturenButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-note-29-32.png"));
-		Button invoerEnBeheerFakturenButton = new Button("", new ImageView(image));
-		invoerEnBeheerFakturenButton.setId("invoer_beheer_fakturen");
-		invoerEnBeheerFakturenButton.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
-		return invoerEnBeheerFakturenButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("invoer_beheer_fakturen");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_FAKTUREN)));
+		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		return button;
 	}
 
 	private Node createSelecteerFakturenButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-note-20-32.png"));
-		Button selecteerFakturenButton = new Button("", new ImageView(image));
-		selecteerFakturenButton.setId("selecteer_fakturen");
-		selecteerFakturenButton.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
-		return selecteerFakturenButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("selecteer_fakturen");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_SELECTEER_FAKTUREN)));
+		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		return button;
 	}
 
 	private Node createInvoerEnBeheerRubriekenEnPostenButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-archive-8-32.png"));
-		Button invoerEnBeheerRubriekenEnPostenButton = new Button("", new ImageView(image));
-		invoerEnBeheerRubriekenEnPostenButton.setId("invoer_beheer_rubrieken_posten");
-		invoerEnBeheerRubriekenEnPostenButton.setOnAction(event -> villaApp.showRubriekAndPostTab());
-		return invoerEnBeheerRubriekenEnPostenButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("invoer_beheer_rubrieken_posten");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_BOEKSTUKKEN)));
+		button.setOnAction(event -> villaApp.showRubriekAndPostTab());
+		return button;
 	}
 
 	private Node createGegevensSaldiRekeningenButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-checkout-4-32.png"));
-		Button gegevensSaldiRekeningenButton = new Button("", new ImageView(image));
-		gegevensSaldiRekeningenButton.setId("gegevens_saldi_rekeningen");
-		gegevensSaldiRekeningenButton.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
-		return gegevensSaldiRekeningenButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("gegevens_saldi_rekeningen");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_OVERZICHT_SALDI)));
+		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		return button;
 	}
 
 	private Node createInvoerEnBeheerRelatiesButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-id-card-22-32.png"));
-		Button invoerEnBeheerRelatiesButton = new Button("", new ImageView(image));
-		invoerEnBeheerRelatiesButton.setId("invoer_beheer_relaties");
-		invoerEnBeheerRelatiesButton.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
-		return invoerEnBeheerRelatiesButton;
+		Button button = new Button("", new ImageView(image));
+		button.setId("invoer_beheer_relaties");
+		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_RELATIES)));
+		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		return button;
 	}
 
 	private Node createCloseVillaButton() {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-x-mark-5-32.png"));
 		Button closeVillaButton = new Button("", new ImageView(image));
 		closeVillaButton.setId("close_villa");
+		closeVillaButton.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_CLOSE_VILLA)));
 		closeVillaButton.setOnAction(event -> villaApp.closeVilla());
 		return closeVillaButton;
 	}

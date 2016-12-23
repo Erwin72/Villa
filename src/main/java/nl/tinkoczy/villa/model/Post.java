@@ -8,6 +8,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import nl.tinkoczy.villa.util.InitPostData;
 
 public class Post {
 
@@ -29,6 +30,17 @@ public class Post {
 
 		// Some initial dummy data, just for convenient testing.
 		this.postPassivaRekening = new SimpleIntegerProperty(1);
+		this.postStandaardBedrag = new SimpleObjectProperty<BigDecimal>(new BigDecimal(0));
+		this.postStandaardBoekingOmschrijving = new SimpleStringProperty("");
+	}
+
+	public Post(final Object object, final InitPostData postData) {
+		this.postId = new SimpleObjectProperty<Long>(null);
+		this.postNummer = new SimpleObjectProperty<Integer>(postData.getNummer());
+		this.postOmschrijving = new SimpleStringProperty(postData.getOmschrijving());
+
+		// Some initial dummy data, just for convenient testing.
+		this.postPassivaRekening = new SimpleIntegerProperty();
 		this.postStandaardBedrag = new SimpleObjectProperty<BigDecimal>(new BigDecimal(0));
 		this.postStandaardBoekingOmschrijving = new SimpleStringProperty("");
 	}

@@ -20,6 +20,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
+import nl.tinkoczy.villa.config.UserText;
 import nl.tinkoczy.villa.model.Post;
 import nl.tinkoczy.villa.model.Rubriek;
 import nl.tinkoczy.villa.service.DataBroker;
@@ -27,6 +28,7 @@ import nl.tinkoczy.villa.service.IPostService;
 import nl.tinkoczy.villa.service.IRubriekService;
 import nl.tinkoczy.villa.service.PostService;
 import nl.tinkoczy.villa.service.RubriekService;
+import nl.tinkoczy.villa.util.InitRubriekAndPostDataGenerator;
 import nl.tinkoczy.villa.util.WerkDatumUtil;
 import nl.tinkoczy.villa.view.PostEditDialogController;
 import nl.tinkoczy.villa.view.PostOverviewController;
@@ -51,22 +53,12 @@ public class VillaApp extends Application {
 	private IPostService pService;
 
 	public VillaApp() {
-		// Add some sample data
-		rubriekData.add(new Rubriek(null, 100, "Inkomsten"));
-		rubriekData.add(new Rubriek(null, 110, "Restitutie inkomsten"));
-		rubriekData.add(new Rubriek(null, 200, "Huisvestingskosten"));
-		rubriekData.add(new Rubriek(null, 210, "Restitutie huisvestingskosten"));
-		rubriekData.add(new Rubriek(null, 300, "Grootonderhoud kosten"));
-		rubriekData.add(new Rubriek(null, 310, "Restitutie grootonderhoud kosten"));
-		rubriekData.add(new Rubriek(null, 400, "Administratiekosten"));
-		rubriekData.add(new Rubriek(null, 410, "Restitutie administratiekosten"));
-		rubriekData.add(new Rubriek(null, 900, "Kruisposten inkomsten"));
-		rubriekData.add(new Rubriek(null, 910, "Kruisposten uitgaven"));
+		// Add default data
+		InitRubriekAndPostDataGenerator.initDefaultRubieken();
+		InitRubriekAndPostDataGenerator.initDefaultPosten();
 
-		postData.add(new Post(null, 101, "inkomst"));
-		postData.add(new Post(null, 102, "inkomst-2"));
-		postData.add(new Post(null, 201, "uitgave"));
-		postData.add(new Post(null, 202, "uitgave-2"));
+		rubriekData.addAll(InitRubriekAndPostDataGenerator.getRubriekList());
+		postData.addAll(InitRubriekAndPostDataGenerator.getPostList());
 	}
 
 	@Override
@@ -104,6 +96,7 @@ public class VillaApp extends Application {
 		ConfigFacade.initConfigLoader();
 		ClassLoader classLoader = getClass().getClassLoader();
 		ConfigFacade.loadConfig(ApplicationConfiguration.class, classLoader.getResource("application.properties"));
+		ConfigFacade.loadConfig(UserText.class, classLoader.getResource("usertext.properties"));
 	}
 
 	private void initDBBroker() {
@@ -150,6 +143,9 @@ public class VillaApp extends Application {
 		}
 	}
 
+	/**
+	 * Shows a tabPane with 2 tabs, for rubrieken and posten.
+	 */
 	public void showRubriekAndPostTab() {
 		TabPane tabPane = new TabPane();
 

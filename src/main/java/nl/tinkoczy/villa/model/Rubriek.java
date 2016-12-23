@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import nl.tinkoczy.villa.util.InitRubriekData;
 
 public class Rubriek {
 
@@ -29,6 +30,17 @@ public class Rubriek {
 		this.rubriekType = new SimpleStringProperty("T");
 		this.rubriekInUit = new SimpleStringProperty("U");
 		this.rubriekInExploRekening = new SimpleBooleanProperty(false);
+	}
+
+	public Rubriek(final Object object, final InitRubriekData rubriekData) {
+		this.rubriekId = new SimpleObjectProperty<Long>(null);
+		this.rubriekNummer = new SimpleObjectProperty<Integer>(rubriekData.getNummer());
+		this.rubriekOmschrijving = new SimpleStringProperty(rubriekData.getOmschrijving());
+
+		// Some initial dummy data, just for convenient testing.
+		this.rubriekType = new SimpleStringProperty(rubriekData.getType());
+		this.rubriekInUit = new SimpleStringProperty(rubriekData.getInUit());
+		this.rubriekInExploRekening = new SimpleBooleanProperty(rubriekData.isInExploitatie());
 	}
 
 	public Long getRubriekId() {
