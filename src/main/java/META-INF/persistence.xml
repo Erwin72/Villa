@@ -8,6 +8,8 @@
     <class>nl.tinkoczy.villa.domain.BoekstukEntity</class>
     <class>nl.tinkoczy.villa.domain.PostEntity</class>
     <class>nl.tinkoczy.villa.domain.RekeningEntity</class>
+    <class>nl.tinkoczy.villa.domain.RelatieEntity</class>
+    <class>nl.tinkoczy.villa.domain.RelatiePersoonEntity</class>
     <class>nl.tinkoczy.villa.domain.RubriekEntity</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
