@@ -96,6 +96,11 @@ public class VillaApp extends Application {
 		logger.debug("Started VillaApp");
 	}
 
+	public void closeVilla() {
+		// TODO dialog met vraag om bevestiging om af te sluiten
+		primaryStage.close();
+	}
+
 	private void startConfig() {
 		ConfigFacade.initConfigLoader();
 		ClassLoader classLoader = getClass().getClassLoader();

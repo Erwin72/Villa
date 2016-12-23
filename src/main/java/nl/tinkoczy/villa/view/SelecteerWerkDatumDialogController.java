@@ -2,12 +2,17 @@ package nl.tinkoczy.villa.view;
 
 import java.time.LocalDate;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.stage.Stage;
 import nl.tinkoczy.villa.util.WerkDatumUtil;
 
 public class SelecteerWerkDatumDialogController {
+
+	final static Logger logger = LoggerFactory.getLogger(SelecteerWerkDatumDialogController.class);
 
 	@FXML
 	private DatePicker werkDatumPicker;
@@ -38,7 +43,7 @@ public class SelecteerWerkDatumDialogController {
 	 * @param werkDatum
 	 */
 	public void setWerkDatum(final LocalDate werkDatum) {
-
+		logger.debug("setWerkDatum, werkDatum: " + werkDatum);
 		if (werkDatum != null) {
 			werkDatumPicker.setValue(werkDatum);
 		} else {
@@ -60,7 +65,7 @@ public class SelecteerWerkDatumDialogController {
 	 */
 	@FXML
 	private void handleOk() {
-
+		logger.debug("handleOk, nieuwe werkDatum: " + werkDatumPicker.getValue());
 		WerkDatumUtil.setVillaWerkDatum(werkDatumPicker.getValue());
 
 		okClicked = true;
