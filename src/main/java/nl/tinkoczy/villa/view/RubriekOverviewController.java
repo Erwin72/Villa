@@ -60,11 +60,6 @@ public class RubriekOverviewController {
 		// Clear rubiek details.
 		showRubriekDetail(null);
 
-		// Listen for selection changes and show the person details when
-		// changed.
-		rubriekTable.getSelectionModel().selectedItemProperty()
-				.addListener((observable, oldValue, newValue) -> showRubriekDetail(newValue));
-
 		logger.debug("Initialized RubriekOverviewController");
 	}
 
@@ -75,7 +70,7 @@ public class RubriekOverviewController {
 	 * @param rubriek
 	 *            the rubriek or null
 	 */
-	private void showRubriekDetail(final Rubriek rubriek) {
+	public void showRubriekDetail(final Rubriek rubriek) {
 		if (rubriek != null) {
 			// Fill the labels with info from the rubriek object.
 			rubriekNummerLabel.setText(Integer.toString(rubriek.getRubriekNummer()));
@@ -174,5 +169,9 @@ public class RubriekOverviewController {
 		oListRubriek = FXCollections.observableArrayList(service.getAllRubrieken());
 		rubriekTable.getItems().clear();
 		rubriekTable.setItems(oListRubriek);
+	}
+
+	public TableView<Rubriek> getRubriekTable() {
+		return this.rubriekTable;
 	}
 }

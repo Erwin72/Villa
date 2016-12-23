@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.tinkoczy.villa.domain.PostEntity;
+import nl.tinkoczy.villa.domain.RubriekEntity;
 import nl.tinkoczy.villa.model.Post;
 
 public class PostService implements IPostService {
@@ -24,6 +25,15 @@ public class PostService implements IPostService {
 	}
 
 	@Override
+	public void saveOrUpdatePostWithRubriek(final Post post, final Long rubriekId) {
+		RubriekEntity rubriekEntity = new RubriekEntity(rubriekId);
+		PostEntity postEntity = convert(post);
+		postEntity.setRubriek(rubriekEntity);
+		logger.debug("saveOrUpdatePostWithRubriek: " + postEntity.toString());
+		DataBroker.saveOrUpdate(postEntity);
+	}
+
+	@Override
 	public void deletePost(final Post post) {
 		PostEntity postEntity = convert(post);
 		logger.debug("deletePost: " + postEntity.toString());
@@ -34,6 +44,7 @@ public class PostService implements IPostService {
 	public List<Post> getAllPosten() {
 		List<Post> results = new ArrayList<>();
 		for (PostEntity postEntity : DataBroker.getAllPosten()) {
+			logger.debug("getAllPosten: " + postEntity.toString());
 			results.add(convert(postEntity));
 		}
 		return results;
@@ -42,13 +53,26 @@ public class PostService implements IPostService {
 	@Override
 	public Post getPostById(final int id) {
 		PostEntity postEntity = DataBroker.getPostById(id);
+		logger.debug("getPostById: id=" + id + ", result=" + postEntity.toString());
 		return convert(postEntity);
 	}
 
 	@Override
 	public Post getPostByPostNummer(final Integer postNummer) {
 		PostEntity postEntity = DataBroker.getPostByPostNummer(postNummer);
+		logger.debug("getPostByPostNummer: postNummer=" + postNummer + ", result=" + postEntity.toString());
 		return convert(postEntity);
+	}
+
+	@Override
+	public List<Post> getPostenByRubriekNummer(final Integer rubriekNummer) {
+		List<Post> results = new ArrayList<>();
+		for (PostEntity postEntity : DataBroker.getPostenByRubriekNummer(rubriekNummer)) {
+			logger.debug(
+					"getPostenByRubriekNummer: rubriekNummer=" + rubriekNummer + ", result=" + postEntity.toString());
+			results.add(convert(postEntity));
+		}
+		return results;
 	}
 
 	private Post convert(final PostEntity postEntity) {
@@ -59,6 +83,7 @@ public class PostService implements IPostService {
 		post.setPostPassivaRekening(postEntity.getPostPassivaRekening());
 		post.setPostStandaardBedrag(postEntity.getPostStandaardBedrag());
 		post.setPostStandaardBoekingOmschrijving(postEntity.getPostStandaardBoekingOmschrijving());
+		post.setRubriekNummer(postEntity.getRubriek().getRubriekNummer());
 		return post;
 	}
 

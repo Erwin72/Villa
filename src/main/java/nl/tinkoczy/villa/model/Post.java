@@ -18,6 +18,7 @@ public class Post {
 	private final IntegerProperty postPassivaRekening;
 	private final ObjectProperty<BigDecimal> postStandaardBedrag;
 	private final StringProperty postStandaardBoekingOmschrijving;
+	private final ObjectProperty<Integer> rubriekNummer;
 
 	public Post() {
 		this(null, null, null);
@@ -32,6 +33,7 @@ public class Post {
 		this.postPassivaRekening = new SimpleIntegerProperty(1);
 		this.postStandaardBedrag = new SimpleObjectProperty<BigDecimal>(new BigDecimal(0));
 		this.postStandaardBoekingOmschrijving = new SimpleStringProperty("");
+		this.rubriekNummer = new SimpleObjectProperty<>();
 	}
 
 	public Post(final Object object, final InitPostData postData) {
@@ -43,6 +45,7 @@ public class Post {
 		this.postPassivaRekening = new SimpleIntegerProperty();
 		this.postStandaardBedrag = new SimpleObjectProperty<BigDecimal>(new BigDecimal(0));
 		this.postStandaardBoekingOmschrijving = new SimpleStringProperty("");
+		this.rubriekNummer = new SimpleObjectProperty<>(postData.getRubriekNummer());
 	}
 
 	public Long getPostId() {
@@ -115,5 +118,17 @@ public class Post {
 
 	public StringProperty postStandaardBoekingOmschrijvingProperty() {
 		return postStandaardBoekingOmschrijving;
+	}
+
+	public Integer getRubriekNummer() {
+		return rubriekNummer.get();
+	}
+
+	public ObjectProperty<Integer> rubriekNummerProperty() {
+		return rubriekNummer;
+	}
+
+	public void setRubriekNummer(final Integer rubriekNummer) {
+		this.rubriekNummer.set(rubriekNummer);
 	}
 }

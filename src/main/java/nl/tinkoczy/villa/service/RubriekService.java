@@ -34,6 +34,7 @@ public class RubriekService implements IRubriekService {
 	public List<Rubriek> getAllRubrieken() {
 		List<Rubriek> results = new ArrayList<>();
 		for (RubriekEntity rubriekEntity : DataBroker.getAllRubrieken()) {
+			logger.debug("getAllRubrieken: " + rubriekEntity.toString());
 			results.add(convert(rubriekEntity));
 		}
 		return results;
@@ -42,12 +43,15 @@ public class RubriekService implements IRubriekService {
 	@Override
 	public Rubriek getRubriekById(final int id) {
 		RubriekEntity rubriekEntity = DataBroker.getRubriekById(id);
+		logger.debug("getRubriekById: id=" + id + ", result=" + rubriekEntity.toString());
 		return convert(rubriekEntity);
 	}
 
 	@Override
 	public Rubriek getRubriekByRubriekNummer(final Integer rubriekNummer) {
 		RubriekEntity rubriekEntity = DataBroker.getRubriekByRubriekNummer(rubriekNummer);
+		logger.debug(
+				"getRubriekByRubriekNummer: rubriekNummer=" + rubriekNummer + ", result=" + rubriekEntity.toString());
 		return convert(rubriekEntity);
 	}
 

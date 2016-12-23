@@ -1,6 +1,7 @@
 package nl.tinkoczy.villa.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -40,6 +42,17 @@ public class RubriekEntity implements Serializable {
 	private String rubriekInUit;
 	@Column(name = "rubriek_inexplo_rekening")
 	private Boolean rubriekInExploRekening;
+	@OneToMany(mappedBy = "rubriek")
+	private List<PostEntity> posten;
+
+	public RubriekEntity() {
+		super();
+	}
+
+	public RubriekEntity(final long id) {
+		super();
+		this.id = id;
+	}
 
 	public long getId() {
 		return id;

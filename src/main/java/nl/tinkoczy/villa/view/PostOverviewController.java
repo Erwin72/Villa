@@ -57,7 +57,7 @@ public class PostOverviewController {
 		postNummerColumn.setCellValueFactory(cellData -> cellData.getValue().postNummerProperty());
 		postOmschrijvingColumn.setCellValueFactory(cellData -> cellData.getValue().postOmschrijvingProperty());
 
-		// Clear rubiek details.
+		// Clear post details.
 		showPostDetail(null);
 
 		// Listen for selection changes and show the person details when
@@ -175,5 +175,16 @@ public class PostOverviewController {
 		oListPost = FXCollections.observableArrayList(service.getAllPosten());
 		postTable.getItems().clear();
 		postTable.setItems(oListPost);
+	}
+
+	public void setSelection(final int rubriekNummer) {
+		oListPost = FXCollections.observableArrayList(service.getPostenByRubriekNummer(rubriekNummer));
+		postTable.getItems().clear();
+		postTable.setItems(oListPost);
+		postTable.getSelectionModel().select(0);
+	}
+
+	public TableView<Post> getPostTable() {
+		return this.postTable;
 	}
 }

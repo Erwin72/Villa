@@ -11,7 +11,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
@@ -31,10 +30,8 @@ import nl.tinkoczy.villa.service.RubriekService;
 import nl.tinkoczy.villa.util.InitRubriekAndPostDataGenerator;
 import nl.tinkoczy.villa.util.WerkDatumUtil;
 import nl.tinkoczy.villa.view.PostEditDialogController;
-import nl.tinkoczy.villa.view.PostOverviewController;
 import nl.tinkoczy.villa.view.RootLayoutController;
 import nl.tinkoczy.villa.view.RubriekEditDialogController;
-import nl.tinkoczy.villa.view.RubriekOverviewController;
 import nl.tinkoczy.villa.view.SelecteerWerkDatumDialogController;
 
 public class VillaApp extends Application {
@@ -82,7 +79,12 @@ public class VillaApp extends Application {
 		}
 		pService = new PostService();
 		for (Post post : getPostData()) {
-			pService.saveOrUpdatePost(post);
+			if (post.getRubriekNummer() != null) {
+				Rubriek rubriek = rService.getRubriekByRubriekNummer(post.getRubriekNummer());
+				pService.saveOrUpdatePostWithRubriek(post, rubriek.getRubriekId());
+			} else {
+				pService.saveOrUpdatePost(post);
+			}
 		}
 		logger.debug("Started VillaApp");
 	}
@@ -147,36 +149,10 @@ public class VillaApp extends Application {
 	 * Shows a tabPane with 2 tabs, for rubrieken and posten.
 	 */
 	public void showRubriekAndPostTab() {
-		TabPane tabPane = new TabPane();
-
-		Tab rubriekTab = new Tab("Rubrieken", getRubriekOverview());
-		Tab postTab = new Tab("Posten", getPostOverview());
-
-		tabPane.getTabs().addAll(rubriekTab, postTab);
-
+		RubriekAndPostTabPaneFactory factory = new RubriekAndPostTabPaneFactory();
+		factory.setVillaApp(this);
+		TabPane tabPane = factory.createAndGet();
 		rootLayout.setCenter(tabPane);
-	}
-
-	/**
-	 * Gets the rubrieken overview to show inside a tabPane.
-	 */
-	public AnchorPane getRubriekOverview() {
-		try {
-			// Load person overview.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/RubriekOverview.fxml"));
-			AnchorPane rubriekOverview = (AnchorPane) loader.load();
-
-			// Give the controller access to the main app.
-			RubriekOverviewController controller = loader.getController();
-			controller.setVillaApp(this);
-
-			return rubriekOverview;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-
 	}
 
 	/**
@@ -216,26 +192,6 @@ public class VillaApp extends Application {
 			e.printStackTrace();
 			return false;
 		}
-	}
-
-	/**
-	 * Gets the posten overview to show inside a tabPane.
-	 */
-	public AnchorPane getPostOverview() {
-		try {
-			// Load person overview.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/PostOverview.fxml"));
-			AnchorPane postOverview = (AnchorPane) loader.load();
-
-			// Give the controller access to the main app.
-			PostOverviewController controller = loader.getController();
-			controller.setVillaApp(this);
-			return postOverview;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	/**

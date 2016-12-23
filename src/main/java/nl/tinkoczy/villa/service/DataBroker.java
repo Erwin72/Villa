@@ -68,4 +68,10 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("PostEntity.findByPostNummer", PostEntity.class)
 				.setParameter("postNummer", postNummer).getSingleResult();
 	}
+
+	public static List<PostEntity> getPostenByRubriekNummer(final Integer rubriekNummer) {
+		RubriekEntity rubriekEntity = getRubriekByRubriekNummer(rubriekNummer);
+		return em.createNamedQuery("PostEntity.findAllByRubriek", PostEntity.class)
+				.setParameter("rubriek", rubriekEntity).getResultList();
+	}
 }

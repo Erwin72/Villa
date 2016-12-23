@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -20,7 +22,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Table(name = "posten")
 @NamedQueries({ @NamedQuery(name = "PostEntity.findAll", query = "SELECT p FROM PostEntity p ORDER BY p.postNummer"),
 		@NamedQuery(name = "PostEntity.findById", query = "SELECT p FROM PostEntity p WHERE p.id = :id"),
-		@NamedQuery(name = "PostEntity.findByPostNummer", query = "SELECT p FROM PostEntity p WHERE p.postNummer = :postNummer") })
+		@NamedQuery(name = "PostEntity.findByPostNummer", query = "SELECT p FROM PostEntity p WHERE p.postNummer = :postNummer"),
+		@NamedQuery(name = "PostEntity.findAllByRubriek", query = "SELECT p FROM PostEntity p WHERE p.rubriek = :rubriek ORDER BY p.postNummer") })
 public class PostEntity implements Serializable {
 
 	@Transient
@@ -40,6 +43,9 @@ public class PostEntity implements Serializable {
 	private BigDecimal postStandaardBedrag;
 	@Column(name = "post_standaard_boeking_omschrijving")
 	private String postStandaardBoekingOmschrijving;
+	@ManyToOne
+	@JoinColumn(name = "rubriek_fk")
+	private RubriekEntity rubriek;
 
 	public long getId() {
 		return id;
@@ -89,6 +95,14 @@ public class PostEntity implements Serializable {
 		this.postStandaardBoekingOmschrijving = postStandaardBoekingOmschrijving;
 	}
 
+	public RubriekEntity getRubriek() {
+		return rubriek;
+	}
+
+	public void setRubriek(final RubriekEntity rubriek) {
+		this.rubriek = rubriek;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (!(o instanceof PostEntity)) {
@@ -111,6 +125,7 @@ public class PostEntity implements Serializable {
 	public String toString() {
 		return "PostEntity [id=" + id + ", postNummer=" + postNummer + ", postOmschrijving=" + postOmschrijving
 				+ ", postPassivaRekening=" + postPassivaRekening + ", postStandaardBedrag=" + postStandaardBedrag
-				+ ", postStandaardBoekingOmschrijving=" + postStandaardBoekingOmschrijving + "]";
+				+ ", postStandaardBoekingOmschrijving=" + postStandaardBoekingOmschrijving + ", rubriek=" + rubriek
+				+ "]";
 	}
 }
