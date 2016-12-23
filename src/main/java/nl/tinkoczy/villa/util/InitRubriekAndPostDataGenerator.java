@@ -17,13 +17,13 @@ public class InitRubriekAndPostDataGenerator {
 
 	public static void initDefaultRubieken() {
 		for (InitRubriekData rubriekData : InitRubriekData.values()) {
-			rubriekList.add(new Rubriek(null, rubriekData));
+			rubriekList.add(new Rubriek(rubriekData));
 		}
 	}
 
 	public static void initDefaultPosten() {
 		for (InitPostData postData : InitPostData.values()) {
-			postList.add(new Post(null, postData));
+			postList.add(new Post(postData));
 		}
 	}
 

@@ -32,7 +32,7 @@ public class Rubriek {
 		this.rubriekInExploRekening = new SimpleBooleanProperty(false);
 	}
 
-	public Rubriek(final Object object, final InitRubriekData rubriekData) {
+	public Rubriek(final InitRubriekData rubriekData) {
 		this.rubriekId = new SimpleObjectProperty<Long>(null);
 		this.rubriekNummer = new SimpleObjectProperty<Integer>(rubriekData.getNummer());
 		this.rubriekOmschrijving = new SimpleStringProperty(rubriekData.getOmschrijving());

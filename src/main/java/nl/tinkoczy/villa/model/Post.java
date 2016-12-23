@@ -36,7 +36,7 @@ public class Post {
 		this.rubriekNummer = new SimpleObjectProperty<>();
 	}
 
-	public Post(final Object object, final InitPostData postData) {
+	public Post(final InitPostData postData) {
 		this.postId = new SimpleObjectProperty<Long>(null);
 		this.postNummer = new SimpleObjectProperty<Integer>(postData.getNummer());
 		this.postOmschrijving = new SimpleStringProperty(postData.getOmschrijving());
