@@ -66,7 +66,7 @@ public class VillaApp extends Application {
 		initDBBroker();
 
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Villa");
+		this.primaryStage.setTitle(ConfigFacade.getStringValue(UserText.APPLICATIETITEL));
 
 		// Set the application icon.
 		this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/address_book_32.png"));
