@@ -11,6 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -26,7 +28,6 @@ import nl.tinkoczy.villa.service.IRubriekService;
 import nl.tinkoczy.villa.service.PostService;
 import nl.tinkoczy.villa.service.RubriekService;
 import nl.tinkoczy.villa.util.WerkDatumUtil;
-import nl.tinkoczy.villa.view.LeftMenuController;
 import nl.tinkoczy.villa.view.PostEditDialogController;
 import nl.tinkoczy.villa.view.PostOverviewController;
 import nl.tinkoczy.villa.view.RootLayoutController;
@@ -82,8 +83,6 @@ public class VillaApp extends Application {
 		this.primaryStage.getIcons().add(new Image("file:src/main/resources/images/address_book_32.png"));
 
 		initRootLayout();
-
-		showLeftMenu();
 
 		rService = new RubriekService();
 		for (Rubriek rubriek : getRubriekData()) {
@@ -151,47 +150,37 @@ public class VillaApp extends Application {
 		}
 	}
 
-	/**
-	 * Shows the person overview inside the root layout.
-	 */
-	public void showLeftMenu() {
-		try {
-			// Load person overview.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/LeftMenu.fxml"));
-			AnchorPane leftMenu = (AnchorPane) loader.load();
+	public void showRubriekAndPostTab() {
+		TabPane tabPane = new TabPane();
 
-			// Set person overview into the left of root layout.
-			rootLayout.setLeft(leftMenu);
+		Tab rubriekTab = new Tab("Rubrieken", getRubriekOverview());
+		Tab postTab = new Tab("Posten", getPostOverview());
 
-			// Give the controller access to the main app.
-			LeftMenuController controller = loader.getController();
-			controller.setVillaApp(this);
+		tabPane.getTabs().addAll(rubriekTab, postTab);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		rootLayout.setCenter(tabPane);
 	}
 
 	/**
-	 * Shows the rubrieken overview inside the root layout.
+	 * Gets the rubrieken overview to show inside a tabPane.
 	 */
-	public void showRubriekOverview() {
+	public AnchorPane getRubriekOverview() {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(VillaApp.class.getResource("view/RubriekOverview.fxml"));
 			AnchorPane rubriekOverview = (AnchorPane) loader.load();
 
-			// Set person overview into the center of root layout.
-			rootLayout.setCenter(rubriekOverview);
-
 			// Give the controller access to the main app.
 			RubriekOverviewController controller = loader.getController();
 			controller.setVillaApp(this);
+
+			return rubriekOverview;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
+
 	}
 
 	/**
@@ -234,24 +223,23 @@ public class VillaApp extends Application {
 	}
 
 	/**
-	 * Shows the posten overview inside the root layout.
+	 * Gets the posten overview to show inside a tabPane.
 	 */
-	public void showPostOverview() {
+	public AnchorPane getPostOverview() {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(VillaApp.class.getResource("view/PostOverview.fxml"));
 			AnchorPane postOverview = (AnchorPane) loader.load();
 
-			// Set person overview into the center of root layout.
-			rootLayout.setCenter(postOverview);
-
 			// Give the controller access to the main app.
 			PostOverviewController controller = loader.getController();
 			controller.setVillaApp(this);
+			return postOverview;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	/**

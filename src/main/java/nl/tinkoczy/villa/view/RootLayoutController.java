@@ -141,7 +141,7 @@ public class RootLayoutController {
 		Image image = new Image(getClass().getResourceAsStream("/images/iconmonstr-archive-8-32.png"));
 		Button invoerEnBeheerRubriekenEnPostenButton = new Button("", new ImageView(image));
 		invoerEnBeheerRubriekenEnPostenButton.setId("invoer_beheer_rubrieken_posten");
-		invoerEnBeheerRubriekenEnPostenButton.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		invoerEnBeheerRubriekenEnPostenButton.setOnAction(event -> villaApp.showRubriekAndPostTab());
 		return invoerEnBeheerRubriekenEnPostenButton;
 	}
 
