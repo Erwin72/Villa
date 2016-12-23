@@ -13,8 +13,10 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Post;
+import nl.tinkoczy.villa.model.Rubriek;
 import nl.tinkoczy.villa.service.IPostService;
 import nl.tinkoczy.villa.service.PostService;
+import nl.tinkoczy.villa.service.RubriekService;
 
 public class PostOverviewController {
 
@@ -44,6 +46,9 @@ public class PostOverviewController {
 
 	// Reference to the main application.
 	private VillaApp villaApp;
+
+	// Reference to the selected rubriek.
+	private Rubriek selectedRubriek;
 
 	public PostOverviewController() {
 
@@ -104,7 +109,6 @@ public class PostOverviewController {
 		// Add observable list data to the table
 		oListPost = FXCollections.observableArrayList(service.getAllPosten());
 		postTable.setItems(oListPost);
-		// postTable.setItems(villaApp.getPostData());
 	}
 
 	/**
@@ -116,7 +120,7 @@ public class PostOverviewController {
 		if (selectedPost != null) {
 			postTable.getItems().remove(selectedPost);
 			service.deletePost(selectedPost);
-			refreshTable();
+			setSelection(selectedRubriek.getRubriekNummer());
 		} else {
 			// Nothing selected.
 			Alert alert = new Alert(AlertType.WARNING);
@@ -136,11 +140,12 @@ public class PostOverviewController {
 	@FXML
 	private void handleNewPost() {
 		Post tempPost = new Post();
+		tempPost.setRubriekNummer(selectedRubriek.getRubriekNummer());
 		boolean okClicked = villaApp.showPostEditDialog(tempPost);
 		if (okClicked) {
-			service.saveOrUpdatePost(tempPost);
+			service.saveOrUpdatePostWithRubriek(tempPost, selectedRubriek.getRubriekId());
 			showPostDetail(tempPost);
-			refreshTable();
+			setSelection(selectedRubriek.getRubriekNummer());
 		}
 	}
 
@@ -151,12 +156,14 @@ public class PostOverviewController {
 	@FXML
 	private void handleEditPost() {
 		Post selectedPost = postTable.getSelectionModel().getSelectedItem();
-		if (selectedPost != null) {
+
+		if (selectedPost != null && selectedRubriek != null) {
+			selectedPost.setRubriekNummer(selectedRubriek.getRubriekNummer());
 			boolean okClicked = villaApp.showPostEditDialog(selectedPost);
 			if (okClicked) {
-				service.saveOrUpdatePost(selectedPost);
+				service.saveOrUpdatePostWithRubriek(selectedPost, selectedRubriek.getRubriekId());
 				showPostDetail(selectedPost);
-				refreshTable();
+				setSelection(selectedRubriek.getRubriekNummer());
 			}
 
 		} else {
@@ -171,17 +178,12 @@ public class PostOverviewController {
 		}
 	}
 
-	private void refreshTable() {
-		oListPost = FXCollections.observableArrayList(service.getAllPosten());
-		postTable.getItems().clear();
-		postTable.setItems(oListPost);
-	}
-
 	public void setSelection(final int rubriekNummer) {
 		oListPost = FXCollections.observableArrayList(service.getPostenByRubriekNummer(rubriekNummer));
 		postTable.getItems().clear();
 		postTable.setItems(oListPost);
 		postTable.getSelectionModel().select(0);
+		selectedRubriek = new RubriekService().getRubriekByRubriekNummer(rubriekNummer);
 	}
 
 	public TableView<Post> getPostTable() {
