@@ -4,8 +4,11 @@
   version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
   <persistence-unit name="VillaDB" transaction-type="RESOURCE_LOCAL">
   <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>nl.tinkoczy.villa.domain.RubriekEntity</class>
+    <class>nl.tinkoczy.villa.domain.BoekingEntity</class>
+    <class>nl.tinkoczy.villa.domain.BoekstukEntity</class>
     <class>nl.tinkoczy.villa.domain.PostEntity</class>
+    <class>nl.tinkoczy.villa.domain.RekeningEntity</class>
+    <class>nl.tinkoczy.villa.domain.RubriekEntity</class>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver" />
       <property name="javax.persistence.jdbc.url" value="jdbc:derby:VillaDB;create=true" />
