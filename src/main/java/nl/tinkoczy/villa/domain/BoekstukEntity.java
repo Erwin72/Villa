@@ -23,8 +23,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name = "boekstukken")
 @NamedQueries({
-		@NamedQuery(name = "BoekstukEntity.findAllByDatum", query = "SELECT b FROM BoekstukEntity b ORDER BY b.boekstukDatum"),
-		@NamedQuery(name = "BoekstukEntity.findAllByVolgnummer", query = "SELECT b FROM BoekstukEntity b ORDER BY b.boekstukVolgnummer"),
+		@NamedQuery(name = "BoekstukEntity.findAllSortByDatum", query = "SELECT b FROM BoekstukEntity b ORDER BY b.boekstukDatum"),
+		@NamedQuery(name = "BoekstukEntity.findAllSortByVolgnummer", query = "SELECT b FROM BoekstukEntity b ORDER BY b.boekstukVolgnummer"),
 		@NamedQuery(name = "BoekstukEntity.findById", query = "SELECT b FROM BoekstukEntity b WHERE b.id = :id"),
 		@NamedQuery(name = "BoekstukEntity.findByVolgnummer", query = "SELECT b FROM BoekstukEntity b WHERE b.boekstukVolgnummer = :boekstukVolgnummer"),
 		@NamedQuery(name = "BoekstukEntity.findByAfschriftnummer", query = "SELECT b FROM BoekstukEntity b WHERE b.boekstukAfschriftnummer = :boekstukAfschriftnummer"),
