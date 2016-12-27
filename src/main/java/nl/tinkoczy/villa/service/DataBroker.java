@@ -178,6 +178,10 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("BoekingEntity.findAllSortByDatum", BoekingEntity.class).getResultList();
 	}
 
+	public static List<BoekingEntity> getAllBoekingenSortByPostNummer() {
+		return em.createNamedQuery("BoekingEntity.findAllSortByPostAndDatum", BoekingEntity.class).getResultList();
+	}
+
 	public static BoekingEntity getBoekingById(final int id) {
 		return em.createNamedQuery("BoekingEntity.findById", BoekingEntity.class).setParameter("id", id)
 				.getSingleResult();
@@ -187,6 +191,12 @@ public final class DataBroker implements IDataBroker {
 		BoekstukEntity boekstukEntity = getBoekstukByVolgnummer(boekstukVolgnummer);
 		return em.createNamedQuery("BoekingEntity.findAllByBoekstuk", BoekingEntity.class)
 				.setParameter("boekstuk", boekstukEntity).getResultList();
+	}
+
+	public static List<BoekingEntity> getAllBoekingenByPostNummer(final int postNummer) {
+		PostEntity postEntity = getPostByPostNummer(postNummer);
+		return em.createNamedQuery("BoekingEntity.findAllByPost", BoekingEntity.class).setParameter("post", postEntity)
+				.getResultList();
 	}
 
 	/*

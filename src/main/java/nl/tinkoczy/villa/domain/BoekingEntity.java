@@ -23,8 +23,10 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Table(name = "boekingen")
 @NamedQueries({
 		@NamedQuery(name = "BoekingEntity.findAllSortByDatum", query = "SELECT b FROM BoekingEntity b ORDER BY b.boekingDatum"),
+		@NamedQuery(name = "BoekingEntity.findAllSortByPostAndDatum", query = "SELECT b FROM BoekingEntity b ORDER BY b.post, b.boekingDatum"),
 		@NamedQuery(name = "BoekingEntity.findById", query = "SELECT b FROM BoekingEntity b WHERE b.id = :id"),
-		@NamedQuery(name = "BoekingEntity.findAllByBoekstuk", query = "SELECT b FROM BoekingEntity b WHERE b.boekstuk = :boekstuk") })
+		@NamedQuery(name = "BoekingEntity.findAllByBoekstuk", query = "SELECT b FROM BoekingEntity b WHERE b.boekstuk = :boekstuk"),
+		@NamedQuery(name = "BoekingEntity.findAllByPost", query = "SELECT b FROM BoekingEntity b WHERE b.post = :post") })
 public class BoekingEntity implements Serializable {
 
 	@Transient
@@ -46,6 +48,12 @@ public class BoekingEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "boekstuk_fk")
 	private BoekstukEntity boekstuk;
+	@ManyToOne
+	@JoinColumn(name = "post_fk")
+	private PostEntity post;
+	@ManyToOne
+	@JoinColumn(name = "faktuur_fk")
+	private FaktuurEntity faktuur;
 
 	public BoekingEntity() {
 		super();
@@ -104,6 +112,22 @@ public class BoekingEntity implements Serializable {
 		this.boekstuk = boekstuk;
 	}
 
+	public PostEntity getPost() {
+		return post;
+	}
+
+	public void setPost(final PostEntity post) {
+		this.post = post;
+	}
+
+	public FaktuurEntity getFaktuur() {
+		return faktuur;
+	}
+
+	public void setFaktuur(final FaktuurEntity faktuur) {
+		this.faktuur = faktuur;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (!(o instanceof BoekingEntity)) {
@@ -126,6 +150,6 @@ public class BoekingEntity implements Serializable {
 	public String toString() {
 		return "BoekingEntity [id=" + id + ", boekingDatum=" + boekingDatum + ", boekingBedrag=" + boekingBedrag
 				+ ", boekingOmschrijving=" + boekingOmschrijving + ", boekingVorigePeriode=" + boekingVorigePeriode
-				+ ", boekstuk=" + boekstuk + "]";
+				+ ", boekstuk=" + boekstuk + ", post=" + post + ", faktuur=" + faktuur + "]";
 	}
 }

@@ -20,20 +20,25 @@ public class Boeking {
 	private final StringProperty boekingOmschrijving;
 	private final BooleanProperty boekingVorigePeriode;
 	private final IntegerProperty boekstukVolgnummer;
+	private final IntegerProperty postNummer;
+	private final StringProperty faktuurNummer;
 
 	public Boeking() {
-		this(null, null, null);
+		this(null, null, null, null);
 	}
 
-	public Boeking(final Long boekingId, final LocalDate boekingDatum, final Integer boekstukVolgnummer) {
+	public Boeking(final Long boekingId, final LocalDate boekingDatum, final Integer boekstukVolgnummer,
+			final Integer postNummer) {
 		this.boekingId = new SimpleObjectProperty<Long>(boekingId);
 		this.boekingDatum = new SimpleObjectProperty<LocalDate>(boekingDatum);
 		this.boekstukVolgnummer = new SimpleIntegerProperty(boekstukVolgnummer);
+		this.postNummer = new SimpleIntegerProperty(postNummer);
 
 		// Some initial dummy data, just for convenient testing.
 		this.boekingBedrag = new SimpleObjectProperty<>();
 		this.boekingOmschrijving = new SimpleStringProperty("");
 		this.boekingVorigePeriode = new SimpleBooleanProperty(false);
+		this.faktuurNummer = new SimpleStringProperty("");
 	}
 
 	public Long getBoekingId() {
@@ -106,5 +111,29 @@ public class Boeking {
 
 	public IntegerProperty boekstukVolgnummerProperty() {
 		return boekstukVolgnummer;
+	}
+
+	public Integer getPostNummer() {
+		return postNummer.get();
+	}
+
+	public void setPostNummer(final Integer postNummer) {
+		this.postNummer.set(postNummer);
+	}
+
+	public IntegerProperty postNummerProperty() {
+		return postNummer;
+	}
+
+	public String getFaktuurNummer() {
+		return faktuurNummer.get();
+	}
+
+	public void setFaktuurNummer(final String faktuurNummer) {
+		this.faktuurNummer.set(faktuurNummer);
+	}
+
+	public StringProperty faktuurNummerProperty() {
+		return faktuurNummer;
 	}
 }

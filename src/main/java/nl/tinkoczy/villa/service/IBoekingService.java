@@ -14,7 +14,11 @@ public interface IBoekingService {
 
 	List<Boeking> getAllBoekingen();
 
+	List<Boeking> getAllBoekingenSortByPostNummer();
+
 	Boeking getBoekingById(final int id);
 
 	List<Boeking> getAllBoekingenByBoekstukVolgnummer(final int boekstukVolgnummer);
+
+	List<Boeking> getAllBoekingenByPostNummer(final int postNummer);
 }

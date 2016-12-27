@@ -51,6 +51,16 @@ public class BoekingService implements IBoekingService {
 	}
 
 	@Override
+	public List<Boeking> getAllBoekingenSortByPostNummer() {
+		List<Boeking> results = new ArrayList<>();
+		for (BoekingEntity boekingEntity : DataBroker.getAllBoekingenSortByPostNummer()) {
+			logger.debug("getAllBoekingenSortByPostNummer: " + boekingEntity.toString());
+			results.add(convert(boekingEntity));
+		}
+		return results;
+	}
+
+	@Override
 	public Boeking getBoekingById(final int id) {
 		BoekingEntity boekingEntity = DataBroker.getBoekingById(id);
 		logger.debug("getBoekingById: id=" + id + ", result=" + boekingEntity.toString());
@@ -61,8 +71,19 @@ public class BoekingService implements IBoekingService {
 	public List<Boeking> getAllBoekingenByBoekstukVolgnummer(final int boekstukVolgnummer) {
 		List<Boeking> results = new ArrayList<>();
 		for (BoekingEntity boekingEntity : DataBroker.getAllBoekingenByBoekstukVolgnummer(boekstukVolgnummer)) {
-			logger.debug("getAllBoekingen: boekstukVolgnummer=" + boekstukVolgnummer + ", result="
+			logger.debug("getAllBoekingenByBoekstukVolgnummer: boekstukVolgnummer=" + boekstukVolgnummer + ", result="
 					+ boekingEntity.toString());
+			results.add(convert(boekingEntity));
+		}
+		return results;
+	}
+
+	@Override
+	public List<Boeking> getAllBoekingenByPostNummer(final int postNummer) {
+		List<Boeking> results = new ArrayList<>();
+		for (BoekingEntity boekingEntity : DataBroker.getAllBoekingenByPostNummer(postNummer)) {
+			logger.debug(
+					"getAllBoekingenByPostNummer: postNummer=" + postNummer + ", result=" + boekingEntity.toString());
 			results.add(convert(boekingEntity));
 		}
 		return results;
@@ -76,6 +97,10 @@ public class BoekingService implements IBoekingService {
 		boeking.setBoekingOmschrijving(boekingEntity.getBoekingOmschrijving());
 		boeking.setBoekingVorigePeriode(boeking.getBoekingVorigePeriode());
 		boeking.setBoekstukVolgnummer(boekingEntity.getBoekstuk().getBoekstukVolgnummer());
+		boeking.setPostNummer(boekingEntity.getPost().getPostNummer());
+		if (boekingEntity.getFaktuur() != null) {
+			boeking.setFaktuurNummer(boekingEntity.getFaktuur().getFaktuurNummer());
+		}
 		return boeking;
 	}
 
@@ -90,5 +115,4 @@ public class BoekingService implements IBoekingService {
 		boekingEntity.setBoekingVorigePeriode(boeking.getBoekingVorigePeriode());
 		return boekingEntity;
 	}
-
 }

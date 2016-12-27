@@ -2,6 +2,7 @@ package nl.tinkoczy.villa.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,11 +13,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 @Entity
 @Table(name = "posten")
@@ -46,6 +49,9 @@ public class PostEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "rubriek_fk")
 	private RubriekEntity rubriek;
+	@OneToMany(mappedBy = "post")
+	@CascadeOnDelete
+	private List<BoekingEntity> boekingen;
 
 	public PostEntity() {
 		super();
