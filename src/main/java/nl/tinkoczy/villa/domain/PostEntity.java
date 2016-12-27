@@ -47,6 +47,15 @@ public class PostEntity implements Serializable {
 	@JoinColumn(name = "rubriek_fk")
 	private RubriekEntity rubriek;
 
+	public PostEntity() {
+		super();
+	}
+
+	public PostEntity(final long id) {
+		super();
+		this.id = id;
+	}
+
 	public long getId() {
 		return id;
 	}

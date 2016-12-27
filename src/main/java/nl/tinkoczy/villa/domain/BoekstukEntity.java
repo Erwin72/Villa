@@ -56,6 +56,15 @@ public class BoekstukEntity implements Serializable {
 	@OneToMany(mappedBy = "boekstuk")
 	private List<BoekingEntity> boekingen;
 
+	public BoekstukEntity() {
+		super();
+	}
+
+	public BoekstukEntity(final long id) {
+		super();
+		this.id = id;
+	}
+
 	public long getId() {
 		return id;
 	}

@@ -169,7 +169,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("invoer_beheer_relaties");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_RELATIES)));
-		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		button.setOnAction(event -> villaApp.showRelatieAndPersoonTab());
 		return button;
 	}
 

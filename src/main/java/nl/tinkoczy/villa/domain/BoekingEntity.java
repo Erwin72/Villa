@@ -47,6 +47,15 @@ public class BoekingEntity implements Serializable {
 	@JoinColumn(name = "boekstuk_fk")
 	private BoekstukEntity boekstuk;
 
+	public BoekingEntity() {
+		super();
+	}
+
+	public BoekingEntity(final long id) {
+		super();
+		this.id = id;
+	}
+
 	public long getId() {
 		return id;
 	}

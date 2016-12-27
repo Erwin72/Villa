@@ -21,6 +21,8 @@ import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.config.UserText;
 import nl.tinkoczy.villa.model.Post;
+import nl.tinkoczy.villa.model.Relatie;
+import nl.tinkoczy.villa.model.RelatiePersoon;
 import nl.tinkoczy.villa.model.Rubriek;
 import nl.tinkoczy.villa.service.DataBroker;
 import nl.tinkoczy.villa.service.IPostService;
@@ -285,4 +287,93 @@ public class VillaApp extends Application {
 		return false;
 	}
 
+	/**
+	 * Shows a tabPane with 2 tabs, for relaties and relatiepersonen.
+	 */
+	public void showRelatieAndPersoonTab() {
+		RelatieAndPersoonTabPaneFactory factory = new RelatieAndPersoonTabPaneFactory();
+		factory.setVillaApp(this);
+		TabPane tabPane = factory.createAndGet();
+		rootLayout.setCenter(tabPane);
+	}
+
+	/**
+	 * Opens a dialog to edit details for the specified relatie. If the user
+	 * clicks OK, the changes are saved into the provided relatie object and
+	 * true is returned.
+	 *
+	 * @param relatie
+	 *            the relatie object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showRelatieEditDialog(final Relatie relatie) {
+		// try {
+		// // Load the fxml file and create a new stage for the popup dialog.
+		// FXMLLoader loader = new FXMLLoader();
+		// loader.setLocation(VillaApp.class.getResource("view/RelatieEditDialog.fxml"));
+		// AnchorPane page = (AnchorPane) loader.load();
+		//
+		// // Create the dialog Stage.
+		// Stage dialogStage = new Stage();
+		// dialogStage.setTitle("Wijzig Relatie");
+		// dialogStage.initModality(Modality.WINDOW_MODAL);
+		// dialogStage.initOwner(primaryStage);
+		// Scene scene = new Scene(page);
+		// dialogStage.setScene(scene);
+		//
+		// // Set the relatie into the controller.
+		// RelatieEditDialogController controller = loader.getController();
+		// controller.setDialogStage(dialogStage);
+		// controller.setRelatie(relatie);
+		//
+		// // Show the dialog and wait until the user closes it
+		// dialogStage.showAndWait();
+		//
+		// return controller.isOkClicked();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// return false;
+		// }
+		return false;
+	}
+
+	/**
+	 * Opens a dialog to edit details for the specified relatiepersoon. If the
+	 * user clicks OK, the changes are saved into the provided relatiepersoon
+	 * object and true is returned.
+	 *
+	 * @param relatiePersoon
+	 *            the relatiePersoon object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showRelatiePersoonEditDialog(final RelatiePersoon relatiePersoon) {
+		// try {
+		// // Load the fxml file and create a new stage for the popup dialog.
+		// FXMLLoader loader = new FXMLLoader();
+		// loader.setLocation(VillaApp.class.getResource("view/RelatiePersoonEditDialog.fxml"));
+		// AnchorPane page = (AnchorPane) loader.load();
+		//
+		// // Create the dialog Stage.
+		// Stage dialogStage = new Stage();
+		// dialogStage.setTitle("Wijzig Relatiepersoon");
+		// dialogStage.initModality(Modality.WINDOW_MODAL);
+		// dialogStage.initOwner(primaryStage);
+		// Scene scene = new Scene(page);
+		// dialogStage.setScene(scene);
+		//
+		// // Set the relatiePersoon into the controller.
+		// RelatieEditDialogController controller = loader.getController();
+		// controller.setDialogStage(dialogStage);
+		// controller.setRelatiePersoon(relatiePersoon);
+		//
+		// // Show the dialog and wait until the user closes it
+		// dialogStage.showAndWait();
+		//
+		// return controller.isOkClicked();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// return false;
+		// }
+		return false;
+	}
 }

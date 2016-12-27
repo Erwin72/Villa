@@ -54,6 +54,15 @@ public class RelatiePersoonEntity implements Serializable {
 	@JoinColumn(name = "relatie_fk")
 	private RelatieEntity relatie;
 
+	public RelatiePersoonEntity() {
+		super();
+	}
+
+	public RelatiePersoonEntity(final long id) {
+		super();
+		this.id = id;
+	}
+
 	public long getId() {
 		return id;
 	}
