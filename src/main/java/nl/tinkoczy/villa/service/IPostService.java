@@ -14,7 +14,7 @@ public interface IPostService {
 
 	List<Post> getAllPosten();
 
-	Post getPostById(int id);
+	Post getPostById(long id);
 
 	Post getPostByPostNummer(Integer postNummer);
 

@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import nl.tinkoczy.villa.domain.BijdrageEntity;
 import nl.tinkoczy.villa.domain.BoekingEntity;
 import nl.tinkoczy.villa.domain.BoekstukEntity;
 import nl.tinkoczy.villa.model.Boeking;
@@ -31,6 +32,15 @@ public class BoekingService implements IBoekingService {
 		BoekingEntity boekingEntity = convert(boeking);
 		boekingEntity.setBoekstuk(boekstukEntity);
 		logger.debug("saveOrUpdateBoekingWithBoekStuk: " + boekingEntity.toString());
+		DataBroker.saveOrUpdate(boekingEntity);
+	}
+
+	@Override
+	public void saveOrUpdateBoekingWithBijdrage(final Boeking boeking, final Long bijdrageId) {
+		BijdrageEntity bijdrageEntity = new BijdrageEntity(bijdrageId);
+		BoekingEntity boekingEntity = convert(boeking);
+		boekingEntity.setBijdrage(bijdrageEntity);
+		logger.debug("saveOrUpdateBoekingWithBijdrage: " + boekingEntity.toString());
 		DataBroker.saveOrUpdate(boekingEntity);
 	}
 
@@ -62,7 +72,7 @@ public class BoekingService implements IBoekingService {
 	}
 
 	@Override
-	public Boeking getBoekingById(final int id) {
+	public Boeking getBoekingById(final long id) {
 		BoekingEntity boekingEntity = DataBroker.getBoekingById(id);
 		logger.debug("getBoekingById: id=" + id + ", result=" + boekingEntity.toString());
 		return convert(boekingEntity);
@@ -119,4 +129,5 @@ public class BoekingService implements IBoekingService {
 		boekingEntity.setBoekingVorigePeriode(boeking.getBoekingVorigePeriode());
 		return boekingEntity;
 	}
+
 }

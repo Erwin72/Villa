@@ -52,7 +52,7 @@ public class PostService implements IPostService {
 	}
 
 	@Override
-	public Post getPostById(final int id) {
+	public Post getPostById(final long id) {
 		PostEntity postEntity = DataBroker.getPostById(id);
 		logger.debug("getPostById: id=" + id + ", result=" + postEntity.toString());
 		return convert(postEntity);

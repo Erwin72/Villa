@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory;
 
 import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
+import nl.tinkoczy.villa.domain.BijdrageEntity;
+import nl.tinkoczy.villa.domain.BijdrageFrequentieEntity;
+import nl.tinkoczy.villa.domain.BijdrageRenteEntity;
+import nl.tinkoczy.villa.domain.BijdrageSchemaEntity;
 import nl.tinkoczy.villa.domain.BoekingEntity;
 import nl.tinkoczy.villa.domain.BoekstukEntity;
 import nl.tinkoczy.villa.domain.FaktuurEntity;
@@ -56,7 +60,7 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("RubriekEntity.findAll", RubriekEntity.class).getResultList();
 	}
 
-	public static RubriekEntity getRubriekById(final int id) {
+	public static RubriekEntity getRubriekById(final long id) {
 		return em.createNamedQuery("RubriekEntity.findById", RubriekEntity.class).setParameter("id", id)
 				.getSingleResult();
 	}
@@ -73,7 +77,7 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("PostEntity.findAll", PostEntity.class).getResultList();
 	}
 
-	public static PostEntity getPostById(final int id) {
+	public static PostEntity getPostById(final long id) {
 		return em.createNamedQuery("PostEntity.findById", PostEntity.class).setParameter("id", id).getSingleResult();
 	}
 
@@ -95,7 +99,7 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("RelatieEntity.findAll", RelatieEntity.class).getResultList();
 	}
 
-	public static RelatieEntity getRelatieById(final int id) {
+	public static RelatieEntity getRelatieById(final long id) {
 		return em.createNamedQuery("RelatieEntity.findById", RelatieEntity.class).setParameter("id", id)
 				.getSingleResult();
 	}
@@ -112,7 +116,7 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("RelatiePersoonEntity.findAll", RelatiePersoonEntity.class).getResultList();
 	}
 
-	public static RelatiePersoonEntity getRelatiePersoonById(final int id) {
+	public static RelatiePersoonEntity getRelatiePersoonById(final long id) {
 		return em.createNamedQuery("RelatiePersoonEntity.findById", RelatiePersoonEntity.class).setParameter("id", id)
 				.getSingleResult();
 	}
@@ -130,7 +134,7 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("RekeningEntity.findAll", RekeningEntity.class).getResultList();
 	}
 
-	public static RekeningEntity getRekeningById(final int id) {
+	public static RekeningEntity getRekeningById(final long id) {
 		return em.createNamedQuery("RekeningEntity.findById", RekeningEntity.class).setParameter("id", id)
 				.getSingleResult();
 	}
@@ -151,7 +155,7 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("BoekstukEntity.findAllSortByVolgnummer", BoekstukEntity.class).getResultList();
 	}
 
-	public static BoekstukEntity getBoekstukById(final int id) {
+	public static BoekstukEntity getBoekstukById(final long id) {
 		return em.createNamedQuery("BoekstukEntity.findById", BoekstukEntity.class).setParameter("id", id)
 				.getSingleResult();
 	}
@@ -183,7 +187,7 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("BoekingEntity.findAllSortByPostAndDatum", BoekingEntity.class).getResultList();
 	}
 
-	public static BoekingEntity getBoekingById(final int id) {
+	public static BoekingEntity getBoekingById(final long id) {
 		return em.createNamedQuery("BoekingEntity.findById", BoekingEntity.class).setParameter("id", id)
 				.getSingleResult();
 	}
@@ -207,7 +211,7 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("BoekingEntity.findAllSortByDatum", FaktuurEntity.class).getResultList();
 	}
 
-	public static FaktuurEntity getFaktuurById(final int id) {
+	public static FaktuurEntity getFaktuurById(final long id) {
 		return em.createNamedQuery("FaktuurEntity.findById", FaktuurEntity.class).setParameter("id", id)
 				.getSingleResult();
 	}
@@ -223,4 +227,71 @@ public final class DataBroker implements IDataBroker {
 				.setParameter("relatie", relatieEntity).getResultList();
 	}
 
+	/*
+	 * BijdrageFrequentie
+	 */
+	public static List<BijdrageFrequentieEntity> getAllBijdrageFrequenties() {
+		return em.createNamedQuery("BijdrageFrequentieEntity.findAll", BijdrageFrequentieEntity.class).getResultList();
+	}
+
+	public static BijdrageFrequentieEntity getBijdrageFrequentieById(final long id) {
+		return em.createNamedQuery("BijdrageFrequentieEntity.findById", BijdrageFrequentieEntity.class)
+				.setParameter("id", id).getSingleResult();
+	}
+
+	public static BijdrageFrequentieEntity getBijdrageFrequentieByFrequentieCode(final int bijdrageFrequentieCode) {
+		return em.createNamedQuery("BijdrageFrequentieEntity.findByFrequentieCode", BijdrageFrequentieEntity.class)
+				.setParameter("bijdrageFrequentieCode", bijdrageFrequentieCode).getSingleResult();
+	}
+
+	/*
+	 * BijdrageRente
+	 */
+	public static List<BijdrageRenteEntity> getAllBijdrageRentes() {
+		return em.createNamedQuery("BijdrageRente.findAll", BijdrageRenteEntity.class).getResultList();
+	}
+
+	public static BijdrageRenteEntity getBijdrageRenteById(final long id) {
+		return em.createNamedQuery("BijdrageRente.findById", BijdrageRenteEntity.class).setParameter("id", id)
+				.getSingleResult();
+	}
+
+	/*
+	 * BijdrageSchema
+	 */
+	public static List<BijdrageSchemaEntity> getAllBijdrageSchemas() {
+		return em.createNamedQuery("BijdrageRente.findAll", BijdrageSchemaEntity.class).getResultList();
+	}
+
+	public static BijdrageSchemaEntity getBijdrageSchemaById(final long id) {
+		return em.createNamedQuery("BijdrageRente.findById", BijdrageSchemaEntity.class).setParameter("id", id)
+				.getSingleResult();
+	}
+
+	public static BijdrageSchemaEntity getBijdrageSchemaByBijdrageSchemaNaam(final String bijdrageSchemaNaam) {
+		return em.createNamedQuery("BijdrageRente.findByBijdrageSchemaNaam", BijdrageSchemaEntity.class)
+				.setParameter("bijdrageSchemaNaam", bijdrageSchemaNaam).getSingleResult();
+	}
+
+	/*
+	 * Bijdrage
+	 */
+	public static List<BijdrageEntity> getAllBijdragen() {
+		return em.createNamedQuery("BijdrageEntity.findAll", BijdrageEntity.class).getResultList();
+	}
+
+	public static List<BijdrageEntity> getAllBijdragenSortByDatum() {
+		return em.createNamedQuery("BijdrageEntity.findAllOrderByDatum", BijdrageEntity.class).getResultList();
+	}
+
+	public static BijdrageEntity getBijdrageById(final long id) {
+		return em.createNamedQuery("BijdrageEntity.findById", BijdrageEntity.class).setParameter("id", id)
+				.getSingleResult();
+	}
+
+	public static List<BijdrageEntity> getAllBijdragenByBijdrageSchema(final String bijdrageSchemaNaam) {
+		BijdrageSchemaEntity bijdrageSchemaEntity = getBijdrageSchemaByBijdrageSchemaNaam(bijdrageSchemaNaam);
+		return em.createNamedQuery("BijdrageEntity.findAllByBijdrageSchema", BijdrageEntity.class)
+				.setParameter("bijdrageSchema", bijdrageSchemaEntity).getResultList();
+	}
 }

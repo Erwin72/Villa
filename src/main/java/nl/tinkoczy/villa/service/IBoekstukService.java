@@ -16,7 +16,7 @@ public interface IBoekstukService {
 
 	List<Boekstuk> getAllBoekstukkenSortByVolgnummer();
 
-	Boekstuk getBoekstukById(final int id);
+	Boekstuk getBoekstukById(final long id);
 
 	Boekstuk getBoekstukByVolgnummer(final int boekstukVolgnummer);
 

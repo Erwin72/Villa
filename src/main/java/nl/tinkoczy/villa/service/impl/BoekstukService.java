@@ -62,7 +62,7 @@ public class BoekstukService implements IBoekstukService {
 	}
 
 	@Override
-	public Boekstuk getBoekstukById(final int id) {
+	public Boekstuk getBoekstukById(final long id) {
 		BoekstukEntity boekstukEntity = DataBroker.getBoekstukById(id);
 		logger.debug("getBoekstukById: id=" + id + ", result=" + boekstukEntity.toString());
 		return convert(boekstukEntity);

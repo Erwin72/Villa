@@ -12,7 +12,7 @@ public interface IRubriekService {
 
 	List<Rubriek> getAllRubrieken();
 
-	Rubriek getRubriekById(int id);
+	Rubriek getRubriekById(long id);
 
 	Rubriek getRubriekByRubriekNummer(Integer rubriekNummer);
 }

@@ -14,7 +14,7 @@ public interface IRelatiePersoonService {
 
 	List<RelatiePersoon> getAllRelatiePersonen();
 
-	RelatiePersoon getRelatiePersoonById(final int id);
+	RelatiePersoon getRelatiePersoonById(final long id);
 
 	List<RelatiePersoon> getAllRelatiePersonenByRelatieCode(final String relatieCode);
 }

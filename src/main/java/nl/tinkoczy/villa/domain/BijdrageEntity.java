@@ -22,7 +22,9 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name = "bijdragen")
 @NamedQueries({ @NamedQuery(name = "BijdrageEntity.findAll", query = "SELECT b FROM BijdrageEntity b ORDER BY b.id"),
-		@NamedQuery(name = "BijdrageEntity.findById", query = "SELECT b FROM BijdrageEntity b WHERE b.id = :id") })
+		@NamedQuery(name = "BijdrageEntity.findAllOrderByDatum", query = "SELECT b FROM BijdrageEntity b ORDER BY b.bijdrageDatum, b.id"),
+		@NamedQuery(name = "BijdrageEntity.findById", query = "SELECT b FROM BijdrageEntity b WHERE b.id = :id"),
+		@NamedQuery(name = "BijdrageEntity.findAllByBijdrageSchema", query = "SELECT b FROM BijdrageEntity b WHERE b.bijdrageSchema = :bijdrageSchema ORDER BY b.bijdrageDatum, b.id") })
 public class BijdrageEntity implements Serializable {
 
 	@Transient

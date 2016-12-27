@@ -24,7 +24,8 @@ import org.eclipse.persistence.annotations.CascadeOnDelete;
 @Table(name = "bijdrageschemas")
 @NamedQueries({
 		@NamedQuery(name = "BijdrageSchemaEntity.findAll", query = "SELECT b FROM BijdrageSchemaEntity b ORDER BY b.id"),
-		@NamedQuery(name = "BijdrageSchemaEntity.findById", query = "SELECT b FROM BijdrageSchemaEntity b WHERE b.id = :id") })
+		@NamedQuery(name = "BijdrageSchemaEntity.findById", query = "SELECT b FROM BijdrageSchemaEntity b WHERE b.id = :id"),
+		@NamedQuery(name = "BijdrageSchemaEntity.findByBijdrageSchemaNaam", query = "SELECT b FROM BijdrageSchemaEntity b WHERE b.bijdrageSchemaNaam = :bijdrageSchemaNaam") })
 public class BijdrageSchemaEntity implements Serializable {
 
 	@Transient

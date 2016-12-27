@@ -42,7 +42,7 @@ public class RubriekService implements IRubriekService {
 	}
 
 	@Override
-	public Rubriek getRubriekById(final int id) {
+	public Rubriek getRubriekById(final long id) {
 		RubriekEntity rubriekEntity = DataBroker.getRubriekById(id);
 		logger.debug("getRubriekById: id=" + id + ", result=" + rubriekEntity.toString());
 		return convert(rubriekEntity);

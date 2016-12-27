@@ -55,7 +55,7 @@ public class FaktuurService implements IFaktuurService {
 	}
 
 	@Override
-	public Faktuur getFaktuurById(final int id) {
+	public Faktuur getFaktuurById(final long id) {
 		FaktuurEntity faktuurEntity = DataBroker.getFaktuurById(id);
 		logger.debug("getFaktuurById: id=" + id + ", result=" + faktuurEntity.toString());
 		return convert(faktuurEntity);

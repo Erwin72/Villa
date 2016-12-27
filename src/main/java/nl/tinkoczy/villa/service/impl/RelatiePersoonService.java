@@ -52,7 +52,7 @@ public class RelatiePersoonService implements IRelatiePersoonService {
 	}
 
 	@Override
-	public RelatiePersoon getRelatiePersoonById(final int id) {
+	public RelatiePersoon getRelatiePersoonById(final long id) {
 		RelatiePersoonEntity relatiePersoonEntity = DataBroker.getRelatiePersoonById(id);
 		logger.debug("getRelatiePersoonById: id=" + id + ", result=" + relatiePersoonEntity.toString());
 		return convert(relatiePersoonEntity);

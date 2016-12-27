@@ -42,7 +42,7 @@ public class RelatieService implements IRelatieService {
 	}
 
 	@Override
-	public Relatie getRelatieById(final int id) {
+	public Relatie getRelatieById(final long id) {
 		RelatieEntity relatieEntity = DataBroker.getRelatieById(id);
 		logger.debug("getRelatieById: id=" + id + ", result=" + relatieEntity.toString());
 		return convert(relatieEntity);

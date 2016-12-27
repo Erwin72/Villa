@@ -12,7 +12,7 @@ public interface IRekeningService {
 
 	List<Rekening> getAllRekeningen();
 
-	Rekening getRekeningById(final int id);
+	Rekening getRekeningById(final long id);
 
 	Rekening getRekeningByRekeningNaam(final String rekeningNaam);
 }

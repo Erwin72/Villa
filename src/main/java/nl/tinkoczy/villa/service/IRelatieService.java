@@ -12,7 +12,7 @@ public interface IRelatieService {
 
 	List<Relatie> getAllRelaties();
 
-	Relatie getRelatieById(int id);
+	Relatie getRelatieById(long id);
 
 	Relatie getRelatieByRelatieCode(String relatieCode);
 

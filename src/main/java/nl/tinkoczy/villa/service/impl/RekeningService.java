@@ -42,7 +42,7 @@ public class RekeningService implements IRekeningService {
 	}
 
 	@Override
-	public Rekening getRekeningById(final int id) {
+	public Rekening getRekeningById(final long id) {
 		RekeningEntity rekeningEntity = DataBroker.getRekeningById(id);
 		logger.debug("getRekeningById: id=" + id + ", result=" + rekeningEntity.toString());
 		return convert(rekeningEntity);

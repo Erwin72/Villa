@@ -14,7 +14,7 @@ public interface IFaktuurService {
 
 	List<Faktuur> getAllFakturen();
 
-	Faktuur getFaktuurById(final int id);
+	Faktuur getFaktuurById(final long id);
 
 	Faktuur getFaktuurByFaktuurNummer(final String faktuurNummer);
 

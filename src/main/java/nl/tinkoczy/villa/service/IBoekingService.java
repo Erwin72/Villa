@@ -10,13 +10,15 @@ public interface IBoekingService {
 
 	void saveOrUpdateBoekingWithBoekStuk(Boeking boeking, Long boekstukId);
 
+	void saveOrUpdateBoekingWithBijdrage(Boeking boeking, Long bijdrageId);
+
 	void deleteBoeking(Boeking boeking);
 
 	List<Boeking> getAllBoekingen();
 
 	List<Boeking> getAllBoekingenSortByPostNummer();
 
-	Boeking getBoekingById(final int id);
+	Boeking getBoekingById(final long id);
 
 	List<Boeking> getAllBoekingenByBoekstukVolgnummer(final int boekstukVolgnummer);
 
