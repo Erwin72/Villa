@@ -19,6 +19,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 @Entity
 @Table(name = "boekstukken")
@@ -54,6 +55,7 @@ public class BoekstukEntity implements Serializable {
 	private RekeningEntity rekening;
 
 	@OneToMany(mappedBy = "boekstuk")
+	@CascadeOnDelete
 	private List<BoekingEntity> boekingen;
 
 	public BoekstukEntity() {

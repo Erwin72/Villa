@@ -117,7 +117,7 @@ public final class DataBroker implements IDataBroker {
 
 	public static List<RelatiePersoonEntity> getAllRelatiePersonenByRelatieCode(final String relatieCode) {
 		RelatieEntity relatieEntity = getRelatieByRelatieCode(relatieCode);
-		return em.createNamedQuery("RelatieEntity.findByRelatieCode", RelatiePersoonEntity.class)
+		return em.createNamedQuery("RelatiePersoonEntity.findAllByRelatie", RelatiePersoonEntity.class)
 				.setParameter("relatie", relatieEntity).getResultList();
 	}
 

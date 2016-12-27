@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.CascadeOnDelete;
 
 @Entity
 @Table(name = "rubrieken")
@@ -43,6 +44,7 @@ public class RubriekEntity implements Serializable {
 	@Column(name = "rubriek_inexplo_rekening")
 	private Boolean rubriekInExploRekening;
 	@OneToMany(mappedBy = "rubriek")
+	@CascadeOnDelete
 	private List<PostEntity> posten;
 
 	public RubriekEntity() {
