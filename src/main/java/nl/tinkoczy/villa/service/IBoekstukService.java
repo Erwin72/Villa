@@ -22,5 +22,5 @@ public interface IBoekstukService {
 
 	Boekstuk getBoekstukByAfschriftnummer(final int boekstukAfschriftnummer);
 
-	List<Boekstuk> getAllRelatiePersonenByRekeningId(final int rekeningId);
+	List<Boekstuk> getAllBoekstukkenByRekeningId(final int rekeningId);
 }

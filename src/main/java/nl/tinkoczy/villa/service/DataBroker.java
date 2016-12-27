@@ -12,6 +12,7 @@ import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.domain.BoekingEntity;
 import nl.tinkoczy.villa.domain.BoekstukEntity;
+import nl.tinkoczy.villa.domain.FaktuurEntity;
 import nl.tinkoczy.villa.domain.PostEntity;
 import nl.tinkoczy.villa.domain.RekeningEntity;
 import nl.tinkoczy.villa.domain.RelatieEntity;
@@ -164,7 +165,7 @@ public final class DataBroker implements IDataBroker {
 				.setParameter("boekstukAfschriftnummer", boekstukAfschriftnummer).getSingleResult();
 	}
 
-	public static List<BoekstukEntity> getAllRelatiePersonenByRekeningId(final int rekeningId) {
+	public static List<BoekstukEntity> getAllBoekstukkenByRekeningId(final int rekeningId) {
 		RekeningEntity rekeningEntity = getRekeningById(rekeningId);
 		return em.createNamedQuery("BoekstukEntity.findAllByRekening", BoekstukEntity.class)
 				.setParameter("rekening", rekeningEntity).getResultList();
@@ -186,6 +187,29 @@ public final class DataBroker implements IDataBroker {
 		BoekstukEntity boekstukEntity = getBoekstukByVolgnummer(boekstukVolgnummer);
 		return em.createNamedQuery("BoekingEntity.findAllByBoekstuk", BoekingEntity.class)
 				.setParameter("boekstuk", boekstukEntity).getResultList();
+	}
+
+	/*
+	 * Faktuur
+	 */
+	public static List<FaktuurEntity> getAllFakturen() {
+		return em.createNamedQuery("BoekingEntity.findAllSortByDatum", FaktuurEntity.class).getResultList();
+	}
+
+	public static FaktuurEntity getFaktuurById(final int id) {
+		return em.createNamedQuery("FaktuurEntity.findById", FaktuurEntity.class).setParameter("id", id)
+				.getSingleResult();
+	}
+
+	public static FaktuurEntity getFaktuurByFaktuurNummer(final String faktuurNummer) {
+		return em.createNamedQuery("FaktuurEntity.findByFaktuurNummer", FaktuurEntity.class)
+				.setParameter("faktuurNummer", faktuurNummer).getSingleResult();
+	}
+
+	public static List<FaktuurEntity> getAllFakturenByRelatieCode(final String relatieCode) {
+		RelatieEntity relatieEntity = getRelatieByRelatieCode(relatieCode);
+		return em.createNamedQuery("FaktuurEntity.findAllByRelatieSortByDatum", FaktuurEntity.class)
+				.setParameter("relatie", relatieEntity).getResultList();
 	}
 
 }

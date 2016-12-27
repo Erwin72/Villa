@@ -84,10 +84,10 @@ public class BoekstukService implements IBoekstukService {
 	}
 
 	@Override
-	public List<Boekstuk> getAllRelatiePersonenByRekeningId(final int rekeningId) {
+	public List<Boekstuk> getAllBoekstukkenByRekeningId(final int rekeningId) {
 		List<Boekstuk> results = new ArrayList<>();
-		for (BoekstukEntity boekstukEntity : DataBroker.getAllRelatiePersonenByRekeningId(rekeningId)) {
-			logger.debug("getAllRelatiePersonenByRekeningId: rekeningId=" + rekeningId + ", result="
+		for (BoekstukEntity boekstukEntity : DataBroker.getAllBoekstukkenByRekeningId(rekeningId)) {
+			logger.debug("getAllBoekstukkenByRekeningId: rekeningId=" + rekeningId + ", result="
 					+ boekstukEntity.toString());
 			results.add(convert(boekstukEntity));
 		}

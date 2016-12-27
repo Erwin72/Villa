@@ -6,6 +6,7 @@
   <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>nl.tinkoczy.villa.domain.BoekingEntity</class>
     <class>nl.tinkoczy.villa.domain.BoekstukEntity</class>
+    <class>nl.tinkoczy.villa.domain.FaktuurEntity</class>
     <class>nl.tinkoczy.villa.domain.PostEntity</class>
     <class>nl.tinkoczy.villa.domain.RekeningEntity</class>
     <class>nl.tinkoczy.villa.domain.RelatieEntity</class>

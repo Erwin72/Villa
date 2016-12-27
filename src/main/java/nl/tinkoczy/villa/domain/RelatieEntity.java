@@ -60,6 +60,9 @@ public class RelatieEntity implements Serializable {
 	@OneToMany(mappedBy = "relatie")
 	@CascadeOnDelete
 	private List<RelatiePersoonEntity> relatiePersonen;
+	@OneToMany(mappedBy = "relatie")
+	@CascadeOnDelete
+	private List<FaktuurEntity> fakturen;
 
 	public RelatieEntity() {
 		super();
