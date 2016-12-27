@@ -54,6 +54,9 @@ public class BoekingEntity implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "faktuur_fk")
 	private FaktuurEntity faktuur;
+	@ManyToOne
+	@JoinColumn(name = "bijdrage_fk")
+	private BijdrageEntity bijdrage;
 
 	public BoekingEntity() {
 		super();
@@ -128,6 +131,14 @@ public class BoekingEntity implements Serializable {
 		this.faktuur = faktuur;
 	}
 
+	public BijdrageEntity getBijdrage() {
+		return bijdrage;
+	}
+
+	public void setBijdrage(final BijdrageEntity bijdrage) {
+		this.bijdrage = bijdrage;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (!(o instanceof BoekingEntity)) {
@@ -150,6 +161,6 @@ public class BoekingEntity implements Serializable {
 	public String toString() {
 		return "BoekingEntity [id=" + id + ", boekingDatum=" + boekingDatum + ", boekingBedrag=" + boekingBedrag
 				+ ", boekingOmschrijving=" + boekingOmschrijving + ", boekingVorigePeriode=" + boekingVorigePeriode
-				+ ", boekstuk=" + boekstuk + ", post=" + post + ", faktuur=" + faktuur + "]";
+				+ ", boekstuk=" + boekstuk + ", post=" + post + ", faktuur=" + faktuur + ", bijdrage=" + bijdrage + "]";
 	}
 }

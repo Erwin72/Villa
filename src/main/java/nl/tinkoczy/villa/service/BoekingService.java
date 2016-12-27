@@ -101,6 +101,9 @@ public class BoekingService implements IBoekingService {
 		if (boekingEntity.getFaktuur() != null) {
 			boeking.setFaktuurNummer(boekingEntity.getFaktuur().getFaktuurNummer());
 		}
+		if (boekingEntity.getBijdrage() != null) {
+			boeking.setBijdrageFk(boekingEntity.getBijdrage().getId());
+		}
 		return boeking;
 	}
 

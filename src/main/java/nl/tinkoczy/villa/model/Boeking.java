@@ -5,9 +5,11 @@ import java.time.LocalDate;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -22,6 +24,7 @@ public class Boeking {
 	private final IntegerProperty boekstukVolgnummer;
 	private final IntegerProperty postNummer;
 	private final StringProperty faktuurNummer;
+	private final LongProperty bijdrageFk;
 
 	public Boeking() {
 		this(null, null, null, null);
@@ -39,6 +42,7 @@ public class Boeking {
 		this.boekingOmschrijving = new SimpleStringProperty("");
 		this.boekingVorigePeriode = new SimpleBooleanProperty(false);
 		this.faktuurNummer = new SimpleStringProperty("");
+		this.bijdrageFk = new SimpleLongProperty();
 	}
 
 	public Long getBoekingId() {
@@ -135,5 +139,17 @@ public class Boeking {
 
 	public StringProperty faktuurNummerProperty() {
 		return faktuurNummer;
+	}
+
+	public Long getBijdrageFk() {
+		return bijdrageFk.get();
+	}
+
+	public void setBijdrageFk(final Long bijdrageFk) {
+		this.bijdrageFk.set(bijdrageFk);
+	}
+
+	public LongProperty bijdrageFkProperty() {
+		return bijdrageFk;
 	}
 }
