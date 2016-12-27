@@ -14,7 +14,7 @@ import javafx.scene.control.TableView;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Rubriek;
 import nl.tinkoczy.villa.service.IRubriekService;
-import nl.tinkoczy.villa.service.RubriekService;
+import nl.tinkoczy.villa.service.impl.RubriekService;
 
 public class RubriekOverviewController {
 

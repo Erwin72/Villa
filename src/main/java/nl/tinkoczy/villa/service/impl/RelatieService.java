@@ -1,4 +1,4 @@
-package nl.tinkoczy.villa.service;
+package nl.tinkoczy.villa.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.tinkoczy.villa.domain.RelatieEntity;
 import nl.tinkoczy.villa.model.Relatie;
+import nl.tinkoczy.villa.service.IRelatieService;
 
 public class RelatieService implements IRelatieService {
 

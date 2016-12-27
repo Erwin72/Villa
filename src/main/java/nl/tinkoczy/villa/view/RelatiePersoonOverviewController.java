@@ -15,8 +15,8 @@ import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Relatie;
 import nl.tinkoczy.villa.model.RelatiePersoon;
 import nl.tinkoczy.villa.service.IRelatiePersoonService;
-import nl.tinkoczy.villa.service.RelatiePersoonService;
-import nl.tinkoczy.villa.service.RelatieService;
+import nl.tinkoczy.villa.service.impl.RelatiePersoonService;
+import nl.tinkoczy.villa.service.impl.RelatieService;
 
 public class RelatiePersoonOverviewController {
 

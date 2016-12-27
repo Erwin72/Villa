@@ -15,8 +15,8 @@ import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Post;
 import nl.tinkoczy.villa.model.Rubriek;
 import nl.tinkoczy.villa.service.IPostService;
-import nl.tinkoczy.villa.service.PostService;
-import nl.tinkoczy.villa.service.RubriekService;
+import nl.tinkoczy.villa.service.impl.PostService;
+import nl.tinkoczy.villa.service.impl.RubriekService;
 
 public class PostOverviewController {
 

@@ -14,7 +14,7 @@ import javafx.scene.control.TableView;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Relatie;
 import nl.tinkoczy.villa.service.IRelatieService;
-import nl.tinkoczy.villa.service.RelatieService;
+import nl.tinkoczy.villa.service.impl.RelatieService;
 
 public class RelatieOverviewController {
 

@@ -1,4 +1,4 @@
-package nl.tinkoczy.villa.service;
+package nl.tinkoczy.villa.service.impl;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ import nl.tinkoczy.villa.domain.RekeningEntity;
 import nl.tinkoczy.villa.domain.RelatieEntity;
 import nl.tinkoczy.villa.domain.RelatiePersoonEntity;
 import nl.tinkoczy.villa.domain.RubriekEntity;
+import nl.tinkoczy.villa.service.IDataBroker;
 
 public final class DataBroker implements IDataBroker {
 

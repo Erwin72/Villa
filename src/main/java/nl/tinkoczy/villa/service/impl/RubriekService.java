@@ -1,4 +1,4 @@
-package nl.tinkoczy.villa.service;
+package nl.tinkoczy.villa.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.tinkoczy.villa.domain.RubriekEntity;
 import nl.tinkoczy.villa.model.Rubriek;
+import nl.tinkoczy.villa.service.IRubriekService;
 
 public class RubriekService implements IRubriekService {
 

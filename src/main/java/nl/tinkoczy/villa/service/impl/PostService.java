@@ -1,4 +1,4 @@
-package nl.tinkoczy.villa.service;
+package nl.tinkoczy.villa.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import nl.tinkoczy.villa.domain.PostEntity;
 import nl.tinkoczy.villa.domain.RubriekEntity;
 import nl.tinkoczy.villa.model.Post;
+import nl.tinkoczy.villa.service.IPostService;
 
 public class PostService implements IPostService {
 

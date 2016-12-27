@@ -1,4 +1,4 @@
-package nl.tinkoczy.villa.service;
+package nl.tinkoczy.villa.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import nl.tinkoczy.villa.domain.BoekingEntity;
 import nl.tinkoczy.villa.domain.BoekstukEntity;
 import nl.tinkoczy.villa.model.Boeking;
+import nl.tinkoczy.villa.service.IBoekingService;
 
 public class BoekingService implements IBoekingService {
 

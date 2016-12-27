@@ -1,4 +1,4 @@
-package nl.tinkoczy.villa.service;
+package nl.tinkoczy.villa.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,7 @@ import nl.tinkoczy.villa.domain.FaktuurEntity;
 import nl.tinkoczy.villa.domain.PostEntity;
 import nl.tinkoczy.villa.domain.RelatieEntity;
 import nl.tinkoczy.villa.model.Faktuur;
+import nl.tinkoczy.villa.service.IFaktuurService;
 
 public class FaktuurService implements IFaktuurService {
 
