@@ -2,6 +2,7 @@ package nl.tinkoczy.villa.domain;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -20,7 +22,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Table(name = "bijdragerentes")
 @NamedQueries({
 		@NamedQuery(name = "BijdrageRenteEntity.findAll", query = "SELECT b FROM BijdrageRenteEntity b ORDER BY b.id"),
-		@NamedQuery(name = "BijdrageRenteEntity.findById", query = "SELECT b FROM BijdrageRenteEntity b WHERE b.id = :id") })
+		@NamedQuery(name = "BijdrageRenteEntity.findById", query = "SELECT b FROM BijdrageRenteEntity b WHERE b.id = :id"),
+		@NamedQuery(name = "BijdrageRenteEntity.findByRentePercentageAndNaVervaldatum", query = "SELECT b FROM BijdrageRenteEntity b WHERE b.bijdrageRentePercentage = :bijdrageRentePercentage AND b.bijdrageRenteNaVervaldatum = :bijdrageRenteNaVervaldatum") })
 public class BijdrageRenteEntity implements Serializable {
 
 	@Transient
@@ -34,6 +37,8 @@ public class BijdrageRenteEntity implements Serializable {
 	private BigDecimal bijdrageRentePercentage;
 	@Column(name = "bijdrage_rente_dagen_na_vervaldatum")
 	private int bijdrageRenteNaVervaldatum;
+	@OneToMany(mappedBy = "bijdrageRente")
+	private List<BijdrageSchemaEntity> bijdrageSchemas;
 
 	public BijdrageRenteEntity() {
 		super();

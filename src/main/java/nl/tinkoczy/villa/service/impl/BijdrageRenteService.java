@@ -1,5 +1,6 @@
 package nl.tinkoczy.villa.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,13 @@ public class BijdrageRenteService implements IBijdrageRenteService {
 	}
 
 	@Override
+	public long saveBijdrageRente(final BijdrageRente bijdrageRente) {
+		BijdrageRenteEntity bijdrageRenteEntity = convert(bijdrageRente);
+		logger.debug("saveBijdrageRente: " + bijdrageRenteEntity.toString());
+		return ((BijdrageRenteEntity) DataBroker.save(bijdrageRenteEntity)).getId();
+	}
+
+	@Override
 	public void deleteBijdrageRente(final BijdrageRente bijdrageRente) {
 		BijdrageRenteEntity bijdrageRenteEntity = convert(bijdrageRente);
 		logger.debug("deleteBijdrageRente: " + bijdrageRenteEntity.toString());
@@ -45,6 +53,23 @@ public class BijdrageRenteService implements IBijdrageRenteService {
 	public BijdrageRente getBijdrageRenteById(final long id) {
 		BijdrageRenteEntity bijdrageRenteEntity = DataBroker.getBijdrageRenteById(id);
 		logger.debug("getBijdrageRenteById: id=" + id + ", result=" + bijdrageRenteEntity.toString());
+		return convert(bijdrageRenteEntity);
+	}
+
+	@Override
+	public BijdrageRente getBijdrageRenteByRentePercentageAndNaVervaldatum(final BigDecimal bijdrageRentePercentage,
+			final int bijdrageRenteNaVervaldatum) {
+		BijdrageRenteEntity bijdrageRenteEntity = DataBroker
+				.getBijdrageRenteByRentePercentageAndNaVervaldatum(bijdrageRentePercentage, bijdrageRenteNaVervaldatum);
+		if (bijdrageRenteEntity == null) {
+			logger.debug("getBijdrageRenteByRentePercentageAndNaVervaldatum: bijdrageRentePercentage="
+					+ bijdrageRentePercentage + ", bijdrageRenteNaVervaldatum=" + bijdrageRenteNaVervaldatum
+					+ ", result=NO DATA");
+			return null;
+		}
+		logger.debug("getBijdrageRenteByRentePercentageAndNaVervaldatum: bijdrageRentePercentage="
+				+ bijdrageRentePercentage + ", bijdrageRenteNaVervaldatum=" + bijdrageRenteNaVervaldatum + ", result="
+				+ bijdrageRenteEntity.toString());
 		return convert(bijdrageRenteEntity);
 	}
 

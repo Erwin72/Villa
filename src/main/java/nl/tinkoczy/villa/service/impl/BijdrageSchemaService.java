@@ -20,12 +20,13 @@ public class BijdrageSchemaService implements IBijdrageSchemaService {
 	}
 
 	@Override
-	public void saveOrUpdateBijdrageSchemaWithFrequentie(final BijdrageSchema bijdrageSchema,
-			final int bijdrageFrequentieCode) {
+	public void saveOrUpdateBijdrageSchema(final BijdrageSchema bijdrageSchema) {
 		BijdrageFrequentieEntity bijdrageFrequentieEntity = DataBroker
-				.getBijdrageFrequentieByFrequentieCode(bijdrageFrequentieCode);
+				.getBijdrageFrequentieByFrequentieCode(bijdrageSchema.getBijdrageFrequentieCode());
+		BijdrageRenteEntity bijdrageRenteEntity = DataBroker.getBijdrageRenteById(bijdrageSchema.getBijdrageRenteFk());
 		BijdrageSchemaEntity bijdrageSchemaEntity = convert(bijdrageSchema);
 		bijdrageSchemaEntity.setBijdrageFrequentie(bijdrageFrequentieEntity);
+		bijdrageSchemaEntity.setBijdrageRente(bijdrageRenteEntity);
 		logger.debug("saveOrUpdateBijdrageSchemaWithFrequentie: " + bijdrageSchemaEntity.toString());
 		DataBroker.saveOrUpdate(bijdrageSchemaEntity);
 	}
@@ -64,6 +65,15 @@ public class BijdrageSchemaService implements IBijdrageSchemaService {
 	public BijdrageSchema getBijdrageSchemaById(final long id) {
 		BijdrageSchemaEntity bijdrageSchemaEntity = DataBroker.getBijdrageSchemaById(id);
 		logger.debug("getBijdrageSchemaById: id=" + id + ", result=" + bijdrageSchemaEntity.toString());
+		return convert(bijdrageSchemaEntity);
+	}
+
+	@Override
+	public BijdrageSchema getBijdrageSchemaByBijdrageSchemaNaam(final String bijdrageSchemaNaam) {
+		BijdrageSchemaEntity bijdrageSchemaEntity = DataBroker
+				.getBijdrageSchemaByBijdrageSchemaNaam(bijdrageSchemaNaam);
+		logger.debug("getBijdrageSchemaByBijdrageSchemaNaam: bijdrageSchemaNaam=" + bijdrageSchemaNaam + ", result="
+				+ bijdrageSchemaEntity.toString());
 		return convert(bijdrageSchemaEntity);
 	}
 

@@ -1,18 +1,16 @@
 package nl.tinkoczy.villa.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class BijdrageSchema {
 
-	private final LongProperty bijdrageSchemaId;
+	private final ObjectProperty<Long> bijdrageSchemaId;
 	private final StringProperty bijdrageSchemaNaam;
-	private final IntegerProperty bijdrageFrequentieCode;
-	private final LongProperty bijdrageRenteFk;
+	private final ObjectProperty<Integer> bijdrageFrequentieCode;
+	private final ObjectProperty<Long> bijdrageRenteFk;
 
 	public BijdrageSchema() {
 		this(null, null, null);
@@ -20,11 +18,11 @@ public class BijdrageSchema {
 
 	public BijdrageSchema(final Long bijdrageSchemaId, final String bijdrageSchemaNaam,
 			final Integer bijdrageFrequentieCode) {
-		this.bijdrageSchemaId = new SimpleLongProperty(bijdrageSchemaId);
+		this.bijdrageSchemaId = new SimpleObjectProperty<Long>(bijdrageSchemaId);
 		this.bijdrageSchemaNaam = new SimpleStringProperty(bijdrageSchemaNaam);
-		this.bijdrageFrequentieCode = new SimpleIntegerProperty(bijdrageFrequentieCode);
+		this.bijdrageFrequentieCode = new SimpleObjectProperty<Integer>(bijdrageFrequentieCode);
 
-		this.bijdrageRenteFk = new SimpleLongProperty();
+		this.bijdrageRenteFk = new SimpleObjectProperty<Long>();
 	}
 
 	public Long getBijdrageSchemaId() {
@@ -35,7 +33,7 @@ public class BijdrageSchema {
 		this.bijdrageSchemaId.set(bijdrageSchemaId);
 	}
 
-	public LongProperty bijdrageSchemaIdProperty() {
+	public ObjectProperty<Long> bijdrageSchemaIdProperty() {
 		return bijdrageSchemaId;
 	}
 
@@ -59,7 +57,7 @@ public class BijdrageSchema {
 		this.bijdrageFrequentieCode.set(bijdrageFrequentieCode);
 	}
 
-	public IntegerProperty bijdrageFrequentieCodeProperty() {
+	public ObjectProperty<Integer> bijdrageFrequentieCodeProperty() {
 		return bijdrageFrequentieCode;
 	}
 
@@ -71,7 +69,7 @@ public class BijdrageSchema {
 		this.bijdrageRenteFk.set(bijdrageRenteFk);
 	}
 
-	public LongProperty bijdrageRenteFkProperty() {
+	public ObjectProperty<Long> bijdrageRenteFkProperty() {
 		return bijdrageRenteFk;
 	}
 }

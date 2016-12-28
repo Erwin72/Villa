@@ -15,7 +15,19 @@ public enum UserText implements ConfigItemEnum {
     TOOLBAR_TOOLTIP_BEHEER_RUBRIEKEN("Invoeren en beheer van rubrieken en posten"),
     TOOLBAR_TOOLTIP_OVERZICHT_SALDI("Overzicht van de saldi van uw rekeningen"),
     TOOLBAR_TOOLTIP_BEHEER_RELATIES("Invoeren en beheer van relaties"),
-    TOOLBAR_TOOLTIP_CLOSE_VILLA("Verlaat villa");
+    TOOLBAR_TOOLTIP_CLOSE_VILLA("Verlaat villa"),
+
+	// Menu labels for menubar
+	MENU_LABEL_BESTAND("Bestand"),
+	MENU_LABEL_DEFINITIE("Definitie"),
+	MENU_LABEL_APPARTEMENTEN("Appartementen"),
+	MENU_LABEL_BOEKINGEN("Boekingen"),
+	MENU_LABEL_RELATIES("Relaties"),
+	MENU_LABEL_OVERZICHTEN("Overzichten"),
+	MENU_LABEL_HELP("Help"),
+
+	// Menuitem labels for menubar menus
+	MENU_DEFINITIE_ITEM_DEF_BIJDRAGESCHEMA("Definieer bijdrageschema");
 
 	private final Value defaultValue;
 

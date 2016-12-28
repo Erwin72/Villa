@@ -2,18 +2,14 @@ package nl.tinkoczy.villa.model;
 
 import java.math.BigDecimal;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class BijdrageRente {
 
-	private final LongProperty bijdrageRenteId;
+	private final ObjectProperty<Long> bijdrageRenteId;
 	private final ObjectProperty<BigDecimal> bijdrageRentePercentage;
-	private final IntegerProperty bijdrageRenteNaVervaldatum;
+	private final ObjectProperty<Integer> bijdrageRenteNaVervaldatum;
 
 	public BijdrageRente() {
 		this(null, null, null);
@@ -21,9 +17,9 @@ public class BijdrageRente {
 
 	public BijdrageRente(final Long bijdrageRenteId, final BigDecimal bijdrageRentePercentage,
 			final Integer bijdrageRenteNaVervaldatum) {
-		this.bijdrageRenteId = new SimpleLongProperty(bijdrageRenteId);
-		this.bijdrageRentePercentage = new SimpleObjectProperty<>(bijdrageRentePercentage);
-		this.bijdrageRenteNaVervaldatum = new SimpleIntegerProperty(bijdrageRenteNaVervaldatum);
+		this.bijdrageRenteId = new SimpleObjectProperty<Long>(bijdrageRenteId);
+		this.bijdrageRentePercentage = new SimpleObjectProperty<BigDecimal>(bijdrageRentePercentage);
+		this.bijdrageRenteNaVervaldatum = new SimpleObjectProperty<Integer>(bijdrageRenteNaVervaldatum);
 	}
 
 	public Long getBijdrageRenteId() {
@@ -34,7 +30,7 @@ public class BijdrageRente {
 		this.bijdrageRenteId.set(bijdrageRenteId);
 	}
 
-	public LongProperty bijdrageRenteIdProperty() {
+	public ObjectProperty<Long> bijdrageRenteIdProperty() {
 		return bijdrageRenteId;
 	}
 
@@ -58,7 +54,7 @@ public class BijdrageRente {
 		this.bijdrageRenteNaVervaldatum.set(bijdrageRenteNaVervaldatum);
 	}
 
-	public IntegerProperty bijdrageRenteNaVervaldatumProperty() {
+	public ObjectProperty<Integer> bijdrageRenteNaVervaldatumProperty() {
 		return bijdrageRenteNaVervaldatum;
 	}
 }

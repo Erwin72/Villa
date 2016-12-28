@@ -24,7 +24,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @NamedQueries({ @NamedQuery(name = "BijdrageEntity.findAll", query = "SELECT b FROM BijdrageEntity b ORDER BY b.id"),
 		@NamedQuery(name = "BijdrageEntity.findAllOrderByDatum", query = "SELECT b FROM BijdrageEntity b ORDER BY b.bijdrageDatum, b.id"),
 		@NamedQuery(name = "BijdrageEntity.findById", query = "SELECT b FROM BijdrageEntity b WHERE b.id = :id"),
-		@NamedQuery(name = "BijdrageEntity.findAllByBijdrageSchema", query = "SELECT b FROM BijdrageEntity b WHERE b.bijdrageSchema = :bijdrageSchema ORDER BY b.bijdrageDatum, b.id") })
+		@NamedQuery(name = "BijdrageEntity.findAllByBijdrageSchema", query = "SELECT b FROM BijdrageEntity b WHERE b.bijdrageSchema = :bijdrageSchema ORDER BY b.id") })
 public class BijdrageEntity implements Serializable {
 
 	@Transient
@@ -34,6 +34,9 @@ public class BijdrageEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "bijdrage_id")
 	private long id;
+	/*
+	 * TODO oder by datum geeft BLOB exception...
+	 */
 	@Column(name = "bijdrage_datum")
 	private LocalDate bijdrageDatum;
 	@Column(name = "bijdrage_bedrag")

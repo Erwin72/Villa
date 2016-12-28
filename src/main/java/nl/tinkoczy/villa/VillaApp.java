@@ -20,17 +20,25 @@ import javafx.stage.Stage;
 import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.config.UserText;
+import nl.tinkoczy.villa.model.Bijdrage;
+import nl.tinkoczy.villa.model.BijdrageFrequentie;
+import nl.tinkoczy.villa.model.BijdrageSchema;
 import nl.tinkoczy.villa.model.Post;
 import nl.tinkoczy.villa.model.Relatie;
 import nl.tinkoczy.villa.model.RelatiePersoon;
 import nl.tinkoczy.villa.model.Rubriek;
+import nl.tinkoczy.villa.service.IBijdrageFrequentieService;
 import nl.tinkoczy.villa.service.IPostService;
 import nl.tinkoczy.villa.service.IRubriekService;
+import nl.tinkoczy.villa.service.impl.BijdrageFrequentieService;
 import nl.tinkoczy.villa.service.impl.DataBroker;
 import nl.tinkoczy.villa.service.impl.PostService;
 import nl.tinkoczy.villa.service.impl.RubriekService;
+import nl.tinkoczy.villa.util.InitBijdrageFrequentieDataGenerator;
 import nl.tinkoczy.villa.util.InitRubriekAndPostDataGenerator;
 import nl.tinkoczy.villa.util.WerkDatumUtil;
+import nl.tinkoczy.villa.view.BijdrageEditDialogController;
+import nl.tinkoczy.villa.view.BijdrageSchemaEditDialogController;
 import nl.tinkoczy.villa.view.PostEditDialogController;
 import nl.tinkoczy.villa.view.RelatieEditDialogController;
 import nl.tinkoczy.villa.view.RelatiePersoonEditDialogController;
@@ -49,17 +57,21 @@ public class VillaApp extends Application {
 
 	private final ObservableList<Rubriek> rubriekData = FXCollections.observableArrayList();
 	private final ObservableList<Post> postData = FXCollections.observableArrayList();
+	private final ObservableList<BijdrageFrequentie> bijdrageFrequentieData = FXCollections.observableArrayList();
 
 	private IRubriekService rService;
 	private IPostService pService;
+	private IBijdrageFrequentieService bService;
 
 	public VillaApp() {
 		// Add default data
 		InitRubriekAndPostDataGenerator.initDefaultRubieken();
 		InitRubriekAndPostDataGenerator.initDefaultPosten();
+		InitBijdrageFrequentieDataGenerator.initDefaultBijdrageFrequenties();
 
 		rubriekData.addAll(InitRubriekAndPostDataGenerator.getRubriekList());
 		postData.addAll(InitRubriekAndPostDataGenerator.getPostList());
+		bijdrageFrequentieData.addAll(InitBijdrageFrequentieDataGenerator.getBijdrageFrequentieList());
 	}
 
 	@Override
@@ -89,6 +101,10 @@ public class VillaApp extends Application {
 			} else {
 				pService.saveOrUpdatePost(post);
 			}
+		}
+		bService = new BijdrageFrequentieService();
+		for (BijdrageFrequentie bijdrageFrequentie : getBijdrageFrequentieData()) {
+			bService.saveOrUpdateBijdrageFrequentie(bijdrageFrequentie);
 		}
 		logger.debug("Started VillaApp");
 	}
@@ -124,8 +140,7 @@ public class VillaApp extends Application {
 	}
 
 	/**
-	 * Initializes the root layout and tries to load the last opened person
-	 * file.
+	 * Initializes the root layout file.
 	 */
 	public void initRootLayout() {
 		try {
@@ -237,12 +252,94 @@ public class VillaApp extends Application {
 		}
 	}
 
+	/**
+	 * Opens a dialog to edit details for the specified bijdrageSchema. If the
+	 * user clicks OK, the changes are saved into the provided bijdrageSchema
+	 * object and true is returned.
+	 *
+	 * @param bijdrageSchema
+	 *            the bijdrageSchema object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showBijdrageSchemaEditDialog(final BijdrageSchema bijdrageSchema) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/BijdrageSchemaEditDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Wijzig BijdrageSchema");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the bijdrageSchema into the controller.
+			BijdrageSchemaEditDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setBijdrageSchema(bijdrageSchema);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
+	 * Opens a dialog to edit details for the specified bijdrage. If the user
+	 * clicks OK, the changes are saved into the provided bijdrage object and
+	 * true is returned.
+	 *
+	 * @param bijdrage
+	 *            the bijdrage object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showBijdrageEditDialog(final Bijdrage bijdrage) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/BijdrageEditDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Wijzig bijdrage");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(primaryStage);
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the post into the controller.
+			BijdrageEditDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setBijdrage(bijdrage);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 	public ObservableList<Rubriek> getRubriekData() {
 		return rubriekData;
 	}
 
 	public ObservableList<Post> getPostData() {
 		return postData;
+	}
+
+	public ObservableList<BijdrageFrequentie> getBijdrageFrequentieData() {
+		return bijdrageFrequentieData;
 	}
 
 	/**
@@ -278,6 +375,16 @@ public class VillaApp extends Application {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	/**
+	 * Shows a tabPane with 2 tabs, for bijdrageschemas and bijdragen.
+	 */
+	public void showDefinieerBijdrageSchemaTab() {
+		DefinieerBijdrageSchemaTabPaneFactory factory = new DefinieerBijdrageSchemaTabPaneFactory();
+		factory.setVillaApp(this);
+		TabPane tabPane = factory.createAndGet();
+		rootLayout.setCenter(tabPane);
 	}
 
 	/**

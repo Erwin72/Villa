@@ -4,6 +4,8 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
@@ -17,10 +19,25 @@ import nl.tinkoczy.villa.util.WerkDatumUtil;
 public class RootLayoutController {
 
 	@FXML
-	ToolBar toolbar;
+	private Menu bestandMenu;
+	@FXML
+	private Menu definitieMenu;
+	@FXML
+	private Menu appartementenMenu;
+	@FXML
+	private Menu boekingenMenu;
+	@FXML
+	private Menu relatiesMenu;
+	@FXML
+	private Menu overzichtenMenu;
+	@FXML
+	private Menu helpMenu;
 
 	@FXML
-	Label statusWerkDatumLabel;
+	private ToolBar toolbar;
+
+	@FXML
+	private Label statusWerkDatumLabel;
 
 	// Reference to the main application
 	private VillaApp villaApp;
@@ -31,6 +48,7 @@ public class RootLayoutController {
 
 	@FXML
 	public void initialize() {
+		createMenus();
 		createToolBar();
 
 		statusWerkDatumLabel.textProperty().bind(WerkDatumUtil.getVillaWerkDatumAsString());
@@ -51,6 +69,55 @@ public class RootLayoutController {
 	@FXML
 	private void handleExit() {
 		System.exit(0);
+	}
+
+	private void createMenus() {
+		createBestandMenu();
+		createDefinitieMenu();
+		createAppartementenMenu();
+		createBoekingenMenu();
+		createRelatiesMenu();
+		createOverzichtenMenu();
+		createHelpMenu();
+	}
+
+	private void createBestandMenu() {
+		bestandMenu.setText(ConfigFacade.getStringValue(UserText.MENU_LABEL_BESTAND));
+		bestandMenu.getItems().clear();
+	}
+
+	private void createDefinitieMenu() {
+		definitieMenu.setText(ConfigFacade.getStringValue(UserText.MENU_LABEL_DEFINITIE));
+		definitieMenu.getItems().clear();
+		MenuItem definieerBijdrageSchemaMenuItem = new MenuItem(
+				ConfigFacade.getStringValue(UserText.MENU_DEFINITIE_ITEM_DEF_BIJDRAGESCHEMA));
+		definieerBijdrageSchemaMenuItem.setOnAction(event -> villaApp.showDefinieerBijdrageSchemaTab());
+		definitieMenu.getItems().add(definieerBijdrageSchemaMenuItem);
+	}
+
+	private void createAppartementenMenu() {
+		appartementenMenu.setText(ConfigFacade.getStringValue(UserText.MENU_LABEL_APPARTEMENTEN));
+		appartementenMenu.getItems().clear();
+	}
+
+	private void createBoekingenMenu() {
+		boekingenMenu.setText(ConfigFacade.getStringValue(UserText.MENU_LABEL_BOEKINGEN));
+		boekingenMenu.getItems().clear();
+	}
+
+	private void createRelatiesMenu() {
+		relatiesMenu.setText(ConfigFacade.getStringValue(UserText.MENU_LABEL_RELATIES));
+		relatiesMenu.getItems().clear();
+	}
+
+	private void createOverzichtenMenu() {
+		overzichtenMenu.setText(ConfigFacade.getStringValue(UserText.MENU_LABEL_OVERZICHTEN));
+		overzichtenMenu.getItems().clear();
+	}
+
+	private void createHelpMenu() {
+		helpMenu.setText(ConfigFacade.getStringValue(UserText.MENU_LABEL_HELP));
+		helpMenu.getItems().clear();
 	}
 
 	/**

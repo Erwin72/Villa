@@ -6,7 +6,7 @@ import nl.tinkoczy.villa.model.BijdrageSchema;
 
 public interface IBijdrageSchemaService {
 
-	void saveOrUpdateBijdrageSchemaWithFrequentie(BijdrageSchema bijdrageSchema, int bijdrageFrequentieCode);
+	void saveOrUpdateBijdrageSchema(BijdrageSchema bijdrageSchema);
 
 	void saveOrUpdateBijdrageSchemaWithFrequentieAndRente(BijdrageSchema bijdrageSchema, int bijdrageFrequentieCode,
 			long bijdrageRenteFk);
@@ -17,4 +17,5 @@ public interface IBijdrageSchemaService {
 
 	BijdrageSchema getBijdrageSchemaById(long id);
 
+	BijdrageSchema getBijdrageSchemaByBijdrageSchemaNaam(String bijdrageSchemaNaam);
 }

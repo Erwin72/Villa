@@ -1,17 +1,16 @@
 package nl.tinkoczy.villa.model;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import nl.tinkoczy.villa.util.InitBijdrageFrequentieData;
 
 public class BijdrageFrequentie {
 
-	private final LongProperty bijdrageFrequentieId;
-	private final IntegerProperty bijdrageFrequentieCode;
-	private final IntegerProperty bijdrageFrequentieAantalBetaalmomenten;
+	private final ObjectProperty<Long> bijdrageFrequentieId;
+	private final ObjectProperty<Integer> bijdrageFrequentieCode;
+	private final ObjectProperty<Integer> bijdrageFrequentieAantalBetaalmomenten;
 	private final StringProperty bijdrageFrequentieOmschrijving;
 
 	public BijdrageFrequentie() {
@@ -19,12 +18,24 @@ public class BijdrageFrequentie {
 	}
 
 	public BijdrageFrequentie(final Long bijdrageFrequentieId, final Integer bijdrageFrequentieCode) {
-		this.bijdrageFrequentieId = new SimpleLongProperty(bijdrageFrequentieId);
-		this.bijdrageFrequentieCode = new SimpleIntegerProperty(bijdrageFrequentieCode);
+		this.bijdrageFrequentieId = new SimpleObjectProperty<Long>(bijdrageFrequentieId);
+		this.bijdrageFrequentieCode = new SimpleObjectProperty<Integer>(bijdrageFrequentieCode);
 
 		// Some initial dummy data, just for convenient testing.
-		this.bijdrageFrequentieAantalBetaalmomenten = new SimpleIntegerProperty();
+		this.bijdrageFrequentieAantalBetaalmomenten = new SimpleObjectProperty<Integer>();
 		this.bijdrageFrequentieOmschrijving = new SimpleStringProperty("");
+	}
+
+	public BijdrageFrequentie(final InitBijdrageFrequentieData bijdrageFrequentieData) {
+		this.bijdrageFrequentieId = new SimpleObjectProperty<Long>(null);
+		this.bijdrageFrequentieCode = new SimpleObjectProperty<Integer>(
+				bijdrageFrequentieData.getBijdrageFrequentieCode());
+
+		// Some initial dummy data, just for convenient testing.
+		this.bijdrageFrequentieAantalBetaalmomenten = new SimpleObjectProperty<Integer>(
+				bijdrageFrequentieData.getBijdrageFrequentieAantalBetaalmomenten());
+		this.bijdrageFrequentieOmschrijving = new SimpleStringProperty(
+				bijdrageFrequentieData.getBijdrageFrequentieOmschrijving());
 	}
 
 	public Long getBijdrageFrequentieId() {
@@ -35,7 +46,7 @@ public class BijdrageFrequentie {
 		this.bijdrageFrequentieId.set(bijdrageFrequentieId);
 	}
 
-	public LongProperty bijdrageFrequentieIdProperty() {
+	public ObjectProperty<Long> bijdrageFrequentieIdProperty() {
 		return bijdrageFrequentieId;
 	}
 
@@ -47,7 +58,7 @@ public class BijdrageFrequentie {
 		this.bijdrageFrequentieCode.set(bijdrageFrequentieCode);
 	}
 
-	public IntegerProperty bijdrageFrequentieCodeProperty() {
+	public ObjectProperty<Integer> bijdrageFrequentieCodeProperty() {
 		return bijdrageFrequentieCode;
 	}
 
@@ -59,7 +70,7 @@ public class BijdrageFrequentie {
 		this.bijdrageFrequentieAantalBetaalmomenten.set(bijdrageFrequentieAantalBetaalmomenten);
 	}
 
-	public IntegerProperty bijdrageFrequentieAantalBetaalmomentenProperty() {
+	public ObjectProperty<Integer> bijdrageFrequentieAantalBetaalmomentenProperty() {
 		return bijdrageFrequentieAantalBetaalmomenten;
 	}
 
