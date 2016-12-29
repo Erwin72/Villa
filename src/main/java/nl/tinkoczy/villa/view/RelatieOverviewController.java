@@ -1,16 +1,23 @@
 package nl.tinkoczy.villa.view;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Relatie;
 import nl.tinkoczy.villa.service.IRelatieService;
@@ -157,7 +164,7 @@ public class RelatieOverviewController {
 	@FXML
 	private void handleNewRelatie() {
 		Relatie tempRelatie = new Relatie();
-		boolean okClicked = villaApp.showRelatieEditDialog(tempRelatie);
+		boolean okClicked = showRelatieEditDialog(tempRelatie);
 		if (okClicked) {
 			service.saveOrUpdateRelatie(tempRelatie);
 			showRelatieDetail(tempRelatie);
@@ -173,7 +180,7 @@ public class RelatieOverviewController {
 	private void handleEditRelatie() {
 		Relatie selectedRelatie = relatieTable.getSelectionModel().getSelectedItem();
 		if (selectedRelatie != null) {
-			boolean okClicked = villaApp.showRelatieEditDialog(selectedRelatie);
+			boolean okClicked = showRelatieEditDialog(selectedRelatie);
 			if (okClicked) {
 				service.saveOrUpdateRelatie(selectedRelatie);
 				showRelatieDetail(selectedRelatie);
@@ -200,5 +207,44 @@ public class RelatieOverviewController {
 
 	public TableView<Relatie> getRelatieTable() {
 		return this.relatieTable;
+	}
+
+	/**
+	 * Opens a dialog to edit details for the specified relatie. If the user
+	 * clicks OK, the changes are saved into the provided relatie object and
+	 * true is returned.
+	 *
+	 * @param relatie
+	 *            the relatie object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showRelatieEditDialog(final Relatie relatie) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/RelatieEditDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Wijzig Relatie");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(villaApp.getPrimaryStage());
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the relatie into the controller.
+			RelatieEditDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setRelatie(relatie);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

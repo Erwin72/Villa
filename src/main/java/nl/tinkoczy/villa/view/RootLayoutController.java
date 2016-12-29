@@ -1,16 +1,24 @@
 package nl.tinkoczy.villa.view;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Separator;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.config.UserText;
@@ -91,8 +99,12 @@ public class RootLayoutController {
 		definitieMenu.getItems().clear();
 		MenuItem definieerBijdrageSchemaMenuItem = new MenuItem(
 				ConfigFacade.getStringValue(UserText.MENU_DEFINITIE_ITEM_DEF_BIJDRAGESCHEMA));
-		definieerBijdrageSchemaMenuItem.setOnAction(event -> villaApp.showDefinieerBijdrageSchemaTab());
-		definitieMenu.getItems().add(definieerBijdrageSchemaMenuItem);
+		definieerBijdrageSchemaMenuItem.setOnAction(event -> showDefinieerBijdrageSchemaTab());
+		MenuItem automatischeToevoegingAppartementenMenuItem = new MenuItem(
+				ConfigFacade.getStringValue(UserText.MENU_DEFINITIE_ITEM_DEF_AUTOMATISCH_APPARTEMENTEN));
+		automatischeToevoegingAppartementenMenuItem.setOnAction(event -> showDefinieerBijdrageSchemaTab());
+
+		definitieMenu.getItems().addAll(definieerBijdrageSchemaMenuItem, automatischeToevoegingAppartementenMenuItem);
 	}
 
 	private void createAppartementenMenu() {
@@ -164,7 +176,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("selecteer_werkdatum");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_INSTELLEN_WERKDATUM)));
-		button.setOnAction(event -> villaApp.showSelecteerWerkDatumDialog());
+		button.setOnAction(event -> showSelecteerWerkDatumDialog());
 		return button;
 	}
 
@@ -173,7 +185,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("gegevens_appartementen");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_APPARTEMENTEN)));
-		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		button.setOnAction(event -> showGegevensAppartementenDialog());
 		return button;
 	}
 
@@ -182,7 +194,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("selecteer_appartementen");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_SELECTEER_APPARTEMENTEN)));
-		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		button.setOnAction(event -> showGegevensAppartementenDialog());
 		return button;
 	}
 
@@ -191,7 +203,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("invoer_beheer_boekstukken_boekingen");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_BOEKSTUKKEN)));
-		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		button.setOnAction(event -> showGegevensAppartementenDialog());
 		return button;
 	}
 
@@ -200,7 +212,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("invoer_beheer_fakturen");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_FAKTUREN)));
-		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		button.setOnAction(event -> showGegevensAppartementenDialog());
 		return button;
 	}
 
@@ -209,7 +221,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("selecteer_fakturen");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_SELECTEER_FAKTUREN)));
-		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		button.setOnAction(event -> showGegevensAppartementenDialog());
 		return button;
 	}
 
@@ -218,7 +230,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("invoer_beheer_rubrieken_posten");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_RUBRIEKEN)));
-		button.setOnAction(event -> villaApp.showRubriekAndPostTab());
+		button.setOnAction(event -> showRubriekAndPostTab());
 		return button;
 	}
 
@@ -227,7 +239,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("gegevens_saldi_rekeningen");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_OVERZICHT_SALDI)));
-		button.setOnAction(event -> villaApp.showGegevensAppartementenDialog());
+		button.setOnAction(event -> showGegevensAppartementenDialog());
 		return button;
 	}
 
@@ -236,7 +248,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("invoer_beheer_relaties");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_RELATIES)));
-		button.setOnAction(event -> villaApp.showRelatieAndPersoonTab());
+		button.setOnAction(event -> showRelatieAndPersoonTab());
 		return button;
 	}
 
@@ -247,5 +259,80 @@ public class RootLayoutController {
 		closeVillaButton.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_CLOSE_VILLA)));
 		closeVillaButton.setOnAction(event -> villaApp.closeVilla());
 		return closeVillaButton;
+	}
+
+	/**
+	 * Shows a tabPane with 2 tabs, for relaties and relatiepersonen.
+	 */
+	private void showRelatieAndPersoonTab() {
+		TabPaneFactory factory = new TabPaneFactory();
+		factory.setVillaApp(villaApp);
+		TabPane tabPane = factory.createAndGetRelatieTabPane();
+		villaApp.getRootLayout().setCenter(tabPane);
+	}
+
+	/**
+	 * Shows a tabPane with 2 tabs, for rubrieken and posten.
+	 */
+	private void showRubriekAndPostTab() {
+		TabPaneFactory factory = new TabPaneFactory();
+		factory.setVillaApp(villaApp);
+		TabPane tabPane = factory.createAndGetRubriekTabPane();
+		villaApp.getRootLayout().setCenter(tabPane);
+	}
+
+	/**
+	 * Shows a tabPane with 2 tabs, for bijdrageschemas and bijdragen.
+	 */
+	private void showDefinieerBijdrageSchemaTab() {
+		TabPaneFactory factory = new TabPaneFactory();
+		factory.setVillaApp(villaApp);
+		TabPane tabPane = factory.createAndGetBijdrageSchemaTabPane();
+		villaApp.getRootLayout().setCenter(tabPane);
+	}
+
+	/**
+	 * Opens a dialog to show data about the appartementen.
+	 *
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showGegevensAppartementenDialog() {
+		// TODO implement method
+		return false;
+	}
+
+	/**
+	 * Opens a dialog to edit the current werkdatum.
+	 *
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showSelecteerWerkDatumDialog() {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/SelecteerWerkDatumDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Werkdatum");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(villaApp.getPrimaryStage());
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the post into the controller.
+			SelecteerWerkDatumDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setWerkDatum(WerkDatumUtil.getVillaWerkDatum());
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

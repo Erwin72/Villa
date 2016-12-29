@@ -1,16 +1,23 @@
 package nl.tinkoczy.villa.view;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Relatie;
 import nl.tinkoczy.villa.model.RelatiePersoon;
@@ -156,7 +163,7 @@ public class RelatiePersoonOverviewController {
 	@FXML
 	private void handleNewRelatiePersoon() {
 		RelatiePersoon tempRelatiePersoon = new RelatiePersoon();
-		boolean okClicked = villaApp.showRelatiePersoonEditDialog(tempRelatiePersoon);
+		boolean okClicked = showRelatiePersoonEditDialog(tempRelatiePersoon);
 		if (okClicked) {
 			service.saveOrUpdateRelatiePersoonWithRelatie(tempRelatiePersoon, selectedRelatie.getRelatieId());
 			showRelatiePersoonDetail(tempRelatiePersoon);
@@ -174,7 +181,7 @@ public class RelatiePersoonOverviewController {
 		if (selectedRelatiePersoon != null) {
 			selectedRelatiePersoon.setRelatieCode(selectedRelatie.getRelatieCode());
 
-			boolean okClicked = villaApp.showRelatiePersoonEditDialog(selectedRelatiePersoon);
+			boolean okClicked = showRelatiePersoonEditDialog(selectedRelatiePersoon);
 			if (okClicked) {
 				service.saveOrUpdateRelatiePersoonWithRelatie(selectedRelatiePersoon, selectedRelatie.getRelatieId());
 				showRelatiePersoonDetail(selectedRelatiePersoon);
@@ -204,5 +211,44 @@ public class RelatiePersoonOverviewController {
 
 	public TableView<RelatiePersoon> getRelatiePersoonTable() {
 		return this.relatiePersoonTable;
+	}
+
+	/**
+	 * Opens a dialog to edit details for the specified relatiepersoon. If the
+	 * user clicks OK, the changes are saved into the provided relatiepersoon
+	 * object and true is returned.
+	 *
+	 * @param relatiePersoon
+	 *            the relatiePersoon object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showRelatiePersoonEditDialog(final RelatiePersoon relatiePersoon) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/RelatiePersoonEditDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Wijzig Relatiepersoon");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(villaApp.getPrimaryStage());
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the relatiePersoon into the controller.
+			RelatiePersoonEditDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setRelatiePersoon(relatiePersoon);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

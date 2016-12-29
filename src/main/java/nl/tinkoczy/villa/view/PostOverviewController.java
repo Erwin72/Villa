@@ -1,16 +1,23 @@
 package nl.tinkoczy.villa.view;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Post;
 import nl.tinkoczy.villa.model.Rubriek;
@@ -141,7 +148,7 @@ public class PostOverviewController {
 	private void handleNewPost() {
 		Post tempPost = new Post();
 		tempPost.setRubriekNummer(selectedRubriek.getRubriekNummer());
-		boolean okClicked = villaApp.showPostEditDialog(tempPost);
+		boolean okClicked = showPostEditDialog(tempPost);
 		if (okClicked) {
 			service.saveOrUpdatePostWithRubriek(tempPost, selectedRubriek.getRubriekId());
 			showPostDetail(tempPost);
@@ -159,7 +166,7 @@ public class PostOverviewController {
 
 		if (selectedPost != null && selectedRubriek != null) {
 			selectedPost.setRubriekNummer(selectedRubriek.getRubriekNummer());
-			boolean okClicked = villaApp.showPostEditDialog(selectedPost);
+			boolean okClicked = showPostEditDialog(selectedPost);
 			if (okClicked) {
 				service.saveOrUpdatePostWithRubriek(selectedPost, selectedRubriek.getRubriekId());
 				showPostDetail(selectedPost);
@@ -188,5 +195,44 @@ public class PostOverviewController {
 
 	public TableView<Post> getPostTable() {
 		return this.postTable;
+	}
+
+	/**
+	 * Opens a dialog to edit details for the specified post. If the user clicks
+	 * OK, the changes are saved into the provided post object and true is
+	 * returned.
+	 *
+	 * @param post
+	 *            the post object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showPostEditDialog(final Post post) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/PostEditDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Wijzig Post");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(villaApp.getPrimaryStage());
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the post into the controller.
+			PostEditDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setPost(post);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

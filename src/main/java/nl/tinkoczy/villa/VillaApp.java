@@ -1,77 +1,32 @@
 package nl.tinkoczy.villa;
 
 import java.io.IOException;
-import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TabPane;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.config.UserText;
-import nl.tinkoczy.villa.model.Bijdrage;
-import nl.tinkoczy.villa.model.BijdrageFrequentie;
-import nl.tinkoczy.villa.model.BijdrageSchema;
-import nl.tinkoczy.villa.model.Post;
-import nl.tinkoczy.villa.model.Relatie;
-import nl.tinkoczy.villa.model.RelatiePersoon;
-import nl.tinkoczy.villa.model.Rubriek;
-import nl.tinkoczy.villa.service.IBijdrageFrequentieService;
-import nl.tinkoczy.villa.service.IPostService;
-import nl.tinkoczy.villa.service.IRubriekService;
-import nl.tinkoczy.villa.service.impl.BijdrageFrequentieService;
 import nl.tinkoczy.villa.service.impl.DataBroker;
-import nl.tinkoczy.villa.service.impl.PostService;
-import nl.tinkoczy.villa.service.impl.RubriekService;
-import nl.tinkoczy.villa.util.InitBijdrageFrequentieDataGenerator;
-import nl.tinkoczy.villa.util.InitRubriekAndPostDataGenerator;
-import nl.tinkoczy.villa.util.WerkDatumUtil;
-import nl.tinkoczy.villa.view.BijdrageEditDialogController;
-import nl.tinkoczy.villa.view.BijdrageSchemaEditDialogController;
-import nl.tinkoczy.villa.view.PostEditDialogController;
-import nl.tinkoczy.villa.view.RelatieEditDialogController;
-import nl.tinkoczy.villa.view.RelatiePersoonEditDialogController;
+import nl.tinkoczy.villa.util.InitVillaData;
 import nl.tinkoczy.villa.view.RootLayoutController;
-import nl.tinkoczy.villa.view.RubriekEditDialogController;
-import nl.tinkoczy.villa.view.SelecteerWerkDatumDialogController;
 
 public class VillaApp extends Application {
 
 	final static Logger logger = LoggerFactory.getLogger(VillaApp.class);
 
-	private URL applicationProperties;
-
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 
-	private final ObservableList<Rubriek> rubriekData = FXCollections.observableArrayList();
-	private final ObservableList<Post> postData = FXCollections.observableArrayList();
-	private final ObservableList<BijdrageFrequentie> bijdrageFrequentieData = FXCollections.observableArrayList();
-
-	private IRubriekService rService;
-	private IPostService pService;
-	private IBijdrageFrequentieService bService;
-
 	public VillaApp() {
-		// Add default data
-		InitRubriekAndPostDataGenerator.initDefaultRubieken();
-		InitRubriekAndPostDataGenerator.initDefaultPosten();
-		InitBijdrageFrequentieDataGenerator.initDefaultBijdrageFrequenties();
 
-		rubriekData.addAll(InitRubriekAndPostDataGenerator.getRubriekList());
-		postData.addAll(InitRubriekAndPostDataGenerator.getPostList());
-		bijdrageFrequentieData.addAll(InitBijdrageFrequentieDataGenerator.getBijdrageFrequentieList());
 	}
 
 	@Override
@@ -89,23 +44,10 @@ public class VillaApp extends Application {
 
 		initRootLayout();
 
-		rService = new RubriekService();
-		for (Rubriek rubriek : getRubriekData()) {
-			rService.saveOrUpdateRubriek(rubriek);
-		}
-		pService = new PostService();
-		for (Post post : getPostData()) {
-			if (post.getRubriekNummer() != null) {
-				Rubriek rubriek = rService.getRubriekByRubriekNummer(post.getRubriekNummer());
-				pService.saveOrUpdatePostWithRubriek(post, rubriek.getRubriekId());
-			} else {
-				pService.saveOrUpdatePost(post);
-			}
-		}
-		bService = new BijdrageFrequentieService();
-		for (BijdrageFrequentie bijdrageFrequentie : getBijdrageFrequentieData()) {
-			bService.saveOrUpdateBijdrageFrequentie(bijdrageFrequentie);
-		}
+		// load default data
+		InitVillaData.parseData();
+		InitVillaData.persistData();
+
 		logger.debug("Started VillaApp");
 	}
 
@@ -164,323 +106,7 @@ public class VillaApp extends Application {
 		}
 	}
 
-	/**
-	 * Shows a tabPane with 2 tabs, for rubrieken and posten.
-	 */
-	public void showRubriekAndPostTab() {
-		RubriekAndPostTabPaneFactory factory = new RubriekAndPostTabPaneFactory();
-		factory.setVillaApp(this);
-		TabPane tabPane = factory.createAndGet();
-		rootLayout.setCenter(tabPane);
-	}
-
-	/**
-	 * Opens a dialog to edit details for the specified rubriek. If the user
-	 * clicks OK, the changes are saved into the provided rubriek object and
-	 * true is returned.
-	 *
-	 * @param rubriek
-	 *            the rubriek object to be edited
-	 * @return true if the user clicked OK, false otherwise.
-	 */
-	public boolean showRubriekEditDialog(final Rubriek rubriek) {
-		try {
-			// Load the fxml file and create a new stage for the popup dialog.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/RubriekEditDialog.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-
-			// Create the dialog Stage.
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Wijzig Rubriek");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-			Scene scene = new Scene(page);
-			dialogStage.setScene(scene);
-
-			// Set the rubriek into the controller.
-			RubriekEditDialogController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setRubriek(rubriek);
-
-			// Show the dialog and wait until the user closes it
-			dialogStage.showAndWait();
-
-			return controller.isOkClicked();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	/**
-	 * Opens a dialog to edit details for the specified post. If the user clicks
-	 * OK, the changes are saved into the provided post object and true is
-	 * returned.
-	 *
-	 * @param post
-	 *            the post object to be edited
-	 * @return true if the user clicked OK, false otherwise.
-	 */
-	public boolean showPostEditDialog(final Post post) {
-		try {
-			// Load the fxml file and create a new stage for the popup dialog.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/PostEditDialog.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-
-			// Create the dialog Stage.
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Wijzig Post");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-			Scene scene = new Scene(page);
-			dialogStage.setScene(scene);
-
-			// Set the post into the controller.
-			PostEditDialogController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setPost(post);
-
-			// Show the dialog and wait until the user closes it
-			dialogStage.showAndWait();
-
-			return controller.isOkClicked();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	/**
-	 * Opens a dialog to edit details for the specified bijdrageSchema. If the
-	 * user clicks OK, the changes are saved into the provided bijdrageSchema
-	 * object and true is returned.
-	 *
-	 * @param bijdrageSchema
-	 *            the bijdrageSchema object to be edited
-	 * @return true if the user clicked OK, false otherwise.
-	 */
-	public boolean showBijdrageSchemaEditDialog(final BijdrageSchema bijdrageSchema) {
-		try {
-			// Load the fxml file and create a new stage for the popup dialog.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/BijdrageSchemaEditDialog.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-
-			// Create the dialog Stage.
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Wijzig BijdrageSchema");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-			Scene scene = new Scene(page);
-			dialogStage.setScene(scene);
-
-			// Set the bijdrageSchema into the controller.
-			BijdrageSchemaEditDialogController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setBijdrageSchema(bijdrageSchema);
-
-			// Show the dialog and wait until the user closes it
-			dialogStage.showAndWait();
-
-			return controller.isOkClicked();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	/**
-	 * Opens a dialog to edit details for the specified bijdrage. If the user
-	 * clicks OK, the changes are saved into the provided bijdrage object and
-	 * true is returned.
-	 *
-	 * @param bijdrage
-	 *            the bijdrage object to be edited
-	 * @return true if the user clicked OK, false otherwise.
-	 */
-	public boolean showBijdrageEditDialog(final Bijdrage bijdrage) {
-		try {
-			// Load the fxml file and create a new stage for the popup dialog.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/BijdrageEditDialog.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-
-			// Create the dialog Stage.
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Wijzig bijdrage");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-			Scene scene = new Scene(page);
-			dialogStage.setScene(scene);
-
-			// Set the post into the controller.
-			BijdrageEditDialogController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setBijdrage(bijdrage);
-
-			// Show the dialog and wait until the user closes it
-			dialogStage.showAndWait();
-
-			return controller.isOkClicked();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	public ObservableList<Rubriek> getRubriekData() {
-		return rubriekData;
-	}
-
-	public ObservableList<Post> getPostData() {
-		return postData;
-	}
-
-	public ObservableList<BijdrageFrequentie> getBijdrageFrequentieData() {
-		return bijdrageFrequentieData;
-	}
-
-	/**
-	 * Opens a dialog to edit the current werkdatum.
-	 *
-	 * @return true if the user clicked OK, false otherwise.
-	 */
-	public boolean showSelecteerWerkDatumDialog() {
-		try {
-			// Load the fxml file and create a new stage for the popup dialog.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/SelecteerWerkDatumDialog.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-
-			// Create the dialog Stage.
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Werkdatum");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-			Scene scene = new Scene(page);
-			dialogStage.setScene(scene);
-
-			// Set the post into the controller.
-			SelecteerWerkDatumDialogController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setWerkDatum(WerkDatumUtil.getVillaWerkDatum());
-
-			// Show the dialog and wait until the user closes it
-			dialogStage.showAndWait();
-
-			return controller.isOkClicked();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	/**
-	 * Shows a tabPane with 2 tabs, for bijdrageschemas and bijdragen.
-	 */
-	public void showDefinieerBijdrageSchemaTab() {
-		DefinieerBijdrageSchemaTabPaneFactory factory = new DefinieerBijdrageSchemaTabPaneFactory();
-		factory.setVillaApp(this);
-		TabPane tabPane = factory.createAndGet();
-		rootLayout.setCenter(tabPane);
-	}
-
-	/**
-	 * Opens a dialog to show data about the appartementen.
-	 *
-	 * @return true if the user clicked OK, false otherwise.
-	 */
-	public boolean showGegevensAppartementenDialog() {
-		return false;
-	}
-
-	/**
-	 * Shows a tabPane with 2 tabs, for relaties and relatiepersonen.
-	 */
-	public void showRelatieAndPersoonTab() {
-		RelatieAndPersoonTabPaneFactory factory = new RelatieAndPersoonTabPaneFactory();
-		factory.setVillaApp(this);
-		TabPane tabPane = factory.createAndGet();
-		rootLayout.setCenter(tabPane);
-	}
-
-	/**
-	 * Opens a dialog to edit details for the specified relatie. If the user
-	 * clicks OK, the changes are saved into the provided relatie object and
-	 * true is returned.
-	 *
-	 * @param relatie
-	 *            the relatie object to be edited
-	 * @return true if the user clicked OK, false otherwise.
-	 */
-	public boolean showRelatieEditDialog(final Relatie relatie) {
-		try {
-			// Load the fxml file and create a new stage for the popup dialog.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/RelatieEditDialog.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-
-			// Create the dialog Stage.
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Wijzig Relatie");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-			Scene scene = new Scene(page);
-			dialogStage.setScene(scene);
-
-			// Set the relatie into the controller.
-			RelatieEditDialogController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setRelatie(relatie);
-
-			// Show the dialog and wait until the user closes it
-			dialogStage.showAndWait();
-
-			return controller.isOkClicked();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	/**
-	 * Opens a dialog to edit details for the specified relatiepersoon. If the
-	 * user clicks OK, the changes are saved into the provided relatiepersoon
-	 * object and true is returned.
-	 *
-	 * @param relatiePersoon
-	 *            the relatiePersoon object to be edited
-	 * @return true if the user clicked OK, false otherwise.
-	 */
-	public boolean showRelatiePersoonEditDialog(final RelatiePersoon relatiePersoon) {
-		try {
-			// Load the fxml file and create a new stage for the popup dialog.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/RelatiePersoonEditDialog.fxml"));
-			AnchorPane page = (AnchorPane) loader.load();
-
-			// Create the dialog Stage.
-			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Wijzig Relatiepersoon");
-			dialogStage.initModality(Modality.WINDOW_MODAL);
-			dialogStage.initOwner(primaryStage);
-			Scene scene = new Scene(page);
-			dialogStage.setScene(scene);
-
-			// Set the relatiePersoon into the controller.
-			RelatiePersoonEditDialogController controller = loader.getController();
-			controller.setDialogStage(dialogStage);
-			controller.setRelatiePersoon(relatiePersoon);
-
-			// Show the dialog and wait until the user closes it
-			dialogStage.showAndWait();
-
-			return controller.isOkClicked();
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+	public BorderPane getRootLayout() {
+		return rootLayout;
 	}
 }

@@ -5,6 +5,14 @@ public enum UserText implements ConfigItemEnum {
     // Window title.
     APPLICATIETITEL("Villa"),
 
+    // Tab texts
+    TAB_RELATIE("Relaties"),
+    TAB_RELATIE_PERSOON("Personen"),
+    TAB_RUBRIEK("Rubriek"),
+    TAB_POST("Posten"),
+    TAB_BIJDRAGESCHEMA("Schema"),
+    TAB_BIJDRAGE("Bijdragen"),
+
     // Tooltips for toolbar buttons
     TOOLBAR_TOOLTIP_INSTELLEN_WERKDATUM("Instellen werkdatum"),
     TOOLBAR_TOOLTIP_BEHEER_APPARTEMENTEN("Gegevens appartementen"),
@@ -27,7 +35,8 @@ public enum UserText implements ConfigItemEnum {
 	MENU_LABEL_HELP("Help"),
 
 	// Menuitem labels for menubar menus
-	MENU_DEFINITIE_ITEM_DEF_BIJDRAGESCHEMA("Definieer bijdrageschema");
+	MENU_DEFINITIE_ITEM_DEF_BIJDRAGESCHEMA("Definieer bijdrageschema"),
+	MENU_DEFINITIE_ITEM_DEF_AUTOMATISCH_APPARTEMENTEN("Automatische toevoeging appartementen");
 
 	private final Value defaultValue;
 

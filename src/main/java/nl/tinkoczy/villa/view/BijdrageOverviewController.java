@@ -184,7 +184,7 @@ public class BijdrageOverviewController {
 	private void handleNewBijdrage() {
 		Bijdrage tempBijdrage = new Bijdrage();
 		tempBijdrage.setBijdrageSchemaNaam(selectedBijdrageSchema.getBijdrageSchemaNaam());
-		boolean okClicked = villaApp.showBijdrageEditDialog(tempBijdrage);
+		boolean okClicked = showBijdrageEditDialog(tempBijdrage);
 		if (okClicked) {
 			service.saveOrUpdateBijdrageWithBijdrageSchema(tempBijdrage,
 					selectedBijdrageSchema.getBijdrageSchemaNaam());
@@ -203,7 +203,7 @@ public class BijdrageOverviewController {
 
 		if (selectedBijdrage != null && selectedBijdrageSchema != null) {
 			selectedBijdrage.setBijdrageSchemaNaam(selectedBijdrageSchema.getBijdrageSchemaNaam());
-			boolean okClicked = villaApp.showBijdrageEditDialog(selectedBijdrage);
+			boolean okClicked = showBijdrageEditDialog(selectedBijdrage);
 			if (okClicked) {
 				service.saveOrUpdateBijdrageWithBijdrageSchema(selectedBijdrage,
 						selectedBijdrageSchema.getBijdrageSchemaNaam());
@@ -233,5 +233,44 @@ public class BijdrageOverviewController {
 
 	public TableView<Bijdrage> getBijdrageTable() {
 		return this.bijdrageTable;
+	}
+
+	/**
+	 * Opens a dialog to edit details for the specified bijdrage. If the user
+	 * clicks OK, the changes are saved into the provided bijdrage object and
+	 * true is returned.
+	 *
+	 * @param bijdrage
+	 *            the bijdrage object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showBijdrageEditDialog(final Bijdrage bijdrage) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/BijdrageEditDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Wijzig bijdrage");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(villaApp.getPrimaryStage());
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the post into the controller.
+			BijdrageEditDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setBijdrage(bijdrage);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

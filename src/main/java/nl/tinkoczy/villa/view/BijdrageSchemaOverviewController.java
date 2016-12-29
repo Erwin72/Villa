@@ -1,16 +1,23 @@
 package nl.tinkoczy.villa.view;
 
+import java.io.IOException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.BijdrageRente;
 import nl.tinkoczy.villa.model.BijdrageSchema;
@@ -128,7 +135,7 @@ public class BijdrageSchemaOverviewController {
 	@FXML
 	private void handleNewBijdrageSchema() {
 		BijdrageSchema tempBijdrageSchema = new BijdrageSchema();
-		boolean okClicked = villaApp.showBijdrageSchemaEditDialog(tempBijdrageSchema);
+		boolean okClicked = showBijdrageSchemaEditDialog(tempBijdrageSchema);
 		if (okClicked) {
 			service.saveOrUpdateBijdrageSchema(tempBijdrageSchema);
 			showBijdrageSchemaDetail(tempBijdrageSchema);
@@ -144,7 +151,7 @@ public class BijdrageSchemaOverviewController {
 	private void handleEditBijdrageSchema() {
 		BijdrageSchema selectedBijdrageSchema = bijdrageSchemaTable.getSelectionModel().getSelectedItem();
 		if (selectedBijdrageSchema != null) {
-			boolean okClicked = villaApp.showBijdrageSchemaEditDialog(selectedBijdrageSchema);
+			boolean okClicked = showBijdrageSchemaEditDialog(selectedBijdrageSchema);
 			if (okClicked) {
 				service.saveOrUpdateBijdrageSchema(selectedBijdrageSchema);
 				showBijdrageSchemaDetail(selectedBijdrageSchema);
@@ -171,5 +178,44 @@ public class BijdrageSchemaOverviewController {
 
 	public TableView<BijdrageSchema> getBijdrageSchemaTable() {
 		return this.bijdrageSchemaTable;
+	}
+
+	/**
+	 * Opens a dialog to edit details for the specified bijdrageSchema. If the
+	 * user clicks OK, the changes are saved into the provided bijdrageSchema
+	 * object and true is returned.
+	 *
+	 * @param bijdrageSchema
+	 *            the bijdrageSchema object to be edited
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showBijdrageSchemaEditDialog(final BijdrageSchema bijdrageSchema) {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/BijdrageSchemaEditDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Wijzig BijdrageSchema");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(villaApp.getPrimaryStage());
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the bijdrageSchema into the controller.
+			BijdrageSchemaEditDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setBijdrageSchema(bijdrageSchema);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
