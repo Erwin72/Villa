@@ -20,7 +20,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 @Entity
 @Table(name = "bijdragefrequenties")
 @NamedQueries({
-		@NamedQuery(name = "BijdrageFrequentieEntity.findAll", query = "SELECT b FROM BijdrageFrequentieEntity b ORDER BY b.bijdrageFrequentieAantalBetaalmomenten"),
+		@NamedQuery(name = "BijdrageFrequentieEntity.findAll", query = "SELECT b FROM BijdrageFrequentieEntity b ORDER BY b.bijdrageFrequentieAantalBetaalmomenten desc"),
 		@NamedQuery(name = "BijdrageFrequentieEntity.findById", query = "SELECT b FROM BijdrageFrequentieEntity b WHERE b.id = :id"),
 		@NamedQuery(name = "BijdrageFrequentieEntity.findByFrequentieCode", query = "SELECT b FROM BijdrageFrequentieEntity b WHERE b.bijdrageFrequentieCode = :bijdrageFrequentieCode") })
 public class BijdrageFrequentieEntity implements Serializable {

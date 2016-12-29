@@ -1,5 +1,6 @@
 package nl.tinkoczy.villa.view;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.slf4j.Logger;
@@ -8,11 +9,16 @@ import org.slf4j.LoggerFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.model.Bijdrage;
 import nl.tinkoczy.villa.model.BijdrageSchema;
@@ -99,6 +105,53 @@ public class BijdrageOverviewController {
 		// Add observable list data to the table
 		oListBijdrage = FXCollections.observableArrayList(service.getAllBijdragen());
 		bijdrageTable.setItems(oListBijdrage);
+	}
+
+	/**
+	 * Called when the user clicks on the autovul button.
+	 */
+	@FXML
+	private void handleAutoVulBijdrage() {
+		if (showBijdrageSchemaAutoInvullingEditDialog()) {
+			setSelection(selectedBijdrageSchema.getBijdrageSchemaNaam());
+		}
+	}
+
+	/**
+	 * Called when the user clicks on the autovul button. Opens a dialog to
+	 * automatically fill bijdragen for the bijdrageschema.
+	 *
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	@FXML
+	public boolean showBijdrageSchemaAutoInvullingEditDialog() {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/BijdrageSchemaAutoInvullingEditDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Auto invulling bijdrageschema");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(villaApp.getPrimaryStage());
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the post into the controller.
+			BijdrageSchemaAutoInvullingEditDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
+			controller.setBijdrageSchema(selectedBijdrageSchema);
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
 	/**
