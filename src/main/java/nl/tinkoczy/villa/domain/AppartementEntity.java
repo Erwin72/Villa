@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "appartementen")
@@ -36,7 +37,8 @@ public class AppartementEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "appartement_id")
 	private long id;
-	@Column(name = "appartement_code")
+	@Index
+	@Column(name = "appartement_code", unique = true)
 	private String appartementCode;
 	@Column(name = "appartement_transportdatum")
 	private LocalDate appartementTransportdatum;
@@ -48,9 +50,11 @@ public class AppartementEntity implements Serializable {
 	private String appartementAdresPlaats;
 	@ManyToOne
 	@JoinColumn(name = "bijdrageschema_fk")
+	@Index
 	private BijdrageSchemaEntity bijdrageSchema;
 	@OneToMany(mappedBy = "appartement")
 	@CascadeOnDelete
+	@Index
 	private List<BoekingEntity> boekingen;
 
 	public AppartementEntity() {

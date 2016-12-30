@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "posten")
@@ -36,7 +37,8 @@ public class PostEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "post_id")
 	private long id;
-	@Column(name = "post_nummer")
+	@Index
+	@Column(name = "post_nummer", unique = true)
 	private int postNummer;
 	@Column(name = "post_omschrijving")
 	private String postOmschrijving;
@@ -48,6 +50,7 @@ public class PostEntity implements Serializable {
 	private String postStandaardBoekingOmschrijving;
 	@ManyToOne
 	@JoinColumn(name = "rubriek_fk")
+	@Index
 	private RubriekEntity rubriek;
 	@OneToMany(mappedBy = "post")
 	@CascadeOnDelete

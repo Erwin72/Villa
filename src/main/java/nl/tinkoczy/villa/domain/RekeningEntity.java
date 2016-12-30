@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "rekeningen")
@@ -34,6 +35,7 @@ public class RekeningEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "rekening_id")
 	private long id;
+	@Index
 	@Column(name = "rekening_naam", unique = true)
 	private String rekeningNaam;
 	@Column(name = "rekening_banknaam")

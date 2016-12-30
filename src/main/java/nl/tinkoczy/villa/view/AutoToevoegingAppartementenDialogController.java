@@ -1,7 +1,8 @@
 package nl.tinkoczy.villa.view;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -19,23 +20,30 @@ import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import nl.tinkoczy.villa.model.Appartement;
 import nl.tinkoczy.villa.model.BijdrageSchema;
+import nl.tinkoczy.villa.service.IAppartementService;
 import nl.tinkoczy.villa.service.IBijdrageSchemaService;
+import nl.tinkoczy.villa.service.impl.AppartementService;
 import nl.tinkoczy.villa.service.impl.BijdrageSchemaService;
 
 public class AutoToevoegingAppartementenDialogController {
 
 	final static Logger logger = LoggerFactory.getLogger(AutoToevoegingAppartementenDialogController.class);
 
+	private final static String AANTAL_SPINNER = "aantalSpinner";
 	private final static int AANTAL_SPINNER_MIN_VALUE = 1;
 	private final static int AANTAL_SPINNER_MAX_VALUE = 1000;
 	private final static int AANTAL_SPINNER_DEFAULT_VALUE = 3;
+	private final static String NUMMER_OPHOGING_SPINNER = "nummerOphogingSpinner";
 	private final static int NUMMER_OPHOGING_SPINNER_MIN_VALUE = 1;
 	private final static int NUMMER_OPHOGING_SPINNER_MAX_VALUE = 10;
 	private final static int NUMMER_OPHOGING_SPINNER_DEFAULT_VALUE = 2;
+	private final static String NUMMER_POSITIES_SPINNER = "nummerPositiesSpinner";
 	private final static int NUMMER_POSITIES_SPINNER_MIN_VALUE = 1;
 	private final static int NUMMER_POSITIES_SPINNER_MAX_VALUE = 4;
 	private final static int NUMMER_POSITIES_SPINNER_DEFAULT_VALUE = 2;
+	private final static String STRAATNUMMER_OPHOGING_SPINNER = "straatnummerOphogingSpinner";
 	private final static int STRAATNUMMER_OPHOGING_SPINNER_MIN_VALUE = 1;
 	private final static int STRAATNUMMER_OPHOGING_SPINNER_MAX_VALUE = 10;
 	private final static int STRAATNUMMER_OPHOGING_SPINNER_DEFAULT_VALUE = 2;
@@ -70,7 +78,7 @@ public class AutoToevoegingAppartementenDialogController {
 	private Stage dialogStage;
 	private boolean okClicked = false;
 
-	private List<Integer> straatNummers = new ArrayList<Integer>();
+	private Map<Integer, String> straatNummerCodeNummerMap = new HashMap<>();
 
 	private IBijdrageSchemaService bijdrageSchemaService;
 
@@ -90,6 +98,9 @@ public class AutoToevoegingAppartementenDialogController {
 		initStraatnummerOphogingSpinner();
 		initBijdrageSchemaNaamComboBox();
 		initVanafStraatnummerField();
+		initConstanteField();
+		initNummerField();
+		initNummerUitvullenCheckBox();
 
 		updateResultaatField();
 	}
@@ -127,8 +138,23 @@ public class AutoToevoegingAppartementenDialogController {
 	}
 
 	private void voegAppartementenToe() {
-		// TODO Auto-generated method stub
+		IAppartementService service = new AppartementService();
 
+		for (Map.Entry<Integer, String> entry : straatNummerCodeNummerMap.entrySet()) {
+			Appartement appartement = new Appartement();
+			appartement.setAppartementCode(entry.getValue());
+			appartement.setAppartementTransportdatum(null);
+			appartement.setAppartementAdresStraat(straatField.getText() + " " + entry.getKey());
+			appartement.setAppartementAdresPostcode(postcodeField.getText());
+			appartement.setAppartementAdresPlaats(plaatsField.getText());
+			if (bijdrageSchemaNaamComboBox.getSelectionModel().getSelectedItem() != null) {
+				Long bijdrageSchemaId = bijdrageSchemaNaamComboBox.getSelectionModel().getSelectedItem()
+						.getBijdrageSchemaId();
+				service.saveOrUpdatePostWithBijdrageSchema(appartement, bijdrageSchemaId);
+			} else {
+				service.saveOrUpdateAppartement(appartement);
+			}
+		}
 	}
 
 	/**
@@ -142,7 +168,7 @@ public class AutoToevoegingAppartementenDialogController {
 	private String isInputValidForResultaat() {
 		String errorMessage = StringUtils.EMPTY;
 
-		if (aantalSpinner.getValue() == null || notInBounds(aantalSpinner)) {
+		if (aantalSpinner.getValue() == null || !inBounds(aantalSpinner)) {
 			errorMessage += "Geen Aantal ingevuld!\n";
 		} else {
 			try {
@@ -151,7 +177,7 @@ public class AutoToevoegingAppartementenDialogController {
 				errorMessage += "Geen geldige waarde voor Aantal ingevuld (moet een getal zijn)!\n";
 			}
 		}
-		if (nummerOphogingSpinner.getValue() == null || notInBounds(nummerOphogingSpinner)) {
+		if (nummerOphogingSpinner.getValue() == null || !inBounds(nummerOphogingSpinner)) {
 			errorMessage += "Geen Ophoging ingevuld!\n";
 		} else {
 			try {
@@ -160,7 +186,7 @@ public class AutoToevoegingAppartementenDialogController {
 				errorMessage += "Geen geldige waarde voor Ophoging ingevuld (moet een getal zijn)!\n";
 			}
 		}
-		if (nummerPositiesSpinner.getValue() == null || notInBounds(nummerPositiesSpinner)) {
+		if (nummerPositiesSpinner.getValue() == null || !inBounds(nummerPositiesSpinner)) {
 			errorMessage += "Geen Posities ingevuld!\n";
 		} else {
 			try {
@@ -169,7 +195,7 @@ public class AutoToevoegingAppartementenDialogController {
 				errorMessage += "Geen geldige waarde voor Posities ingevuld (moet een getal zijn)!\n";
 			}
 		}
-		if (straatnummerOphogingSpinner.getValue() == null || notInBounds(straatnummerOphogingSpinner)) {
+		if (straatnummerOphogingSpinner.getValue() == null || !inBounds(straatnummerOphogingSpinner)) {
 			errorMessage += "Geen Straatophoging ingevuld!\n";
 		} else {
 			try {
@@ -219,26 +245,25 @@ public class AutoToevoegingAppartementenDialogController {
 		}
 	}
 
-	private boolean notInBounds(final Spinner<Integer> spinner) {
+	private boolean inBounds(final Spinner<Integer> spinner) {
 		int intValue = spinner.getValue();
 		switch (spinner.getId()) {
-		case "aantalSpinner":
+		case AANTAL_SPINNER:
 			return (intValue >= AANTAL_SPINNER_MIN_VALUE && intValue <= AANTAL_SPINNER_MAX_VALUE);
-		case "nummerOphogingSpinner":
+		case NUMMER_OPHOGING_SPINNER:
 			return (intValue >= NUMMER_OPHOGING_SPINNER_MIN_VALUE && intValue <= NUMMER_OPHOGING_SPINNER_MAX_VALUE);
-		case "nummerPositiesSpinner":
+		case NUMMER_POSITIES_SPINNER:
 			return (intValue >= NUMMER_POSITIES_SPINNER_MIN_VALUE && intValue <= NUMMER_POSITIES_SPINNER_MAX_VALUE);
-		case "straatnummerOphogingSpinner":
+		case STRAATNUMMER_OPHOGING_SPINNER:
 			return (intValue >= STRAATNUMMER_OPHOGING_SPINNER_MIN_VALUE
 					&& intValue <= STRAATNUMMER_OPHOGING_SPINNER_MAX_VALUE);
 		default:
 			return false;
 		}
-
 	}
 
 	private void initAantalSpinner() {
-		aantalSpinner.setId("aantalSpinner");
+		aantalSpinner.setId(AANTAL_SPINNER);
 		aantalSpinner.setEditable(true);
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
 				AANTAL_SPINNER_MIN_VALUE, AANTAL_SPINNER_MAX_VALUE, AANTAL_SPINNER_DEFAULT_VALUE);
@@ -261,20 +286,42 @@ public class AutoToevoegingAppartementenDialogController {
 	}
 
 	private void updateResultaatField() {
-		if (StringUtils.isNotEmpty(isInputValidForResultaat())) {
-			straatNummers = new ArrayList<Integer>();
+		if (StringUtils.isEmpty(isInputValidForResultaat())) {
+			straatNummerCodeNummerMap = new HashMap<>();
 			String resultaat = StringUtils.EMPTY;
 			String TEM = " t/m ";
 
 			int aantal = aantalSpinner.getValue();
 			int vanafStraatnummer = Integer.parseInt(vanafStraatnummerField.getText());
-			int ophoging = straatnummerOphogingSpinner.getValue();
-			int temStraatNummer = vanafStraatnummer + ((aantal - 1) * ophoging);
+			int straatnummerOphoging = straatnummerOphogingSpinner.getValue();
+			int temStraatNummer = vanafStraatnummer + ((aantal - 1) * straatnummerOphoging);
 
-			int nummer = vanafStraatnummer;
+			int nummer = Integer.parseInt(nummerField.getText());
+			int nummerOphoging = nummerOphogingSpinner.getValue();
+
+			int straatNummer = vanafStraatnummer;
 			for (int i = 0; i < aantal; i++) {
-				straatNummers.add(nummer);
-				nummer += ophoging;
+				String nummerStr = Integer.toString(nummer);
+				StringBuffer appartementCode = new StringBuffer(StringUtils.EMPTY);
+				String constante = constanteField.getText();
+				boolean uitvullen = nummerUitvullenCheckBox.isSelected();
+
+				if (StringUtils.isNotEmpty(constante)) {
+					appartementCode.append(constante);
+				}
+				if (uitvullen) {
+					int uitvullenAantalPosities = nummerPositiesSpinner.getValue();
+					while (nummerStr.length() < uitvullenAantalPosities) {
+						nummerStr = "0" + nummerStr;
+					}
+				}
+				appartementCode.append(nummerStr);
+
+				straatNummerCodeNummerMap.put(straatNummer, appartementCode.toString());
+
+				// increase for next iteration
+				straatNummer += straatnummerOphoging;
+				nummer += nummerOphoging;
 			}
 
 			if (aantal > 1) {
@@ -284,14 +331,14 @@ public class AutoToevoegingAppartementenDialogController {
 			}
 			resultaatField.setText(resultaat);
 
-			for (Integer straatNummer : straatNummers) {
-				logger.debug("Nummers in list: " + straatNummer);
+			for (Map.Entry<Integer, String> entry : straatNummerCodeNummerMap.entrySet()) {
+				logger.debug("Straatnummer: " + entry.getKey() + ", met codenummer: " + entry.getValue());
 			}
 		}
 	}
 
 	private void initNummerOphogingSpinner() {
-		nummerOphogingSpinner.setId("nummerOphogingSpinner");
+		nummerOphogingSpinner.setId(NUMMER_OPHOGING_SPINNER);
 		nummerOphogingSpinner.setEditable(true);
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
 				NUMMER_OPHOGING_SPINNER_MIN_VALUE, NUMMER_OPHOGING_SPINNER_MAX_VALUE,
@@ -307,12 +354,15 @@ public class AutoToevoegingAppartementenDialogController {
 				value = valueFactoryS.getConverter().fromString(text);
 				valueFactory.setValue(value);
 			}
-			logger.debug("Waarde invoer nummerOphogingSpinner: " + Integer.toString(value));
+		});
+		nummerOphogingSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+			logger.debug("Waarde invoer nummerOphogingSpinner: " + newValue);
+			updateResultaatField();
 		});
 	}
 
 	private void initNummerPositiesSpinner() {
-		nummerPositiesSpinner.setId("nummerPositiesSpinner");
+		nummerPositiesSpinner.setId(NUMMER_POSITIES_SPINNER);
 		nummerPositiesSpinner.setEditable(true);
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
 				NUMMER_POSITIES_SPINNER_MIN_VALUE, NUMMER_POSITIES_SPINNER_MAX_VALUE,
@@ -328,12 +378,15 @@ public class AutoToevoegingAppartementenDialogController {
 				value = valueFactoryS.getConverter().fromString(text);
 				valueFactory.setValue(value);
 			}
-			logger.debug("Waarde invoer nummerPositiesSpinner: " + Integer.toString(value));
+		});
+		nummerPositiesSpinner.valueProperty().addListener((obs, oldValue, newValue) -> {
+			logger.debug("Waarde invoer nummerPositiesSpinner: " + newValue);
+			updateResultaatField();
 		});
 	}
 
 	private void initStraatnummerOphogingSpinner() {
-		straatnummerOphogingSpinner.setId("straatnummerOphogingSpinner");
+		straatnummerOphogingSpinner.setId(STRAATNUMMER_OPHOGING_SPINNER);
 		straatnummerOphogingSpinner.setEditable(true);
 		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(
 				STRAATNUMMER_OPHOGING_SPINNER_MIN_VALUE, STRAATNUMMER_OPHOGING_SPINNER_MAX_VALUE,
@@ -368,6 +421,31 @@ public class AutoToevoegingAppartementenDialogController {
 		vanafStraatnummerField.setText("1");
 		vanafStraatnummerField.textProperty().addListener((obs, oldValue, newValue) -> {
 			logger.debug("Waarde invoer vanafStraatnummerField: " + newValue);
+			updateResultaatField();
+		});
+	}
+
+	private void initNummerUitvullenCheckBox() {
+		nummerUitvullenCheckBox.setSelected(false);
+		nummerUitvullenCheckBox.selectedProperty().addListener((obs, oldValue, newValue) -> {
+			logger.debug("Waarde invoer nummerUitvullenCheckBox: " + newValue);
+			updateResultaatField();
+		});
+	}
+
+	private void initNummerField() {
+		nummerField.setText(StringUtils.EMPTY);
+		nummerField.setText("1");
+		nummerField.textProperty().addListener((obs, oldValue, newValue) -> {
+			logger.debug("Waarde invoer nummerField: " + newValue);
+			updateResultaatField();
+		});
+	}
+
+	private void initConstanteField() {
+		constanteField.setText(StringUtils.EMPTY);
+		constanteField.textProperty().addListener((obs, oldValue, newValue) -> {
+			logger.debug("Waarde invoer constanteField: " + newValue);
 			updateResultaatField();
 		});
 	}

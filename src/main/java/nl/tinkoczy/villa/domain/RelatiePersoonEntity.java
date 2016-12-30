@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "relatiepersonen")
@@ -52,6 +53,7 @@ public class RelatiePersoonEntity implements Serializable {
 	private String relatiePersoonAantekening;
 	@ManyToOne
 	@JoinColumn(name = "relatie_fk")
+	@Index
 	private RelatieEntity relatie;
 
 	public RelatiePersoonEntity() {

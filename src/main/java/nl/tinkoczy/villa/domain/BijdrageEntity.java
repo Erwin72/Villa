@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "bijdragen")
@@ -45,6 +46,7 @@ public class BijdrageEntity implements Serializable {
 	private Boolean bijdrageVoldaan;
 	@ManyToOne
 	@JoinColumn(name = "bijdrage_schema_fk")
+	@Index
 	private BijdrageSchemaEntity bijdrageSchema;
 
 	public BijdrageEntity() {

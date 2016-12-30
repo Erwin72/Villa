@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "bijdragefrequenties")
@@ -32,7 +33,8 @@ public class BijdrageFrequentieEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "bijdrage_frequentie_id")
 	private long id;
-	@Column(name = "bijdrage_frequentie_code")
+	@Index
+	@Column(name = "bijdrage_frequentie_code", unique = true)
 	private int bijdrageFrequentieCode;
 	@Column(name = "bijdrage_frequentie_aantal_betaalmomenten")
 	private int bijdrageFrequentieAantalBetaalmomenten;

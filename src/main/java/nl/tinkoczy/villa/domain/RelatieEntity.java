@@ -17,6 +17,7 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.eclipse.persistence.annotations.CascadeOnDelete;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "relaties")
@@ -33,6 +34,7 @@ public class RelatieEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "relatie_id")
 	private long id;
+	@Index
 	@Column(name = "relatie_code", unique = true)
 	private String relatieCode;
 	@Column(name = "relatie_omschrijving")

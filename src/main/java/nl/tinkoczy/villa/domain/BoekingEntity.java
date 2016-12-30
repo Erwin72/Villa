@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "boekingen")
@@ -48,15 +49,18 @@ public class BoekingEntity implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "boekstuk_fk")
+	@Index
 	private BoekstukEntity boekstuk;
 	@ManyToOne
 	@JoinColumn(name = "post_fk")
+	@Index
 	private PostEntity post;
 	@ManyToOne
 	@JoinColumn(name = "faktuur_fk")
 	private FaktuurEntity faktuur;
 	@ManyToOne
 	@JoinColumn(name = "appartement_fk")
+	@Index
 	private AppartementEntity appartement;
 
 	public BoekingEntity() {

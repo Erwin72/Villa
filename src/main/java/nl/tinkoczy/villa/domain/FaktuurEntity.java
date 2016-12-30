@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "fakturen")
@@ -35,7 +36,8 @@ public class FaktuurEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "faktuur_id")
 	private long id;
-	@Column(name = "faktuur_nummer")
+	@Index
+	@Column(name = "faktuur_nummer", unique = true)
 	private String faktuurNummer;
 	@Column(name = "faktuur_datum")
 	private LocalDate faktuurDatum;
@@ -51,6 +53,7 @@ public class FaktuurEntity implements Serializable {
 	private Boolean faktuurVerwerkt;
 	@ManyToOne
 	@JoinColumn(name = "relatie_fk")
+	@Index
 	private RelatieEntity relatie;
 	@ManyToOne
 	@JoinColumn(name = "post_fk")

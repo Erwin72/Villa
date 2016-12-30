@@ -17,9 +17,12 @@ import javax.persistence.Transient;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.eclipse.persistence.annotations.Index;
 
 @Entity
 @Table(name = "bijdragerentes")
+@Index(name = "BIJDRAGERENTES_IDX", columnNames = { "bijdrage_rente_percentage",
+		"bijdrage_rente_dagen_na_vervaldatum" })
 @NamedQueries({
 		@NamedQuery(name = "BijdrageRenteEntity.findAll", query = "SELECT b FROM BijdrageRenteEntity b ORDER BY b.id"),
 		@NamedQuery(name = "BijdrageRenteEntity.findById", query = "SELECT b FROM BijdrageRenteEntity b WHERE b.id = :id"),
@@ -33,8 +36,10 @@ public class BijdrageRenteEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "bijdrage_rente_id")
 	private long id;
+	@Index
 	@Column(name = "bijdrage_rente_percentage")
 	private BigDecimal bijdrageRentePercentage;
+	@Index
 	@Column(name = "bijdrage_rente_dagen_na_vervaldatum")
 	private int bijdrageRenteNaVervaldatum;
 	@OneToMany(mappedBy = "bijdrageRente")
