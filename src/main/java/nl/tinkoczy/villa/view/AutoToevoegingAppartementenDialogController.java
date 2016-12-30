@@ -1,5 +1,6 @@
 package nl.tinkoczy.villa.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -69,6 +70,8 @@ public class AutoToevoegingAppartementenDialogController {
 	private Stage dialogStage;
 	private boolean okClicked = false;
 
+	private List<Integer> straatNummers = new ArrayList<Integer>();
+
 	private IBijdrageSchemaService bijdrageSchemaService;
 
 	/**
@@ -87,6 +90,8 @@ public class AutoToevoegingAppartementenDialogController {
 		initStraatnummerOphogingSpinner();
 		initBijdrageSchemaNaamComboBox();
 		initVanafStraatnummerField();
+
+		updateResultaatField();
 	}
 
 	/**
@@ -257,6 +262,7 @@ public class AutoToevoegingAppartementenDialogController {
 
 	private void updateResultaatField() {
 		if (StringUtils.isNotEmpty(isInputValidForResultaat())) {
+			straatNummers = new ArrayList<Integer>();
 			String resultaat = StringUtils.EMPTY;
 			String TEM = " t/m ";
 
@@ -265,12 +271,22 @@ public class AutoToevoegingAppartementenDialogController {
 			int ophoging = straatnummerOphogingSpinner.getValue();
 			int temStraatNummer = vanafStraatnummer + ((aantal - 1) * ophoging);
 
+			int nummer = vanafStraatnummer;
+			for (int i = 0; i < aantal; i++) {
+				straatNummers.add(nummer);
+				nummer += ophoging;
+			}
+
 			if (aantal > 1) {
 				resultaat = vanafStraatnummer + TEM + temStraatNummer;
 			} else {
 				resultaat = vanafStraatnummer + "";
 			}
 			resultaatField.setText(resultaat);
+
+			for (Integer straatNummer : straatNummers) {
+				logger.debug("Nummers in list: " + straatNummer);
+			}
 		}
 	}
 

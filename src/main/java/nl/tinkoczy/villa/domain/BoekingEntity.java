@@ -26,7 +26,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 		@NamedQuery(name = "BoekingEntity.findAllSortByPostAndDatum", query = "SELECT b FROM BoekingEntity b ORDER BY b.post, b.boekingDatum"),
 		@NamedQuery(name = "BoekingEntity.findById", query = "SELECT b FROM BoekingEntity b WHERE b.id = :id"),
 		@NamedQuery(name = "BoekingEntity.findAllByBoekstuk", query = "SELECT b FROM BoekingEntity b WHERE b.boekstuk = :boekstuk"),
-		@NamedQuery(name = "BoekingEntity.findAllByPost", query = "SELECT b FROM BoekingEntity b WHERE b.post = :post") })
+		@NamedQuery(name = "BoekingEntity.findAllByPost", query = "SELECT b FROM BoekingEntity b WHERE b.post = :post"),
+		@NamedQuery(name = "BoekingEntity.findAllByAppartement", query = "SELECT b FROM BoekingEntity b WHERE b.appartement = :appartement") })
 public class BoekingEntity implements Serializable {
 
 	@Transient
@@ -55,8 +56,8 @@ public class BoekingEntity implements Serializable {
 	@JoinColumn(name = "faktuur_fk")
 	private FaktuurEntity faktuur;
 	@ManyToOne
-	@JoinColumn(name = "bijdrage_fk")
-	private BijdrageEntity bijdrage;
+	@JoinColumn(name = "appartement_fk")
+	private AppartementEntity appartement;
 
 	public BoekingEntity() {
 		super();
@@ -131,12 +132,12 @@ public class BoekingEntity implements Serializable {
 		this.faktuur = faktuur;
 	}
 
-	public BijdrageEntity getBijdrage() {
-		return bijdrage;
+	public AppartementEntity getAppartement() {
+		return appartement;
 	}
 
-	public void setBijdrage(final BijdrageEntity bijdrage) {
-		this.bijdrage = bijdrage;
+	public void setAppartement(final AppartementEntity appartement) {
+		this.appartement = appartement;
 	}
 
 	@Override
@@ -161,6 +162,7 @@ public class BoekingEntity implements Serializable {
 	public String toString() {
 		return "BoekingEntity [id=" + id + ", boekingDatum=" + boekingDatum + ", boekingBedrag=" + boekingBedrag
 				+ ", boekingOmschrijving=" + boekingOmschrijving + ", boekingVorigePeriode=" + boekingVorigePeriode
-				+ ", boekstuk=" + boekstuk + ", post=" + post + ", faktuur=" + faktuur + ", bijdrage=" + bijdrage + "]";
+				+ ", boekstuk=" + boekstuk + ", post=" + post + ", faktuur=" + faktuur + ", appartement=" + appartement
+				+ "]";
 	}
 }

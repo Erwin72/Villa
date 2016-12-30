@@ -10,7 +10,7 @@ public interface IBoekingService {
 
 	void saveOrUpdateBoekingWithBoekStuk(Boeking boeking, Long boekstukId);
 
-	void saveOrUpdateBoekingWithBijdrage(Boeking boeking, Long bijdrageId);
+	void saveOrUpdateBoekingWithAppartement(Boeking boeking, Long appartementId);
 
 	void deleteBoeking(Boeking boeking);
 
@@ -23,4 +23,6 @@ public interface IBoekingService {
 	List<Boeking> getAllBoekingenByBoekstukVolgnummer(final int boekstukVolgnummer);
 
 	List<Boeking> getAllBoekingenByPostNummer(final int postNummer);
+
+	List<Boeking> getAllBoekingenByAppartementCode(final String appartementCode);
 }

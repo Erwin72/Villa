@@ -4,6 +4,7 @@
   version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
   <persistence-unit name="VillaDB" transaction-type="RESOURCE_LOCAL">
   <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>nl.tinkoczy.villa.domain.AppartementEntity</class>
     <class>nl.tinkoczy.villa.domain.BijdrageEntity</class>
     <class>nl.tinkoczy.villa.domain.BijdrageFrequentieEntity</class>
     <class>nl.tinkoczy.villa.domain.BijdrageRenteEntity</class>

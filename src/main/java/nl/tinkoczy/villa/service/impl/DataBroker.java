@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
+import nl.tinkoczy.villa.domain.AppartementEntity;
 import nl.tinkoczy.villa.domain.BijdrageEntity;
 import nl.tinkoczy.villa.domain.BijdrageFrequentieEntity;
 import nl.tinkoczy.villa.domain.BijdrageRenteEntity;
@@ -223,6 +224,12 @@ public final class DataBroker implements IDataBroker {
 				.getResultList();
 	}
 
+	public static List<BoekingEntity> getAllBoekingenByAppartementCode(final String appartementCode) {
+		AppartementEntity appartementEntity = getAppartementByAppartementCode(appartementCode);
+		return em.createNamedQuery("BoekingEntity.findAllByAppartement", BoekingEntity.class)
+				.setParameter("appartement", appartementEntity).getResultList();
+	}
+
 	/*
 	 * Faktuur
 	 */
@@ -324,4 +331,22 @@ public final class DataBroker implements IDataBroker {
 		return em.createNamedQuery("BijdrageEntity.findAllByBijdrageSchema", BijdrageEntity.class)
 				.setParameter("bijdrageSchema", bijdrageSchemaEntity).getResultList();
 	}
+
+	/*
+	 * Appartement
+	 */
+	public static List<AppartementEntity> getAllAppartementen() {
+		return em.createNamedQuery("AppartementEntity.findAll", AppartementEntity.class).getResultList();
+	}
+
+	public static AppartementEntity getAppartementById(final long id) {
+		return getSingleResult(
+				em.createNamedQuery("AppartementEntity.findById", AppartementEntity.class).setParameter("id", id));
+	}
+
+	public static AppartementEntity getAppartementByAppartementCode(final String appartementCode) {
+		return getSingleResult(em.createNamedQuery("AppartementEntity.findByAppartementCode", AppartementEntity.class)
+				.setParameter("appartementCode", appartementCode));
+	}
+
 }

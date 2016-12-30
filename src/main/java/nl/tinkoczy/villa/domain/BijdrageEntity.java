@@ -47,8 +47,6 @@ public class BijdrageEntity implements Serializable {
 	@JoinColumn(name = "bijdrage_schema_fk")
 	private BijdrageSchemaEntity bijdrageSchema;
 
-	// TODO bijdrage <-> appartement is m:n relatie
-
 	public BijdrageEntity() {
 		super();
 	}

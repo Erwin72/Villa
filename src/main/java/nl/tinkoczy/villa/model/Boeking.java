@@ -24,7 +24,7 @@ public class Boeking {
 	private final IntegerProperty boekstukVolgnummer;
 	private final IntegerProperty postNummer;
 	private final StringProperty faktuurNummer;
-	private final LongProperty bijdrageFk;
+	private final LongProperty appartementFk;
 
 	public Boeking() {
 		this(null, null, null, null);
@@ -42,7 +42,7 @@ public class Boeking {
 		this.boekingOmschrijving = new SimpleStringProperty("");
 		this.boekingVorigePeriode = new SimpleBooleanProperty(false);
 		this.faktuurNummer = new SimpleStringProperty("");
-		this.bijdrageFk = new SimpleLongProperty();
+		this.appartementFk = new SimpleLongProperty();
 	}
 
 	public Long getBoekingId() {
@@ -141,15 +141,15 @@ public class Boeking {
 		return faktuurNummer;
 	}
 
-	public Long getBijdrageFk() {
-		return bijdrageFk.get();
+	public Long getAppartementFk() {
+		return appartementFk.get();
 	}
 
-	public void setBijdrageFk(final Long bijdrageFk) {
-		this.bijdrageFk.set(bijdrageFk);
+	public void setAppartementFk(final Long appartementFk) {
+		this.appartementFk.set(appartementFk);
 	}
 
-	public LongProperty bijdrageFkProperty() {
-		return bijdrageFk;
+	public LongProperty appartementFkProperty() {
+		return appartementFk;
 	}
 }

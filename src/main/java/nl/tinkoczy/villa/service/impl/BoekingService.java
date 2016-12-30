@@ -6,7 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.tinkoczy.villa.domain.BijdrageEntity;
+import nl.tinkoczy.villa.domain.AppartementEntity;
 import nl.tinkoczy.villa.domain.BoekingEntity;
 import nl.tinkoczy.villa.domain.BoekstukEntity;
 import nl.tinkoczy.villa.model.Boeking;
@@ -36,11 +36,11 @@ public class BoekingService implements IBoekingService {
 	}
 
 	@Override
-	public void saveOrUpdateBoekingWithBijdrage(final Boeking boeking, final Long bijdrageId) {
-		BijdrageEntity bijdrageEntity = new BijdrageEntity(bijdrageId);
+	public void saveOrUpdateBoekingWithAppartement(final Boeking boeking, final Long appartementId) {
+		AppartementEntity appartementEntity = new AppartementEntity(appartementId);
 		BoekingEntity boekingEntity = convert(boeking);
-		boekingEntity.setBijdrage(bijdrageEntity);
-		logger.debug("saveOrUpdateBoekingWithBijdrage: " + boekingEntity.toString());
+		boekingEntity.setAppartement(appartementEntity);
+		logger.debug("saveOrUpdateBoekingWithAppartement: " + boekingEntity.toString());
 		DataBroker.saveOrUpdate(boekingEntity);
 	}
 
@@ -100,6 +100,17 @@ public class BoekingService implements IBoekingService {
 		return results;
 	}
 
+	@Override
+	public List<Boeking> getAllBoekingenByAppartementCode(final String appartementCode) {
+		List<Boeking> results = new ArrayList<>();
+		for (BoekingEntity boekingEntity : DataBroker.getAllBoekingenByAppartementCode(appartementCode)) {
+			logger.debug("getAllBoekingenByAppartementCode: appartementCode=" + appartementCode + ", result="
+					+ boekingEntity.toString());
+			results.add(convert(boekingEntity));
+		}
+		return results;
+	}
+
 	private Boeking convert(final BoekingEntity boekingEntity) {
 		Boeking boeking = new Boeking();
 		boeking.setBoekingId(boekingEntity.getId());
@@ -112,8 +123,8 @@ public class BoekingService implements IBoekingService {
 		if (boekingEntity.getFaktuur() != null) {
 			boeking.setFaktuurNummer(boekingEntity.getFaktuur().getFaktuurNummer());
 		}
-		if (boekingEntity.getBijdrage() != null) {
-			boeking.setBijdrageFk(boekingEntity.getBijdrage().getId());
+		if (boekingEntity.getAppartement() != null) {
+			boeking.setAppartementFk(boekingEntity.getAppartement().getId());
 		}
 		return boeking;
 	}
