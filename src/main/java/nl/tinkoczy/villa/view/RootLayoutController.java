@@ -102,7 +102,7 @@ public class RootLayoutController {
 		definieerBijdrageSchemaMenuItem.setOnAction(event -> showDefinieerBijdrageSchemaTab());
 		MenuItem automatischeToevoegingAppartementenMenuItem = new MenuItem(
 				ConfigFacade.getStringValue(UserText.MENU_DEFINITIE_ITEM_DEF_AUTOMATISCH_APPARTEMENTEN));
-		automatischeToevoegingAppartementenMenuItem.setOnAction(event -> showDefinieerBijdrageSchemaTab());
+		automatischeToevoegingAppartementenMenuItem.setOnAction(event -> showAutoToevoegingAppartementenDialog());
 
 		definitieMenu.getItems().addAll(definieerBijdrageSchemaMenuItem, automatischeToevoegingAppartementenMenuItem);
 	}
@@ -325,6 +325,40 @@ public class RootLayoutController {
 			SelecteerWerkDatumDialogController controller = loader.getController();
 			controller.setDialogStage(dialogStage);
 			controller.setWerkDatum(WerkDatumUtil.getVillaWerkDatum());
+
+			// Show the dialog and wait until the user closes it
+			dialogStage.showAndWait();
+
+			return controller.isOkClicked();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
+	 * Opens a dialog to generate appartementen automatically.
+	 *
+	 * @return true if the user clicked OK, false otherwise.
+	 */
+	public boolean showAutoToevoegingAppartementenDialog() {
+		try {
+			// Load the fxml file and create a new stage for the popup dialog.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/AutoToevoegingAppartementenDialog.fxml"));
+			AnchorPane page = (AnchorPane) loader.load();
+
+			// Create the dialog Stage.
+			Stage dialogStage = new Stage();
+			dialogStage.setTitle("Automatische toevoeging/invulling appartementen");
+			dialogStage.initModality(Modality.WINDOW_MODAL);
+			dialogStage.initOwner(villaApp.getPrimaryStage());
+			Scene scene = new Scene(page);
+			dialogStage.setScene(scene);
+
+			// Set the post into the controller.
+			AutoToevoegingAppartementenDialogController controller = loader.getController();
+			controller.setDialogStage(dialogStage);
 
 			// Show the dialog and wait until the user closes it
 			dialogStage.showAndWait();

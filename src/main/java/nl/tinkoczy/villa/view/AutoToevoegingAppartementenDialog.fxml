@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane prefHeight="550.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.tinkoczy.villa.view.AutoToevoegingAppartementenDialogController">
+   <children>
+      <ButtonBar layoutX="186.0" layoutY="186.0" prefHeight="40.0" prefWidth="190.0" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+        <buttons>
+          <Button mnemonicParsing="false" onAction="#handleOk" text="OK" />
+            <Button mnemonicParsing="false" onAction="#handleCancel" text="Annuleer" />
+        </buttons>
+      </ButtonBar>
+      <GridPane layoutX="125.0" layoutY="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="15.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="20.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="65.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="90.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="75.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="80.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label text="Vanaf ID" GridPane.columnIndex="2" />
+            <Label text="Constante" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <TextField fx:id="constanteField" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Label text="Nummer" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+            <TextField fx:id="nummerField" GridPane.columnIndex="6" GridPane.rowIndex="2" />
+            <CheckBox fx:id="nummerUitvullenCheckBox" mnemonicParsing="false" text="Uitvullen" GridPane.columnIndex="6" GridPane.rowIndex="4" />
+            <Label text="Ophoging" GridPane.columnIndex="8" GridPane.rowIndex="2" />
+            <Label text="Posities" GridPane.columnIndex="8" GridPane.rowIndex="4" />
+            <Spinner fx:id="nummerOphogingSpinner" GridPane.columnIndex="9" GridPane.rowIndex="2" />
+            <Spinner fx:id="nummerPositiesSpinner" GridPane.columnIndex="9" GridPane.rowIndex="4" />
+            <Label text="Resultaat" GridPane.columnIndex="2" GridPane.rowIndex="6" />
+            <TextField fx:id="resultaatField" GridPane.columnIndex="3" GridPane.columnSpan="7" GridPane.rowIndex="6" />
+            <Spinner fx:id="aantalSpinner" GridPane.rowIndex="2" />
+            <Label text="Aantal" />
+            <Label text="Postcode/plaats" GridPane.columnSpan="4" GridPane.rowIndex="8" />
+            <TextField fx:id="postcodeField" GridPane.rowIndex="10" />
+            <TextField fx:id="plaatsField" GridPane.columnIndex="2" GridPane.columnSpan="8" GridPane.rowIndex="10" />
+            <Label text="Straat" GridPane.rowIndex="12" />
+            <TextField fx:id="straatField" GridPane.columnSpan="10" GridPane.rowIndex="14" />
+            <Label text="Vanaf straatnummer" GridPane.columnSpan="3" GridPane.rowIndex="16" />
+            <TextField fx:id="vanafStraatnummerField" GridPane.columnIndex="3" GridPane.rowIndex="16" />
+            <Label text="Ophoging" GridPane.columnIndex="8" GridPane.rowIndex="16" />
+            <Spinner fx:id="straatnummerOphogingSpinner" GridPane.columnIndex="9" GridPane.rowIndex="16" />
+            <Label text="Bijdrageschema" GridPane.columnSpan="2" GridPane.rowIndex="18" />
+            <ComboBox fx:id="bijdrageSchemaNaamComboBox" prefHeight="31.0" prefWidth="285.0" GridPane.columnSpan="4" GridPane.rowIndex="19" />
+         </children>
+      </GridPane>
+   </children>
+</AnchorPane>
