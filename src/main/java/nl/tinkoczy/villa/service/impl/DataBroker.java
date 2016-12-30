@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.domain.AppartementEntity;
+import nl.tinkoczy.villa.domain.BeheerderEntity;
 import nl.tinkoczy.villa.domain.BijdrageEntity;
 import nl.tinkoczy.villa.domain.BijdrageFrequentieEntity;
 import nl.tinkoczy.villa.domain.BijdrageRenteEntity;
@@ -349,4 +350,21 @@ public final class DataBroker implements IDataBroker {
 				.setParameter("appartementCode", appartementCode));
 	}
 
+	/*
+	 * Beheerder
+	 */
+	public static List<BeheerderEntity> getAllBeheerders() {
+		return em.createNamedQuery("BeheerderEntity.findAll", BeheerderEntity.class).getResultList();
+	}
+
+	public static BeheerderEntity getBeheerderById(final long id) {
+		return getSingleResult(
+				em.createNamedQuery("BeheerderEntity.findById", BeheerderEntity.class).setParameter("id", id));
+	}
+
+	public static List<BeheerderEntity> getBeheerdersByAppartement(final Long appartementId) {
+		AppartementEntity appartementEntity = getAppartementById(appartementId);
+		return em.createNamedQuery("BeheerderEntity.findAllByAppartement", BeheerderEntity.class)
+				.setParameter("appartement", appartementEntity).getResultList();
+	}
 }
