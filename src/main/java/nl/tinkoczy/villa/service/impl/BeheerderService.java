@@ -74,10 +74,14 @@ public class BeheerderService implements IBeheerderService {
 		beheerder.setBeheerderId(beheerderEntity.getId());
 		beheerder.setBeheerderAantekening(beheerderEntity.getBeheerderAantekening());
 		beheerder.setBeheerderAchternaam(beheerderEntity.getBeheerderAchternaam());
+		beheerder.setBeheerderAdresStraat(beheerderEntity.getBeheerderAdresStraat());
+		beheerder.setBeheerderAdresPostcode(beheerderEntity.getBeheerderAdresPostcode());
+		beheerder.setBeheerderAdresPlaats(beheerderEntity.getBeheerderAdresPlaats());
+		beheerder.setBeheerderAdresLand(beheerderEntity.getBeheerderAdresLand());
 		beheerder.setBeheerderEmail(beheerderEntity.getBeheerderEmail());
 		beheerder.setBeheerderGeslacht(beheerderEntity.getBeheerderGeslacht());
 		beheerder.setBeheerderInternet(beheerderEntity.getBeheerderInternet());
-		beheerder.setBeheerderIsEigenaar(beheerderEntity.getBeheerderIsEigenaar());
+		beheerder.setBeheerderIsBewoner(beheerderEntity.getBeheerderIsBewoner());
 		beheerder.setBeheerderMobiel(beheerderEntity.getBeheerderMobiel());
 		beheerder.setBeheerderTelefoon(beheerderEntity.getBeheerderTelefoon());
 		beheerder.setBeheerderTussenvoegsel(beheerderEntity.getBeheerderTussenvoegsel());
@@ -95,10 +99,14 @@ public class BeheerderService implements IBeheerderService {
 		}
 		beheerderEntity.setBeheerderAantekening(beheerder.getBeheerderAantekening());
 		beheerderEntity.setBeheerderAchternaam(beheerder.getBeheerderAchternaam());
+		beheerderEntity.setBeheerderAdresStraat(beheerder.getBeheerderAdresStraat());
+		beheerderEntity.setBeheerderAdresPostcode(beheerder.getBeheerderAdresPostcode());
+		beheerderEntity.setBeheerderAdresPlaats(beheerder.getBeheerderAdresPlaats());
+		beheerderEntity.setBeheerderAdresLand(beheerder.getBeheerderAdresLand());
 		beheerderEntity.setBeheerderEmail(beheerder.getBeheerderEmail());
 		beheerderEntity.setBeheerderGeslacht(beheerder.getBeheerderGeslacht());
 		beheerderEntity.setBeheerderInternet(beheerder.getBeheerderInternet());
-		beheerderEntity.setBeheerderIsEigenaar(beheerder.getBeheerderIsEigenaar());
+		beheerderEntity.setBeheerderIsBewoner(beheerder.getBeheerderIsBewoner());
 		beheerderEntity.setBeheerderMobiel(beheerder.getBeheerderMobiel());
 		beheerderEntity.setBeheerderTelefoon(beheerder.getBeheerderTelefoon());
 		beheerderEntity.setBeheerderTussenvoegsel(beheerder.getBeheerderTussenvoegsel());

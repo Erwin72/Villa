@@ -6,6 +6,7 @@
   <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>nl.tinkoczy.villa.domain.AppartementEntity</class>
     <class>nl.tinkoczy.villa.domain.BeheerderEntity</class>
+    <class>nl.tinkoczy.villa.domain.BewonerEntity</class>
     <class>nl.tinkoczy.villa.domain.BijdrageEntity</class>
     <class>nl.tinkoczy.villa.domain.BijdrageFrequentieEntity</class>
     <class>nl.tinkoczy.villa.domain.BijdrageRenteEntity</class>

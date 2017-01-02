@@ -14,6 +14,7 @@ import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.domain.AppartementEntity;
 import nl.tinkoczy.villa.domain.BeheerderEntity;
+import nl.tinkoczy.villa.domain.BewonerEntity;
 import nl.tinkoczy.villa.domain.BijdrageEntity;
 import nl.tinkoczy.villa.domain.BijdrageFrequentieEntity;
 import nl.tinkoczy.villa.domain.BijdrageRenteEntity;
@@ -365,6 +366,24 @@ public final class DataBroker implements IDataBroker {
 	public static List<BeheerderEntity> getBeheerdersByAppartement(final Long appartementId) {
 		AppartementEntity appartementEntity = getAppartementById(appartementId);
 		return em.createNamedQuery("BeheerderEntity.findAllByAppartement", BeheerderEntity.class)
+				.setParameter("appartement", appartementEntity).getResultList();
+	}
+
+	/*
+	 * Bewoner
+	 */
+	public static List<BewonerEntity> getAllBewoners() {
+		return em.createNamedQuery("BewonerEntity.findAll", BewonerEntity.class).getResultList();
+	}
+
+	public static BewonerEntity getBewonerById(final long id) {
+		return getSingleResult(
+				em.createNamedQuery("BewonerEntity.findById", BewonerEntity.class).setParameter("id", id));
+	}
+
+	public static List<BewonerEntity> getBewonersByAppartement(final Long appartementId) {
+		AppartementEntity appartementEntity = getAppartementById(appartementId);
+		return em.createNamedQuery("BewonerEntity.findAllByAppartement", BewonerEntity.class)
 				.setParameter("appartement", appartementEntity).getResultList();
 	}
 }

@@ -13,13 +13,17 @@ public class Beheerder {
 	private final StringProperty beheerderVoornaam;
 	private final StringProperty beheerderTussenvoegsel;
 	private final StringProperty beheerderAchternaam;
+	private final StringProperty beheerderAdresStraat;
+	private final StringProperty beheerderAdresPostcode;
+	private final StringProperty beheerderAdresPlaats;
+	private final StringProperty beheerderAdresLand;
 	private final StringProperty beheerderGeslacht;
 	private final StringProperty beheerderTelefoon;
 	private final StringProperty beheerderMobiel;
 	private final StringProperty beheerderEmail;
 	private final StringProperty beheerderInternet;
 	private final StringProperty beheerderAantekening;
-	private final BooleanProperty beheerderIsEigenaar;
+	private final BooleanProperty beheerderIsBewoner;
 	private final ObjectProperty<Long> appartementFk;
 
 	public Beheerder() {
@@ -33,13 +37,17 @@ public class Beheerder {
 		this.beheerderVoornaam = new SimpleStringProperty();
 		this.beheerderTussenvoegsel = new SimpleStringProperty();
 		this.beheerderAchternaam = new SimpleStringProperty();
+		this.beheerderAdresStraat = new SimpleStringProperty();
+		this.beheerderAdresPostcode = new SimpleStringProperty();
+		this.beheerderAdresPlaats = new SimpleStringProperty();
+		this.beheerderAdresLand = new SimpleStringProperty();
 		this.beheerderGeslacht = new SimpleStringProperty("M");
 		this.beheerderTelefoon = new SimpleStringProperty();
 		this.beheerderMobiel = new SimpleStringProperty();
 		this.beheerderEmail = new SimpleStringProperty();
 		this.beheerderInternet = new SimpleStringProperty();
 		this.beheerderAantekening = new SimpleStringProperty();
-		this.beheerderIsEigenaar = new SimpleBooleanProperty(true);
+		this.beheerderIsBewoner = new SimpleBooleanProperty(true);
 		this.appartementFk = new SimpleObjectProperty<Long>();
 	}
 
@@ -89,6 +97,54 @@ public class Beheerder {
 
 	public StringProperty beheerderAchternaamProperty() {
 		return beheerderAchternaam;
+	}
+
+	public String getBeheerderAdresStraat() {
+		return beheerderAdresStraat.get();
+	}
+
+	public void setBeheerderAdresStraat(final String beheerderAdresStraat) {
+		this.beheerderAdresStraat.set(beheerderAdresStraat);
+	}
+
+	public StringProperty beheerderAdresStraatProperty() {
+		return beheerderAdresStraat;
+	}
+
+	public String getBeheerderAdresPostcode() {
+		return beheerderAdresPostcode.get();
+	}
+
+	public void setBeheerderAdresPostcode(final String beheerderAdresPostcode) {
+		this.beheerderAdresPostcode.set(beheerderAdresPostcode);
+	}
+
+	public StringProperty beheerderAdresPostcodeProperty() {
+		return beheerderAdresPostcode;
+	}
+
+	public String getBeheerderAdresPlaats() {
+		return beheerderAdresPlaats.get();
+	}
+
+	public void setBeheerderAdresPlaats(final String beheerderAdresPlaats) {
+		this.beheerderAdresPlaats.set(beheerderAdresPlaats);
+	}
+
+	public StringProperty beheerderAdresPlaatsProperty() {
+		return beheerderAdresPlaats;
+	}
+
+	public String getBeheerderAdresLand() {
+		return beheerderAdresLand.get();
+	}
+
+	public void setBeheerderAdresLand(final String beheerderAdresLand) {
+		this.beheerderAdresLand.set(beheerderAdresLand);
+	}
+
+	public StringProperty beheerderAdresLandProperty() {
+		return beheerderAdresLand;
 	}
 
 	public String getBeheerderGeslacht() {
@@ -163,16 +219,16 @@ public class Beheerder {
 		return beheerderAantekening;
 	}
 
-	public Boolean getBeheerderIsEigenaar() {
-		return beheerderIsEigenaar.get();
+	public Boolean getBeheerderIsBewoner() {
+		return beheerderIsBewoner.get();
 	}
 
-	public void setBeheerderIsEigenaar(final Boolean beheerderIsEigenaar) {
-		this.beheerderIsEigenaar.set(beheerderIsEigenaar);
+	public void setBeheerderIsBewoner(final Boolean beheerderIsBewoner) {
+		this.beheerderIsBewoner.set(beheerderIsBewoner);
 	}
 
-	public BooleanProperty beheerderIsEigenaarProperty() {
-		return beheerderIsEigenaar;
+	public BooleanProperty beheerderIsBewonerProperty() {
+		return beheerderIsBewoner;
 	}
 
 	public Long getAppartementFk() {

@@ -38,6 +38,14 @@ public class BeheerderEntity implements Serializable {
 	private String beheerderTussenvoegsel;
 	@Column(name = "beheerder_achternaam")
 	private String beheerderAchternaam;
+	@Column(name = "beheerder_adres_straat")
+	private String beheerderAdresStraat;
+	@Column(name = "beheerder_adres_postcode")
+	private String beheerderAdresPostcode;
+	@Column(name = "beheerder_adres_plaats")
+	private String beheerderAdresPlaats;
+	@Column(name = "beheerder_adres_land")
+	private String beheerderAdresLand;
 	@Column(name = "beheerder_geslacht")
 	private String beheerderGeslacht;
 	@Column(name = "beheerder_telefoon")
@@ -50,8 +58,8 @@ public class BeheerderEntity implements Serializable {
 	private String beheerderInternet;
 	@Column(name = "beheerder_aantekening")
 	private String beheerderAantekening;
-	@Column(name = "beheerder_iseigenaar")
-	private Boolean beheerderIsEigenaar;
+	@Column(name = "beheerder_isbewoner")
+	private Boolean beheerderIsBewoner;
 	@ManyToOne
 	@JoinColumn(name = "appartement_fk")
 	@Index
@@ -96,6 +104,38 @@ public class BeheerderEntity implements Serializable {
 
 	public void setBeheerderAchternaam(final String beheerderAchternaam) {
 		this.beheerderAchternaam = beheerderAchternaam;
+	}
+
+	public String getBeheerderAdresStraat() {
+		return beheerderAdresStraat;
+	}
+
+	public void setBeheerderAdresStraat(final String beheerderAdresStraat) {
+		this.beheerderAdresStraat = beheerderAdresStraat;
+	}
+
+	public String getBeheerderAdresPostcode() {
+		return beheerderAdresPostcode;
+	}
+
+	public void setBeheerderAdresPostcode(final String beheerderAdresPostcode) {
+		this.beheerderAdresPostcode = beheerderAdresPostcode;
+	}
+
+	public String getBeheerderAdresPlaats() {
+		return beheerderAdresPlaats;
+	}
+
+	public void setBeheerderAdresPlaats(final String beheerderAdresPlaats) {
+		this.beheerderAdresPlaats = beheerderAdresPlaats;
+	}
+
+	public String getBeheerderAdresLand() {
+		return beheerderAdresLand;
+	}
+
+	public void setBeheerderAdresLand(final String beheerderAdresLand) {
+		this.beheerderAdresLand = beheerderAdresLand;
 	}
 
 	public String getBeheerderGeslacht() {
@@ -146,12 +186,12 @@ public class BeheerderEntity implements Serializable {
 		this.beheerderAantekening = beheerderAantekening;
 	}
 
-	public Boolean getBeheerderIsEigenaar() {
-		return beheerderIsEigenaar;
+	public Boolean getBeheerderIsBewoner() {
+		return beheerderIsBewoner;
 	}
 
-	public void setBeheerderIsEigenaar(final Boolean beheerderIsEigenaar) {
-		this.beheerderIsEigenaar = beheerderIsEigenaar;
+	public void setBeheerderIsBewoner(final Boolean beheerderIsBewoner) {
+		this.beheerderIsBewoner = beheerderIsBewoner;
 	}
 
 	public AppartementEntity getAppartement() {
@@ -183,10 +223,12 @@ public class BeheerderEntity implements Serializable {
 	@Override
 	public String toString() {
 		return "BeheerderEntity [id=" + id + ", beheerderVoornaam=" + beheerderVoornaam + ", beheerderTussenvoegsel="
-				+ beheerderTussenvoegsel + ", beheerderAchternaam=" + beheerderAchternaam + ", beheerderGeslacht="
-				+ beheerderGeslacht + ", beheerderTelefoon=" + beheerderTelefoon + ", beheerderMobiel="
-				+ beheerderMobiel + ", beheerderEmail=" + beheerderEmail + ", beheerderInternet=" + beheerderInternet
-				+ ", beheerderAantekening=" + beheerderAantekening + ", beheerderIsEigenaar=" + beheerderIsEigenaar
-				+ ", appartement=" + appartement + "]";
+				+ beheerderTussenvoegsel + ", beheerderAchternaam=" + beheerderAchternaam + ", beheerderAdresStraat="
+				+ beheerderAdresStraat + ", beheerderAdresPostcode=" + beheerderAdresPostcode
+				+ ", beheerderAdresPlaats=" + beheerderAdresPlaats + ", beheerderAdresLand=" + beheerderAdresLand
+				+ ", beheerderGeslacht=" + beheerderGeslacht + ", beheerderTelefoon=" + beheerderTelefoon
+				+ ", beheerderMobiel=" + beheerderMobiel + ", beheerderEmail=" + beheerderEmail + ", beheerderInternet="
+				+ beheerderInternet + ", beheerderAantekening=" + beheerderAantekening + ", beheerderIsBewoner="
+				+ beheerderIsBewoner + ", appartement=" + appartement + "]";
 	}
 }
