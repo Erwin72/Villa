@@ -1,8 +1,9 @@
 package nl.tinkoczy.villa.view;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -78,7 +79,7 @@ public class AutoToevoegingAppartementenDialogController {
 	private Stage dialogStage;
 	private boolean okClicked = false;
 
-	private Map<Integer, String> straatNummerCodeNummerMap = new HashMap<>();
+	private Map<Integer, String> straatNummerCodeNummerMap = new TreeMap<>();
 
 	private IBijdrageSchemaService bijdrageSchemaService;
 
@@ -287,53 +288,64 @@ public class AutoToevoegingAppartementenDialogController {
 
 	private void updateResultaatField() {
 		if (StringUtils.isEmpty(isInputValidForResultaat())) {
-			straatNummerCodeNummerMap = new HashMap<>();
-			String resultaat = StringUtils.EMPTY;
-			String TEM = " t/m ";
+			straatNummerCodeNummerMap = new TreeMap<>();
 
-			int aantal = aantalSpinner.getValue();
-			int vanafStraatnummer = Integer.parseInt(vanafStraatnummerField.getText());
-			int straatnummerOphoging = straatnummerOphogingSpinner.getValue();
-			int temStraatNummer = vanafStraatnummer + ((aantal - 1) * straatnummerOphoging);
+			recalculateNummers();
 
-			int nummer = Integer.parseInt(nummerField.getText());
-			int nummerOphoging = nummerOphogingSpinner.getValue();
-
-			int straatNummer = vanafStraatnummer;
-			for (int i = 0; i < aantal; i++) {
-				String nummerStr = Integer.toString(nummer);
-				StringBuffer appartementCode = new StringBuffer(StringUtils.EMPTY);
-				String constante = constanteField.getText();
-				boolean uitvullen = nummerUitvullenCheckBox.isSelected();
-
-				if (StringUtils.isNotEmpty(constante)) {
-					appartementCode.append(constante);
-				}
-				if (uitvullen) {
-					int uitvullenAantalPosities = nummerPositiesSpinner.getValue();
-					while (nummerStr.length() < uitvullenAantalPosities) {
-						nummerStr = "0" + nummerStr;
-					}
-				}
-				appartementCode.append(nummerStr);
-
-				straatNummerCodeNummerMap.put(straatNummer, appartementCode.toString());
-
-				// increase for next iteration
-				straatNummer += straatnummerOphoging;
-				nummer += nummerOphoging;
-			}
-
-			if (aantal > 1) {
-				resultaat = vanafStraatnummer + TEM + temStraatNummer;
-			} else {
-				resultaat = vanafStraatnummer + "";
-			}
-			resultaatField.setText(resultaat);
+			resultaatField.setText(getResultaat());
 
 			for (Map.Entry<Integer, String> entry : straatNummerCodeNummerMap.entrySet()) {
 				logger.debug("Straatnummer: " + entry.getKey() + ", met codenummer: " + entry.getValue());
 			}
+		}
+	}
+
+	private String getResultaat() {
+		String resultaat = StringUtils.EMPTY;
+		String TEM = " t/m ";
+
+		List<String> list = new ArrayList<String>(straatNummerCodeNummerMap.values());
+
+		if (list.size() > 0) {
+			resultaat = list.get(0);
+		}
+		if (list.size() > 1) {
+			resultaat += (TEM + list.get(list.size() - 1));
+		}
+
+		return resultaat;
+	}
+
+	private void recalculateNummers() {
+
+		int aantal = aantalSpinner.getValue();
+		int straatNummer = Integer.parseInt(vanafStraatnummerField.getText());
+		int straatnummerOphoging = straatnummerOphogingSpinner.getValue();
+
+		int nummer = Integer.parseInt(nummerField.getText());
+		int nummerOphoging = nummerOphogingSpinner.getValue();
+
+		for (int i = 0; i < aantal; i++) {
+			String nummerStr = Integer.toString(nummer);
+			StringBuffer appartementCode = new StringBuffer(StringUtils.EMPTY);
+			String constante = constanteField.getText();
+
+			if (StringUtils.isNotEmpty(constante)) {
+				appartementCode.append(constante);
+			}
+			if (nummerUitvullenCheckBox.isSelected()) {
+				int uitvullenAantalPosities = nummerPositiesSpinner.getValue();
+				while (nummerStr.length() < uitvullenAantalPosities) {
+					nummerStr = "0" + nummerStr;
+				}
+			}
+			appartementCode.append(nummerStr);
+
+			straatNummerCodeNummerMap.put(straatNummer, appartementCode.toString());
+
+			// increase for next iteration
+			straatNummer += straatnummerOphoging;
+			nummer += nummerOphoging;
 		}
 	}
 
@@ -469,7 +481,6 @@ public class AutoToevoegingAppartementenDialogController {
 				return 0;
 			}
 		}
-
 	}
 
 	/**
@@ -486,6 +497,5 @@ public class AutoToevoegingAppartementenDialogController {
 		public BijdrageSchema fromString(final String string) {
 			return null;
 		}
-
 	}
 }
