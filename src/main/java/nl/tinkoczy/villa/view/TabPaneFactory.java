@@ -24,6 +24,7 @@ public class TabPaneFactory {
 	private PostOverviewController postOverviewController;
 	private BijdrageSchemaOverviewController bijdrageSchemaOverviewController;
 	private BijdrageOverviewController bijdrageOverviewController;
+	private AppartementOverviewController appartementOverviewController;
 
 	// Reference to the main application.
 	private VillaApp villaApp;
@@ -60,6 +61,33 @@ public class TabPaneFactory {
 				});
 
 		relatieOverviewController.getRelatieTable().getSelectionModel().select(0);
+
+		return tabPane;
+	}
+
+	public TabPane createAndGetAppartementTabPane() {
+		tabPane = new TabPane();
+
+		Tab appartementTab = new Tab(ConfigFacade.getStringValue(UserText.TAB_APPARTEMENT), getAppartementOverview());
+		// TODO
+		// Tab relatiePersoonTab = new
+		// Tab(ConfigFacade.getStringValue(UserText.TAB_RELATIE_PERSOON),
+		// getRelatiePersoonOverview());
+
+		tabPane.getTabs().addAll(appartementTab);// , relatiePersoonTab);
+		tabPane.getSelectionModel().select(appartementTab);
+
+		appartementOverviewController.getAppartementTable().getSelectionModel().selectedItemProperty()
+				.addListener((observable, oldValue, newValue) -> {
+					appartementOverviewController.showAppartementDetail(newValue);
+					// TODO
+					// if (newValue != null && newValue.getRelatieCode() !=
+					// null) {
+					// relatiePersoonOverviewController.setSelection(newValue.getRelatieCode());
+					// }
+				});
+
+		appartementOverviewController.getAppartementTable().getSelectionModel().select(0);
 
 		return tabPane;
 	}
@@ -150,6 +178,28 @@ public class TabPaneFactory {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	/**
+	 * Gets the appartementen overview to show inside a tabPane.
+	 */
+	private AnchorPane getAppartementOverview() {
+		try {
+			// Load person overview.
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(VillaApp.class.getResource("view/AppartementOverview.fxml"));
+			AnchorPane appartementOverview = (AnchorPane) loader.load();
+
+			// Give the controller access to the main app.
+			appartementOverviewController = loader.getController();
+			appartementOverviewController.setVillaApp(villaApp);
+
+			return appartementOverview;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+
 	}
 
 	/**

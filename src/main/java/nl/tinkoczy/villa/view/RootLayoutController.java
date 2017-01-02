@@ -185,7 +185,7 @@ public class RootLayoutController {
 		Button button = new Button("", new ImageView(image));
 		button.setId("gegevens_appartementen");
 		button.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_BEHEER_APPARTEMENTEN)));
-		button.setOnAction(event -> showGegevensAppartementenDialog());
+		button.setOnAction(event -> showAppartementAndTODOTab());
 		return button;
 	}
 
@@ -259,6 +259,16 @@ public class RootLayoutController {
 		closeVillaButton.setTooltip(new Tooltip(ConfigFacade.getStringValue(UserText.TOOLBAR_TOOLTIP_CLOSE_VILLA)));
 		closeVillaButton.setOnAction(event -> villaApp.closeVilla());
 		return closeVillaButton;
+	}
+
+	/**
+	 * Shows a tabPane with 2 tabs, for appartementen and .....
+	 */
+	private void showAppartementAndTODOTab() {
+		TabPaneFactory factory = new TabPaneFactory();
+		factory.setVillaApp(villaApp);
+		TabPane tabPane = factory.createAndGetAppartementTabPane();
+		villaApp.getRootLayout().setCenter(tabPane);
 	}
 
 	/**

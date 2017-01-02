@@ -1,6 +1,7 @@
 package nl.tinkoczy.villa.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.ObjectProperty;
@@ -10,6 +11,9 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public class Appartement {
+
+	private static final String DATE_PATTERN = "dd-MM-yyyy";
+	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
 
 	private final ObjectProperty<Long> appartementId;
 	private final StringProperty appartementCode;
@@ -63,12 +67,20 @@ public class Appartement {
 		return appartementTransportdatum.get();
 	}
 
+	public String getAppartementTransportdatumAsString() {
+		return DATE_FORMATTER.format(appartementTransportdatum.get());
+	}
+
 	public void setAppartementTransportdatum(final LocalDate appartementTransportdatum) {
 		this.appartementTransportdatum.set(appartementTransportdatum);
 	}
 
 	public ObjectProperty<LocalDate> appartementTransportdatumProperty() {
 		return appartementTransportdatum;
+	}
+
+	public SimpleStringProperty appartementTransportdatumAsStringProperty() {
+		return new SimpleStringProperty(DATE_FORMATTER.format(appartementTransportdatum.get()));
 	}
 
 	public String getAppartementAdresStraat() {

@@ -56,6 +56,10 @@ public class AppartementEntity implements Serializable {
 	@CascadeOnDelete
 	@Index
 	private List<BoekingEntity> boekingen;
+	@OneToMany(mappedBy = "appartement")
+	@CascadeOnDelete
+	@Index
+	private List<BeheerderEntity> beheerders;
 
 	public AppartementEntity() {
 		super();
@@ -130,6 +134,14 @@ public class AppartementEntity implements Serializable {
 		this.boekingen = boekingen;
 	}
 
+	public List<BeheerderEntity> getBeheerders() {
+		return beheerders;
+	}
+
+	public void setBeheerders(final List<BeheerderEntity> beheerders) {
+		this.beheerders = beheerders;
+	}
+
 	@Override
 	public boolean equals(final Object o) {
 		if (!(o instanceof AppartementEntity)) {
@@ -153,7 +165,8 @@ public class AppartementEntity implements Serializable {
 		return "AppartementEntity [id=" + id + ", appartementCode=" + appartementCode + ", appartementTransportdatum="
 				+ appartementTransportdatum + ", appartementAdresStraat=" + appartementAdresStraat
 				+ ", appartementAdresPostcode=" + appartementAdresPostcode + ", appartementAdresPlaats="
-				+ appartementAdresPlaats + ", bijdrageSchema=" + bijdrageSchema + ", boekingen=" + boekingen + "]";
+				+ appartementAdresPlaats + ", bijdrageSchema=" + bijdrageSchema + ", boekingen=" + boekingen
+				+ ", beheerders=" + beheerders + "]";
 	}
 
 }
