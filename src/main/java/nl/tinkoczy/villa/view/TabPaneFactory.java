@@ -7,8 +7,16 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.AnchorPane;
 import nl.tinkoczy.villa.VillaApp;
+import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.config.UserText;
+import nl.tinkoczy.villa.view.appartement.AppartementOverviewController;
+import nl.tinkoczy.villa.view.bijdrage.BijdrageOverviewController;
+import nl.tinkoczy.villa.view.bijdrage.BijdrageSchemaOverviewController;
+import nl.tinkoczy.villa.view.relatie.RelatieOverviewController;
+import nl.tinkoczy.villa.view.relatie.RelatiePersoonOverviewController;
+import nl.tinkoczy.villa.view.rubriekpost.PostOverviewController;
+import nl.tinkoczy.villa.view.rubriekpost.RubriekOverviewController;
 
 /**
  * Factory class that recreates controller loaded tabpanes for functional use
@@ -144,7 +152,8 @@ public class TabPaneFactory {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/RelatieOverview.fxml"));
+			loader.setLocation(VillaApp.class
+					.getResource(ConfigFacade.getStringValue(ApplicationConfiguration.FXML_RELATIE_OVERVIEW)));
 			AnchorPane relatieOverview = (AnchorPane) loader.load();
 
 			// Give the controller access to the main app.
@@ -166,7 +175,9 @@ public class TabPaneFactory {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/RelatiePersoonOverview.fxml"));
+			loader.setLocation(VillaApp.class
+					.getResource(ConfigFacade.getStringValue(ApplicationConfiguration.FXML_RELATIE_PERSOON_OVERVIEW)));
+
 			AnchorPane relatiePersoonOverview = (AnchorPane) loader.load();
 
 			// Give the controller access to the main app.
@@ -187,7 +198,8 @@ public class TabPaneFactory {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/AppartementOverview.fxml"));
+			loader.setLocation(VillaApp.class
+					.getResource(ConfigFacade.getStringValue(ApplicationConfiguration.FXML_APPARTEMENT_OVERVIEW)));
 			AnchorPane appartementOverview = (AnchorPane) loader.load();
 
 			// Give the controller access to the main app.
@@ -209,7 +221,8 @@ public class TabPaneFactory {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/RubriekOverview.fxml"));
+			loader.setLocation(VillaApp.class
+					.getResource(ConfigFacade.getStringValue(ApplicationConfiguration.FXML_RUBRIEK_OVERVIEW)));
 			AnchorPane rubriekOverview = (AnchorPane) loader.load();
 
 			// Give the controller access to the main app.
@@ -231,7 +244,8 @@ public class TabPaneFactory {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/PostOverview.fxml"));
+			loader.setLocation(VillaApp.class
+					.getResource(ConfigFacade.getStringValue(ApplicationConfiguration.FXML_POST_OVERVIEW)));
 			AnchorPane postOverview = (AnchorPane) loader.load();
 
 			// Give the controller access to the main app.
@@ -252,7 +266,8 @@ public class TabPaneFactory {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/BijdrageSchemaOverview.fxml"));
+			loader.setLocation(VillaApp.class
+					.getResource(ConfigFacade.getStringValue(ApplicationConfiguration.FXML_BIJDRAGE_SCHEMA_OVERVIEW)));
 			AnchorPane bijdrageSchemaOverview = (AnchorPane) loader.load();
 
 			// Give the controller access to the main app.
@@ -274,7 +289,8 @@ public class TabPaneFactory {
 		try {
 			// Load person overview.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/BijdrageOverview.fxml"));
+			loader.setLocation(VillaApp.class
+					.getResource(ConfigFacade.getStringValue(ApplicationConfiguration.FXML_BIJDRAGE_OVERVIEW)));
 			AnchorPane bijdrageOverview = (AnchorPane) loader.load();
 
 			// Give the controller access to the main app.

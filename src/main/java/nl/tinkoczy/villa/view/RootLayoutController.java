@@ -20,9 +20,11 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import nl.tinkoczy.villa.VillaApp;
+import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.config.UserText;
 import nl.tinkoczy.villa.util.WerkDatumUtil;
+import nl.tinkoczy.villa.view.appartement.AutoToevoegingAppartementenDialogController;
 
 public class RootLayoutController {
 
@@ -320,7 +322,8 @@ public class RootLayoutController {
 		try {
 			// Load the fxml file and create a new stage for the popup dialog.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/SelecteerWerkDatumDialog.fxml"));
+			loader.setLocation(VillaApp.class.getResource(
+					ConfigFacade.getStringValue(ApplicationConfiguration.FXML_SELECTEER_WERK_DATUM_DIALOG)));
 			AnchorPane page = (AnchorPane) loader.load();
 
 			// Create the dialog Stage.
@@ -355,7 +358,8 @@ public class RootLayoutController {
 		try {
 			// Load the fxml file and create a new stage for the popup dialog.
 			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource("view/AutoToevoegingAppartementenDialog.fxml"));
+			loader.setLocation(VillaApp.class.getResource(
+					ConfigFacade.getStringValue(ApplicationConfiguration.FXML_AUTO_TOEVOEGING_APPARTEMENT_DIALOG)));
 			AnchorPane page = (AnchorPane) loader.load();
 
 			// Create the dialog Stage.

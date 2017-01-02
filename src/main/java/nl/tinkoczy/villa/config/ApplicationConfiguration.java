@@ -7,7 +7,30 @@ import static nl.tinkoczy.villa.config.ConfigType.STRING;
 
 public enum ApplicationConfiguration implements ConfigItemEnum {
 
-	DATABASE_NAME("VillaDB");
+	DATABASE_NAME("VillaDB"),
+
+	FXML_ROOT_LAYOUT("view/RootLayout.fxml"),
+	FXML_SELECTEER_WERK_DATUM_DIALOG("view/SelecteerWerkDatumDialog.fxml"),
+
+	FXML_APPARTEMENT_EDIT_DIALOG("view/appartement/AppartementEditDialog.fxml"),
+	FXML_APPARTEMENT_OVERVIEW("view/appartement/AppartementOverview.fxml"),
+	FXML_AUTO_TOEVOEGING_APPARTEMENT_DIALOG("view/appartement/AutoToevoegingAppartementenDialog.fxml"),
+
+	FXML_BIJDRAGE_EDIT_DIALOG("view/bijdrage/BijdrageEditDialog.fxml"),
+	FXML_BIJDRAGE_OVERVIEW("view/bijdrage/BijdrageOverview.fxml"),
+	FXML_BIJDRAGE_SCHEMA_AUTOINVULLING_EDIT_DIALOG("view/bijdrage/BijdrageSchemaAutoInvullingEditDialog.fxml"),
+	FXML_BIJDRAGE_SCHEMA_EDIT_DIALOG("view/bijdrage/BijdrageSchemaEditDialog.fxml"),
+	FXML_BIJDRAGE_SCHEMA_OVERVIEW("view/bijdrage/BijdrageSchemaOverview.fxml"),
+
+	FXML_RELATIE_EDIT_DIALOG("view/relatie/RelatieEditDialog.fxml"),
+	FXML_RELATIE_OVERVIEW("view/relatie/RelatieOverview.fxml"),
+	FXML_RELATIE_PERSOON_EDIT_DIALOG("view/relatie/RelatiePersoonEditDialog.fxml"),
+	FXML_RELATIE_PERSOON_OVERVIEW("view/relatie/RelatiePersoonOverview.fxml"),
+
+	FXML_POST_EDIT_DIALOG("view/rubriekpost/PostEditDialog.fxml"),
+	FXML_POST_OVERVIEW("view/rubriekpost/PostOverview.fxml"),
+	FXML_RUBRIEK_EDIT_DIALOG("view/rubriekpost/RubriekEditDialog.fxml"),
+	FXML_RUBRIEK_OVERVIEW("view/rubriekpost/RubriekOverview.fxml");
 
 	private final ConfigType type;
 	private final Value defaultValue;
