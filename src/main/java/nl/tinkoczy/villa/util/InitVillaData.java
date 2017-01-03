@@ -34,13 +34,13 @@ public final class InitVillaData {
 
 	public static void parseData() {
 
-		InitRubriekAndPostDataGenerator.initDefaultRubieken();
-		InitRubriekAndPostDataGenerator.initDefaultPosten();
-		InitBijdrageFrequentieDataGenerator.initDefaultBijdrageFrequenties();
+		InitDataReader.initDefaultRubrieken();
+		InitDataReader.initDefaultPosten();
+		InitDataReader.initDefaultBijdrageFrequenties();
 
-		rubriekData.addAll(InitRubriekAndPostDataGenerator.getRubriekList());
-		postData.addAll(InitRubriekAndPostDataGenerator.getPostList());
-		bijdrageFrequentieData.addAll(InitBijdrageFrequentieDataGenerator.getBijdrageFrequentieList());
+		rubriekData.addAll(InitDataReader.getRubriekList());
+		postData.addAll(InitDataReader.getPostList());
+		bijdrageFrequentieData.addAll(InitDataReader.getBijdrageFrequentieList());
 	}
 
 	public static void persistData() {

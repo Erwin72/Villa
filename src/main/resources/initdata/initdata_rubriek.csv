@@ -1,0 +1,13 @@
+100,Bijdragen,BIJDRAGE,IN,false
+110,Restitutie bijdragen,BIJDRAGE,UIT,false
+120,Rente bijdragen,RENTE_BIJDRAGE,IN,false
+200,Huisvestingskosten,STANDAARD,UIT,true
+300,Subsidies,STANDAARD,IN,true
+400,Algemene kosten,STANDAARD,UIT,true
+500,Kantoorkosten,STANDAARD,UIT,true
+600,Uitkering verzekering,STANDAARD,IN,true
+700,Rente inkomsten,STANDAARD,IN,true
+800,Kruisposten uitgaven,STANDAARD,UIT,false
+810,Kruisposten inkomsten,STANDAARD,IN,false
+900,Foutieve inkomsten,STANDAARD,UIT,false
+910,Correctie foutieve overschrijving,STANDAARD,IN,false

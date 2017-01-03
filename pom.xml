@@ -54,6 +54,12 @@
 			<artifactId>logback-core</artifactId>
 			<version>1.1.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sf.opencsv/opencsv -->
+		<dependency>
+			<groupId>net.sf.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>2.3</version>
+		</dependency>
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
