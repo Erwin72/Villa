@@ -20,7 +20,7 @@ import nl.tinkoczy.villa.view.RootLayoutController;
 
 public class VillaApp extends Application {
 
-	final static Logger logger = LoggerFactory.getLogger(VillaApp.class);
+	private static final Logger logger = LoggerFactory.getLogger(VillaApp.class);
 
 	private Stage primaryStage;
 	private BorderPane rootLayout;
@@ -103,7 +103,7 @@ public class VillaApp extends Application {
 
 			primaryStage.show();
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Unable to read rootlayout", e);
 		}
 	}
 
