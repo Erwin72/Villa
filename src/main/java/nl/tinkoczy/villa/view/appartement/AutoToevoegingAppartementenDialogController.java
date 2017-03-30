@@ -27,6 +27,7 @@ import nl.tinkoczy.villa.service.IAppartementService;
 import nl.tinkoczy.villa.service.IBijdrageSchemaService;
 import nl.tinkoczy.villa.service.impl.AppartementService;
 import nl.tinkoczy.villa.service.impl.BijdrageSchemaService;
+import nl.tinkoczy.villa.util.BijdrageSchemaStringConverter;
 
 public class AutoToevoegingAppartementenDialogController {
 
@@ -483,19 +484,4 @@ public class AutoToevoegingAppartementenDialogController {
 		}
 	}
 
-	/**
-	 * Converts String to BijdrageSchema
-	 */
-	class BijdrageSchemaStringConverter extends StringConverter<BijdrageSchema> {
-
-		@Override
-		public String toString(final BijdrageSchema object) {
-			return object.getBijdrageSchemaNaam();
-		}
-
-		@Override
-		public BijdrageSchema fromString(final String string) {
-			return null;
-		}
-	}
 }

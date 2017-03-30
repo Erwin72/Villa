@@ -1,0 +1,5 @@
+/target/
+/.classpath
+/.project
+/derby.log
+/villa.log
