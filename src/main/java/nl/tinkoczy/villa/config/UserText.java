@@ -13,7 +13,6 @@ public enum UserText implements ConfigItemEnum {
     TAB_BIJDRAGESCHEMA("Schema"),
     TAB_BIJDRAGE("Bijdragen"),
     TAB_APPARTEMENT("Appartementen"),
-    TAB_APPARTEMENT_BIJDRAGE("Bijdragen"),
 
     // Tooltips for toolbar buttons
     TOOLBAR_TOOLTIP_INSTELLEN_WERKDATUM("Instellen werkdatum"),

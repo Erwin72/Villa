@@ -25,6 +25,4 @@ public interface IBoekingService {
 	List<Boeking> getAllBoekingenByPostNummer(final int postNummer);
 
 	List<Boeking> getAllBoekingenByAppartementCode(final String appartementCode);
-
-	List<Boeking> getAllBoekingenBijdragenByAppartementId(final long appartementId);
 }

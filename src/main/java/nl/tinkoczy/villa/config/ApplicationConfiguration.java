@@ -12,7 +12,6 @@ public enum ApplicationConfiguration implements ConfigItemEnum {
 	FXML_ROOT_LAYOUT("view/RootLayout.fxml"),
 	FXML_SELECTEER_WERK_DATUM_DIALOG("view/SelecteerWerkDatumDialog.fxml"),
 
-	FXML_APPARTEMENT_BIJDRAGE_OVERVIEW("view/appartement/AppartementBijdrageOverview.fxml"),
 	FXML_APPARTEMENT_EDIT_DIALOG("view/appartement/AppartementEditDialog.fxml"),
 	FXML_APPARTEMENT_OVERVIEW("view/appartement/AppartementOverview.fxml"),
 	FXML_AUTO_TOEVOEGING_APPARTEMENT_DIALOG("view/appartement/AutoToevoegingAppartementenDialog.fxml"),

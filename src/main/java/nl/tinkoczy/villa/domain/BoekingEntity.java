@@ -28,9 +28,7 @@ import org.eclipse.persistence.annotations.Index;
 		@NamedQuery(name = "BoekingEntity.findById", query = "SELECT b FROM BoekingEntity b WHERE b.id = :id"),
 		@NamedQuery(name = "BoekingEntity.findAllByBoekstuk", query = "SELECT b FROM BoekingEntity b WHERE b.boekstuk = :boekstuk"),
 		@NamedQuery(name = "BoekingEntity.findAllByPost", query = "SELECT b FROM BoekingEntity b WHERE b.post = :post"),
-		@NamedQuery(name = "BoekingEntity.findAllByAppartement", query = "SELECT b FROM BoekingEntity b WHERE b.appartement = :appartement"),
-		@NamedQuery(name = "BoekingEntity.findAllByAppartementAndPost", query = "SELECT b FROM BoekingEntity b WHERE b.appartement = :appartement AND b.post = :post"),
-		@NamedQuery(name = "BoekingEntity.findAllBijdragenByAppartement", query = "SELECT b FROM BoekingEntity b WHERE b.appartement = :appartement AND b.boekingIsBijdrage = TRUE") })
+		@NamedQuery(name = "BoekingEntity.findAllByAppartement", query = "SELECT b FROM BoekingEntity b WHERE b.appartement = :appartement") })
 public class BoekingEntity implements Serializable {
 
 	@Transient
@@ -48,8 +46,6 @@ public class BoekingEntity implements Serializable {
 	private String boekingOmschrijving;
 	@Column(name = "boeking_vorige_periode")
 	private Boolean boekingVorigePeriode;
-	@Column(name = "boeking_isbijdrage")
-	private Boolean boekingIsBijdrage;
 
 	@ManyToOne
 	@JoinColumn(name = "boekstuk_fk")
@@ -116,14 +112,6 @@ public class BoekingEntity implements Serializable {
 		this.boekingVorigePeriode = boekingVorigePeriode;
 	}
 
-	public Boolean getBoekingIsBijdrage() {
-		return boekingIsBijdrage;
-	}
-
-	public void setBoekingIsBijdrage(final Boolean boekingIsBijdrage) {
-		this.boekingIsBijdrage = boekingIsBijdrage;
-	}
-
 	public BoekstukEntity getBoekstuk() {
 		return boekstuk;
 	}
@@ -178,7 +166,7 @@ public class BoekingEntity implements Serializable {
 	public String toString() {
 		return "BoekingEntity [id=" + id + ", boekingDatum=" + boekingDatum + ", boekingBedrag=" + boekingBedrag
 				+ ", boekingOmschrijving=" + boekingOmschrijving + ", boekingVorigePeriode=" + boekingVorigePeriode
-				+ ", boekingIsBijdrage=" + boekingIsBijdrage + ", boekstuk=" + boekstuk + ", post=" + post
-				+ ", faktuur=" + faktuur + ", appartement=" + appartement + "]";
+				+ ", boekstuk=" + boekstuk + ", post=" + post + ", faktuur=" + faktuur + ", appartement=" + appartement
+				+ "]";
 	}
 }

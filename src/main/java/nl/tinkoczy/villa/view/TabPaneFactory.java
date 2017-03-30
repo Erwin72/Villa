@@ -10,7 +10,6 @@ import nl.tinkoczy.villa.VillaApp;
 import nl.tinkoczy.villa.config.ApplicationConfiguration;
 import nl.tinkoczy.villa.config.ConfigFacade;
 import nl.tinkoczy.villa.config.UserText;
-import nl.tinkoczy.villa.view.appartement.AppartementBijdrageOverviewController;
 import nl.tinkoczy.villa.view.appartement.AppartementOverviewController;
 import nl.tinkoczy.villa.view.bijdrage.BijdrageOverviewController;
 import nl.tinkoczy.villa.view.bijdrage.BijdrageSchemaOverviewController;
@@ -34,7 +33,6 @@ public class TabPaneFactory {
 	private BijdrageSchemaOverviewController bijdrageSchemaOverviewController;
 	private BijdrageOverviewController bijdrageOverviewController;
 	private AppartementOverviewController appartementOverviewController;
-	private AppartementBijdrageOverviewController appartementBijdrageOverviewController;
 
 	// Reference to the main application.
 	private VillaApp villaApp;
@@ -79,18 +77,22 @@ public class TabPaneFactory {
 		tabPane = new TabPane();
 
 		Tab appartementTab = new Tab(ConfigFacade.getStringValue(UserText.TAB_APPARTEMENT), getAppartementOverview());
-		Tab appartementBijdrageTab = new Tab(ConfigFacade.getStringValue(UserText.TAB_APPARTEMENT_BIJDRAGE),
-				getAppartementBijdrageOverview());
+		// TODO
+		// Tab relatiePersoonTab = new
+		// Tab(ConfigFacade.getStringValue(UserText.TAB_RELATIE_PERSOON),
+		// getRelatiePersoonOverview());
 
-		tabPane.getTabs().addAll(appartementTab, appartementBijdrageTab);
+		tabPane.getTabs().addAll(appartementTab);// , relatiePersoonTab);
 		tabPane.getSelectionModel().select(appartementTab);
 
 		appartementOverviewController.getAppartementTable().getSelectionModel().selectedItemProperty()
 				.addListener((observable, oldValue, newValue) -> {
 					appartementOverviewController.showAppartementDetail(newValue);
-					if (newValue != null) {
-						appartementBijdrageOverviewController.setSelection(newValue);
-					}
+					// TODO
+					// if (newValue != null && newValue.getRelatieCode() !=
+					// null) {
+					// relatiePersoonOverviewController.setSelection(newValue.getRelatieCode());
+					// }
 				});
 
 		appartementOverviewController.getAppartementTable().getSelectionModel().select(0);
@@ -203,30 +205,6 @@ public class TabPaneFactory {
 			// Give the controller access to the main app.
 			appartementOverviewController = loader.getController();
 			appartementOverviewController.setVillaApp(villaApp);
-
-			return appartementOverview;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-
-	}
-
-	/**
-	 * Gets the appartement with bijdrage and paid bijdrage (=boeking) overview
-	 * to show inside a tabPane.
-	 */
-	private AnchorPane getAppartementBijdrageOverview() {
-		try {
-			// Load person overview.
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(VillaApp.class.getResource(
-					ConfigFacade.getStringValue(ApplicationConfiguration.FXML_APPARTEMENT_BIJDRAGE_OVERVIEW)));
-			AnchorPane appartementOverview = (AnchorPane) loader.load();
-
-			// Give the controller access to the main app.
-			appartementBijdrageOverviewController = loader.getController();
-			appartementBijdrageOverviewController.setVillaApp(villaApp);
 
 			return appartementOverview;
 		} catch (IOException e) {

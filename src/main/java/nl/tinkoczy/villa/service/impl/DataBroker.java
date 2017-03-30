@@ -1,7 +1,6 @@
 package nl.tinkoczy.villa.service.impl;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -233,12 +232,6 @@ public final class DataBroker implements IDataBroker {
 				.setParameter("appartement", appartementEntity).getResultList();
 	}
 
-	public static List<BoekingEntity> getAllBoekingenBijdragenByAppartementId(final long appartementId) {
-		AppartementEntity appartementEntity = getAppartementById(appartementId);
-		return em.createNamedQuery("BoekingEntity.findAllBijdragenByAppartement", BoekingEntity.class)
-				.setParameter("appartement", appartementEntity).getResultList();
-	}
-
 	/*
 	 * Faktuur
 	 */
@@ -339,17 +332,6 @@ public final class DataBroker implements IDataBroker {
 		BijdrageSchemaEntity bijdrageSchemaEntity = getBijdrageSchemaByBijdrageSchemaNaam(bijdrageSchemaNaam);
 		return em.createNamedQuery("BijdrageEntity.findAllByBijdrageSchema", BijdrageEntity.class)
 				.setParameter("bijdrageSchema", bijdrageSchemaEntity).getResultList();
-	}
-
-	public static List<BijdrageEntity> getAllBijdragenByAppartementId(final long appartementId) {
-		AppartementEntity appartementEntity = getAppartementById(appartementId);
-		if (appartementEntity.getBijdrageSchema() != null) {
-			BijdrageSchemaEntity bijdrageSchemaEntity = getBijdrageSchemaByBijdrageSchemaNaam(
-					appartementEntity.getBijdrageSchema().getBijdrageSchemaNaam());
-			return em.createNamedQuery("BijdrageEntity.findAllByBijdrageSchema", BijdrageEntity.class)
-					.setParameter("bijdrageSchema", bijdrageSchemaEntity).getResultList();
-		}
-		return new ArrayList<BijdrageEntity>();
 	}
 
 	/*

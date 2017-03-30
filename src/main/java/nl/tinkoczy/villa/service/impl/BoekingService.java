@@ -111,25 +111,13 @@ public class BoekingService implements IBoekingService {
 		return results;
 	}
 
-	@Override
-	public List<Boeking> getAllBoekingenBijdragenByAppartementId(final long appartementId) {
-		List<Boeking> results = new ArrayList<>();
-		for (BoekingEntity boekingEntity : DataBroker.getAllBoekingenBijdragenByAppartementId(appartementId)) {
-			logger.debug("getAllBoekingenBijdragenByAppartementId: appartementId=" + appartementId + ", result="
-					+ boekingEntity.toString());
-			results.add(convert(boekingEntity));
-		}
-		return results;
-	}
-
 	private Boeking convert(final BoekingEntity boekingEntity) {
 		Boeking boeking = new Boeking();
 		boeking.setBoekingId(boekingEntity.getId());
 		boeking.setBoekingBedrag(boekingEntity.getBoekingBedrag());
 		boeking.setBoekingDatum(boekingEntity.getBoekingDatum());
 		boeking.setBoekingOmschrijving(boekingEntity.getBoekingOmschrijving());
-		boeking.setBoekingVorigePeriode(boekingEntity.getBoekingVorigePeriode());
-		boeking.setBoekingIsBijdrage(boekingEntity.getBoekingIsBijdrage());
+		boeking.setBoekingVorigePeriode(boeking.getBoekingVorigePeriode());
 		boeking.setBoekstukVolgnummer(boekingEntity.getBoekstuk().getBoekstukVolgnummer());
 		boeking.setPostNummer(boekingEntity.getPost().getPostNummer());
 		if (boekingEntity.getFaktuur() != null) {
@@ -150,7 +138,6 @@ public class BoekingService implements IBoekingService {
 		boekingEntity.setBoekingDatum(boeking.getBoekingDatum());
 		boekingEntity.setBoekingOmschrijving(boeking.getBoekingOmschrijving());
 		boekingEntity.setBoekingVorigePeriode(boeking.getBoekingVorigePeriode());
-		boekingEntity.setBoekingIsBijdrage(boeking.getBoekingIsBijdrage());
 		return boekingEntity;
 	}
 

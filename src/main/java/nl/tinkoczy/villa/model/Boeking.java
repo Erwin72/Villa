@@ -2,7 +2,6 @@ package nl.tinkoczy.villa.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
@@ -17,15 +16,11 @@ import javafx.beans.property.StringProperty;
 
 public class Boeking {
 
-	private static final String DATE_PATTERN = "dd-MM-yyyy";
-	private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(DATE_PATTERN);
-
 	private final ObjectProperty<Long> boekingId;
 	private final ObjectProperty<LocalDate> boekingDatum;
 	private final ObjectProperty<BigDecimal> boekingBedrag;
 	private final StringProperty boekingOmschrijving;
 	private final BooleanProperty boekingVorigePeriode;
-	private final BooleanProperty boekingIsBijdrage;
 	private final IntegerProperty boekstukVolgnummer;
 	private final IntegerProperty postNummer;
 	private final StringProperty faktuurNummer;
@@ -46,7 +41,6 @@ public class Boeking {
 		this.boekingBedrag = new SimpleObjectProperty<>();
 		this.boekingOmschrijving = new SimpleStringProperty("");
 		this.boekingVorigePeriode = new SimpleBooleanProperty(false);
-		this.boekingIsBijdrage = new SimpleBooleanProperty(false);
 		this.faktuurNummer = new SimpleStringProperty("");
 		this.appartementFk = new SimpleLongProperty();
 	}
@@ -67,20 +61,12 @@ public class Boeking {
 		return boekingDatum.get();
 	}
 
-	public String getBoekingDatumAsString() {
-		return DATE_FORMATTER.format(boekingDatum.get());
-	}
-
 	public void setBoekingDatum(final LocalDate boekingDatum) {
 		this.boekingDatum.set(boekingDatum);
 	}
 
 	public ObjectProperty<LocalDate> boekingDatumProperty() {
 		return boekingDatum;
-	}
-
-	public SimpleStringProperty boekingDatumAsStringProperty() {
-		return new SimpleStringProperty(DATE_FORMATTER.format(boekingDatum.get()));
 	}
 
 	public BigDecimal getBoekingBedrag() {
@@ -117,18 +103,6 @@ public class Boeking {
 
 	public BooleanProperty boekingVorigePeriodeProperty() {
 		return boekingVorigePeriode;
-	}
-
-	public Boolean getBoekingIsBijdrage() {
-		return boekingIsBijdrage.get();
-	}
-
-	public void setBoekingIsBijdrage(final Boolean boekingIsBijdrage) {
-		this.boekingIsBijdrage.set(boekingIsBijdrage);
-	}
-
-	public BooleanProperty boekingIsBijdrageProperty() {
-		return boekingIsBijdrage;
 	}
 
 	public Integer getBoekstukVolgnummer() {

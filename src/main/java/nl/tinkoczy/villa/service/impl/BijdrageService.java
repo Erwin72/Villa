@@ -66,7 +66,7 @@ public class BijdrageService implements IBijdrageService {
 	public List<Bijdrage> getAllBijdragenByBijdrageSchema(final String bijdrageSchemaNaam) {
 		List<Bijdrage> results = new ArrayList<>();
 		for (BijdrageEntity bijdrageEntity : DataBroker.getAllBijdragenByBijdrageSchema(bijdrageSchemaNaam)) {
-			logger.debug("getAllBijdragenByBijdrageSchema: " + bijdrageEntity.toString());
+			logger.debug("getAllBijdragenSortByDatum: " + bijdrageEntity.toString());
 			results.add(convert(bijdrageEntity));
 		}
 		return results;
@@ -74,12 +74,8 @@ public class BijdrageService implements IBijdrageService {
 
 	@Override
 	public List<Bijdrage> getAllBijdragenByAppartementId(final long appartementId) {
-		List<Bijdrage> results = new ArrayList<>();
-		for (BijdrageEntity bijdrageEntity : DataBroker.getAllBijdragenByAppartementId(appartementId)) {
-			logger.debug("getAllBijdragenByAppartementId: " + bijdrageEntity.toString());
-			results.add(convert(bijdrageEntity));
-		}
-		return results;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	private Bijdrage convert(final BijdrageEntity bijdrageEntity) {
