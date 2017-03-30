@@ -26,7 +26,7 @@ public class VillaApp extends Application {
 	private BorderPane rootLayout;
 
 	public VillaApp() {
-
+		// default constructor
 	}
 
 	@Override
